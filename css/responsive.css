@@ -80,8 +80,12 @@
 		margin-left: 0px;
 	}
 	.navbar-collapse {
-		max-height: 288px;
-		overflow-y: scroll;
+		max-height: 400px;
+		padding: 20px 0;
+
+		.buttonLogin{
+			width: 100%;
+		}
 	}
 	.hotel_booking_table {
 		padding: 28px 15px 15px;
@@ -136,6 +140,19 @@
     .single-post-area .blog_right_sidebar{
         margin-top: 30px;
     }
+
+
+	/*login page style*/
+.body-login{
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 50px 0 20px 0;
+	.form-img{display: none;}
+	form{
+		width: 90%;
+	}
+}
 }
 @media(max-width: 767px){
 	.about_content {
@@ -236,3 +253,4 @@
         padding: 0px 8px;
     }
 }
+

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Área - Epic Sana Luanda</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="active">
+                    <a href="index.html">
+                        <i class="fa fa-home"></i>
+                        <span>Início</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="minhas-reservas.html">
+                        <i class="fa fa-calendar-check-o"></i>
+                        <span>Minhas Reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../book.html">
+                        <i class="fa fa-plus-circle"></i>
+                        <span>Nova Reserva</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mensagens.html">
+                        <i class="fa fa-comments-o"></i>
+                        <span>Mensagens</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="perfil.html">
+                        <i class="fa fa-user-circle-o"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button class="btn-logout">
+                <i class="fa fa-sign-out"></i> Sair
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title">
+                <h4>Bem-vindo, Paula!</h4>
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name">Paula Castro</span>
+                    <span class="role">Utente Gold</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../image/img/user.png" alt="Utente">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <!-- User Status Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-bookings">
+                        <i class="fa fa-hotel"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>01</h3>
+                        <p>Reserva Ativa</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-feedback">
+                        <i class="fa fa-bell-o"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>03</h3>
+                        <p>Notificações</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-users">
+                        <i class="fa fa-ticket"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>12</h3>
+                        <p>Pontos Fidelidade</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Current Active Booking -->
+                <div class="col-lg-8">
+                    <div class="card-table">
+                        <div class="table-header">
+                            <h5>Última Reserva</h5>
+                            <span class="status-badge badge-pending">Em Análise</span>
+                        </div>
+                        <div class="active-booking-details" style="padding: 10px 0;">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <img src="../image/img/img-q-dlx.jpeg" class="img-fluid rounded" alt="Room">
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 style="font-weight: 700;">Quarto Deluxe - Vista Baía</h6>
+                                    <p class="text-muted mb-2"><i class="fa fa-calendar"></i> Check-in: 24 Mai, 2024</p>
+                                    <p class="text-muted mb-3"><i class="fa fa-user"></i> 2 Adultos, 0 Crianças</p>
+                                    <button class="btn btn-sm" style="background: #d4ab04; color: white;">Ver Voucher</button>
+                                    <button class="btn btn-sm btn-outline-secondary">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Chat / Support -->
+                <div class="col-lg-4">
+                    <div class="card-table" style="height: 100%;">
+                        <div class="table-header">
+                            <h5>Suporte Rápido</h5>
+                        </div>
+                        <div class="support-content text-center" style="padding: 20px 0;">
+                            <div style="font-size: 40px; color: #d4ab04; margin-bottom: 15px;">
+                                <i class="fa fa-headphones"></i>
+                            </div>
+                            <p>Precisa de ajuda com sua reserva ou serviços?</p>
+                            <a href="mensagens.html" class="btn btn-block" style="border: 1px solid #d4ab04; color: #d4ab04;">Falar com Recepção</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+</html>

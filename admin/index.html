@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo - Epic Sana Luanda</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    
+    <style>
+        body {
+            background-color: #04091e;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 171, 4, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .login-container img {
+            height: 60px;
+            margin-bottom: 30px;
+        }
+        .login-container h4 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: #ffffff;
+            transition: 0.3s;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #d4ab04;
+            box-shadow: none;
+            color: #ffffff;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #d4ab04;
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .btn-login:hover {
+            background: #f8b100;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 171, 4, 0.3);
+        }
+        .back-link {
+            display: block;
+            margin-top: 25px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .back-link:hover {
+            color: #d4ab04;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <img src="../image/Logo.png" alt="Epic Sana Luanda">
+        <h4>Acesso Restrito</h4>
+        
+        <form action="dashboard.html" method="GET">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Utilizador" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Palavra-passe" required>
+            </div>
+            
+            <button type="submit" class="btn-login">Entrar no Painel</button>
+        </form>
+        
+        <a href="../index.html" class="back-link">
+            <i class="fa fa-arrow-left"></i> Voltar ao site
+        </a>
+    </div>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+</html>
+

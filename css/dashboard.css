@@ -1,0 +1,269 @@
+/* 
+  Epic Sana Luanda Dashboard Styles
+  Modern, Premium, and Responsive Sidebar Layout
+*/
+
+:root {
+    --primary: #d4ab04;
+    --primary-hover: #f8b100;
+    --dark: #04091e;
+    --dark-light: #1a2035;
+    --bg-light: #f4f7f6;
+    --text-muted: #888ea8;
+    --white: #ffffff;
+    --sidebar-width: 260px;
+    --header-height: 70px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--dark);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-header img {
+    height: 40px;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu ul li {
+    padding: 5px 20px;
+}
+
+.sidebar-menu ul li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.sidebar-menu ul li a i {
+    margin-right: 15px;
+    font-size: 18px;
+    width: 25px;
+    text-align: center;
+}
+
+.sidebar-menu ul li a:hover,
+.sidebar-menu ul li.active a {
+    background-color: rgba(212, 171, 4, 0.1);
+    color: var(--primary);
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-footer .btn-logout {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff4d4d;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.sidebar-footer .btn-logout:hover {
+    background: #ff4d4d;
+    color: var(--white);
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: var(--transition);
+}
+
+/* Top Header */
+.top-header {
+    height: var(--header-height);
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.page-title h4 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-info .name {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+.user-info .role {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Dashboard Content Wrapper */
+.content-wrapper {
+    padding: 30px;
+}
+
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.icon-bookings { background: rgba(212, 171, 4, 0.1); color: var(--primary); }
+.icon-users { background: rgba(82, 197, 253, 0.1); color: #52c5fd; }
+.icon-revenue { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+.icon-feedback { background: rgba(155, 89, 182, 0.1); color: #9b59b6; }
+
+.stat-details h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.stat-details p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* Tables */
+.card-table {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-pending { background: rgba(243, 195, 0, 0.1); color: #f3c300; }
+.badge-confirmed { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+.badge-cancelled { background: rgba(231, 76, 60, 0.1); color: #e74c3c; }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .sidebar {
+        left: -var(--sidebar-width);
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+}

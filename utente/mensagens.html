@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Mensagens - Epic Sana Luanda</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        .chat-container {
+            height: calc(100vh - 200px);
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            padding: 15px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+        .message {
+            margin-bottom: 20px;
+            max-width: 75%;
+            padding: 12px 18px;
+            font-size: 14px;
+        }
+        .message.sent {
+            margin-left: auto;
+            background: #d4ab04;
+            color: white;
+            border-radius: 20px 20px 0 20px;
+        }
+        .message.received {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 20px 20px 20px 0;
+        }
+        .chat-input {
+            padding: 20px 25px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fa fa-home"></i><span>Início</span></a></li>
+                <li><a href="minhas-reservas.html"><i class="fa fa-calendar-check-o"></i><span>Minhas Reservas</span></a></li>
+                <li><a href="../book.html"><i class="fa fa-plus-circle"></i><span>Nova Reserva</span></a></li>
+                <li class="active"><a href="mensagens.html"><i class="fa fa-comments-o"></i><span>Mensagens</span></a></li>
+                <li><a href="perfil.html"><i class="fa fa-user-circle-o"></i><span>Meu Perfil</span></a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <div class="page-title"><h4>Suporte e Mensagens</h4></div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name">Paula Castro</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../image/img/user.png" alt="Utente">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="stat-icon" style="background: rgba(212, 171, 4, 0.1); color: #d4ab04; width: 40px; height: 40px; font-size: 18px;">
+                        <i class="fa fa-headphones"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">Recepção - Epic Sana Luanda</h6>
+                        <small class="text-success"><i class="fa fa-circle"></i> Online agora</small>
+                    </div>
+                </div>
+
+                <div class="chat-messages">
+                    <div class="message received">
+                        Olá Paula! Como podemos ajudar hoje?
+                    </div>
+                    <div class="message sent">
+                        Olá! Gostaria de saber se o quarto deluxe tem vista para a baía.
+                    </div>
+                    <div class="message received">
+                        Sim, todos os nossos quartos Deluxe no Epic Sana Luanda possuem vista frontal ou lateral para a baía.
+                    </div>
+                    <div class="message sent">
+                        Ótimo! Vou prosseguir com a reserva então. Obrigada!
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Digite sua dúvida aqui...">
+                        <div class="input-group-append">
+                            <button class="btn" style="background: #d4ab04; color: white; padding: 0 25px;">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Reserva - Epic Sana Luanda</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../vendors/linericon/style.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fa fa-home"></i><span>Início</span></a></li>
+                <li><a href="minhas-reservas.html"><i class="fa fa-calendar-check-o"></i><span>Minhas Reservas</span></a></li>
+                <li class="active"><a href="nova-reserva.html"><i class="fa fa-plus-circle"></i><span>Nova Reserva</span></a></li>
+                <li><a href="mensagens.html"><i class="fa fa-comments-o"></i><span>Mensagens</span></a></li>
+                <li><a href="perfil.html"><i class="fa fa-user-circle-o"></i><span>Meu Perfil</span></a></li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <a href="../index.html" class="btn-logout text-center" style="text-decoration: none; display: block;">
+                <i class="fa fa-sign-out"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <div class="page-title"><h4>Nova Reserva</h4></div>
+            <div class="user-profile">
+                <div class="user-info"><span class="name">Paula Castro</span></div>
+                <div class="user-avatar"><img src="../image/img/user.png" alt="Utente"></div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="card-table" style="padding: 30px;">
+                <h5 class="mb-4">Detalhes da Reserva</h5>
+                <form id="internalBookingForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Data de Chegada</label>
+                            <div class='input-group date' id='datetimepicker11'>
+                                <input type='text' class="form-control" name="arrival" required />
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Data de Partida</label>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" name="departure" required />
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Tipo de Acomodação</label>
+                            <select class="form-control" name="roomType" required>
+                                <option value="deluxe">Quarto Deluxe</option>
+                                <option value="executive">Suíte Executiva</option>
+                                <option value="presidential">Suíte Presidencial</option>
+                                <option value="standard">Quarto Standard</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label>Adultos</label>
+                            <select class="form-control" name="adults">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label>Crianças</label>
+                            <select class="form-control" name="children">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-right mt-4">
+                        <button type="submit" class="btn" style="background: #d4ab04; color: white; padding: 12px 40px;">Confirmar Reserva</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
+    
+    <script>
+        $(function () {
+            // Check for pending data in localStorage
+            const pendingBooking = localStorage.getItem('pendingBooking');
+            if (pendingBooking) {
+                const data = JSON.parse(pendingBooking);
+                $('input[name="arrival"]').val(data.arrival);
+                $('input[name="departure"]').val(data.departure);
+                $('select[name="roomType"]').val(data.roomType);
+                $('select[name="adults"]').val(data.adults);
+                $('select[name="children"]').val(data.children);
+                
+                // Clear after loading
+                localStorage.removeItem('pendingBooking');
+                alert('Os dados da sua reserva foram carregados automaticamente!');
+            }
+
+            $('#internalBookingForm').on('submit', function(e) {
+                e.preventDefault();
+                alert('Reserva realizada com sucesso! Você pode acompanhar o status em "Minhas Reservas".');
+                window.location.href = 'minhas-reservas.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Epic Sana Luanda</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fa fa-home"></i><span>Início</span></a></li>
+                <li><a href="minhas-reservas.html"><i class="fa fa-calendar-check-o"></i><span>Minhas Reservas</span></a></li>
+                <li><a href="../book.html"><i class="fa fa-plus-circle"></i><span>Nova Reserva</span></a></li>
+                <li><a href="mensagens.html"><i class="fa fa-comments-o"></i><span>Mensagens</span></a></li>
+                <li class="active"><a href="perfil.html"><i class="fa fa-user-circle-o"></i><span>Meu Perfil</span></a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <div class="page-title"><h4>Configurações de Perfil</h4></div>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="../image/img/user.png" alt="Utente">
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card-table text-center" style="padding: 30px;">
+                        <img src="../image/img/user.png" class="rounded-circle mb-3" style="width: 100px; border: 3px solid #d4ab04;">
+                        <h5 class="mb-1">Paula Castro</h5>
+                        <p class="text-muted">Utente Gold</p>
+                        <hr>
+                        <div class="text-left">
+                            <p><small class="text-muted d-block">Membro desde:</small> Janeiro 2024</p>
+                            <p><small class="text-muted d-block">Total de Estadias:</small> 05</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card-table" style="padding: 30px;">
+                        <h5 class="mb-4">Informações Pessoais</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Nome Completo</label>
+                                    <input type="text" class="form-control" value="Paula Castro">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" value="paula.castro@email.com">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Telefone</label>
+                                    <input type="text" class="form-control" value="+244 923 000 000">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Cidade</label>
+                                    <input type="text" class="form-control" value="Luanda">
+                                </div>
+                            </div>
+                            <hr>
+                            <h5 class="mb-4">Alterar Senha</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Senha Atual</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Nova Senha</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                            </div>
+                            <div class="text-right mt-3">
+                                <button type="button" class="btn" style="background: #d4ab04; color: white; padding: 10px 30px;">Salvar Alterações</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+</html>

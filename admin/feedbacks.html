@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedbacks - Epic Sana Luanda Admin</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="dashboard.html">
+                <img src="../image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a href="dashboard.html"><i class="fa fa-th-large"></i><span>Dashboard</span></a></li>
+                <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
+                <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utentes</span></a></li>
+                <li><a href="mensagens.html"><i class="fa fa-envelope"></i><span>Mensagens</span></a></li>
+                <li class="active"><a href="feedbacks.html"><i class="fa fa-star"></i><span>Feedbacks</span></a></li>
+                <li><a href="relatorios.html"><i class="fa fa-file-text"></i><span>Relatórios</span></a></li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <a href="index.html" class="btn-logout text-center" style="text-decoration: none; display: block;"><i class="fa fa-sign-out"></i> Sair do Sistema</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <div class="page-title"><h4>Avaliações e Feedbacks</h4></div>
+            <div class="user-profile">
+                <div class="user-info"><span class="name">Administrador</span></div>
+                <div class="user-avatar"><img src="../image/img/user.png" alt="Admin"></div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Feedback Summary -->
+            <div class="stats-grid mb-4">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(212, 171, 4, 0.1); color: #d4ab04;">
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>4.8</h3>
+                        <p>Média Global</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(46, 204, 113, 0.1); color: #2ecc71;">
+                        <i class="fa fa-smile-o"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>92%</h3>
+                        <p>Satisfação</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedbacks List -->
+            <div class="card-table">
+                <div class="table-header">
+                    <h5>Últimas Avaliações</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Utente</th>
+                                <th>Serviço</th>
+                                <th>Avaliação</th>
+                                <th>Comentário</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="../image/img/user.png" width="30" class="rounded-circle mr-2">
+                                        <span>Paula Castro</span>
+                                    </div>
+                                </td>
+                                <td>Quarto Deluxe</td>
+                                <td>
+                                    <div class="text-warning">
+                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                    </div>
+                                </td>
+                                <td><small>"Experiência incrível, vista maravilhosa!"</small></td>
+                                <td>15/05/2024</td>
+                                <td><span class="badge badge-info">Público</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary" title="Ocultar"><i class="fa fa-eye-slash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="../image/img/user.png" width="30" class="rounded-circle mr-2">
+                                        <span>João Silva</span>
+                                    </div>
+                                </td>
+                                <td>Restaurante</td>
+                                <td>
+                                    <div class="text-warning">
+                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i>
+                                    </div>
+                                </td>
+                                <td><small>"Comida excelente, mas o tempo de espera foi alto."</small></td>
+                                <td>12/05/2024</td>
+                                <td><span class="badge badge-info">Público</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary" title="Responder"><i class="fa fa-reply"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+</html>
+

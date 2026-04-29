@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Epic Sana Luanda</title>
+    <link rel="icon" href="../image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="dashboard.html">
+                <img src="../image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="active">
+                    <a href="dashboard.html">
+                        <i class="fa fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="reservas.html">
+                        <i class="fa fa-calendar-check-o"></i>
+                        <span>Reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="utentes.html">
+                        <i class="fa fa-users"></i>
+                        <span>Utentes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mensagens.html">
+                        <i class="fa fa-envelope"></i>
+                        <span>Mensagens</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="feedbacks.html">
+                        <i class="fa fa-star"></i>
+                        <span>Feedbacks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html">
+                        <i class="fa fa-file-text"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <a href="index.html" class="btn-logout text-center" style="text-decoration: none; display: block;">
+                <i class="fa fa-sign-out"></i> Sair do Sistema
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title">
+                <h4>Dashboard Overview</h4>
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name">Administrador</span>
+                    <span class="role">Gerente Geral</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../image/img/user.png" alt="Admin">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-bookings">
+                        <i class="fa fa-bookmark"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>154</h3>
+                        <p>Total de Reservas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-users">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>1.2k</h3>
+                        <p>Utentes Ativos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-revenue">
+                        <i class="fa fa-money"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>850k</h3>
+                        <p>Receita Estimada (KZ)</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-feedback">
+                        <i class="fa fa-comments"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>42</h3>
+                        <p>Novos Feedbacks</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bookings Table -->
+            <div class="card-table">
+                <div class="table-header">
+                    <h5>Reservas Recentes</h5>
+                    <a href="reservas.html" class="btn btn-link btn-sm" style="color: #d4ab04;">Ver Todas</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Ref ID</th>
+                                <th>Utente</th>
+                                <th>Serviço</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#RSV-4521</td>
+                                <td>Paula Castro</td>
+                                <td>Quarto Deluxe</td>
+                                <td>24 Mai, 2024</td>
+                                <td><span class="status-badge badge-pending">Pendente</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i></a>
+                                    <button class="btn btn-sm btn-outline-danger"><i class="fa fa-times"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#RSV-4520</td>
+                                <td>João Silva</td>
+                                <td>Suíte Executiva</td>
+                                <td>23 Mai, 2024</td>
+                                <td><span class="status-badge badge-confirmed">Confirmada</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#RSV-4519</td>
+                                <td>Maria Antónia</td>
+                                <td>Mesa Restaurante</td>
+                                <td>22 Mai, 2024</td>
+                                <td><span class="status-badge badge-cancelled">Cancelada</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</body>
+</html>
+

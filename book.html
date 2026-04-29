@@ -257,8 +257,21 @@
         });
         $('#bookingForm').on('submit', function (e) {
             e.preventDefault();
-            alert('Reserva enviada com sucesso! Entraremos em contato em breve.');
-            // Aqui você pode adicionar código para enviar os dados para um servidor
+            
+            // Collect form data
+            const bookingData = {
+                arrival: $('input[name="arrival"]').val(),
+                departure: $('input[name="departure"]').val(),
+                roomType: $('select[name="roomType"]').val(),
+                adults: $('select[name="adults"]').val(),
+                children: $('select[name="children"]').val()
+            };
+
+            // Save to localStorage
+            localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
+
+            alert('Para concluir a reserva, por favor faça login na sua conta.');
+            window.location.href = 'auth/login.html';
         });
     </script>
 </body>

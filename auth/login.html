@@ -54,26 +54,71 @@
     </form>
 
     <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/notify.js"></script>
     <script>
         $(function() {
-            // Show a notice if there is a pending booking payload
-            const pendingBooking = localStorage.getItem('pendingBooking');
-            if (pendingBooking) {
+            // Credentials (frontend demo only — substituir por autenticação real no backend)
+            const VALID_EMAIL    = 'paula.castro@email.com';
+            const VALID_PASSWORD = '123456';
+
+            // Show pending booking notice
+            if (localStorage.getItem('pendingBooking')) {
                 $('#pendingNotice').show();
+            }
+
+            // Shake animation for wrong input
+            function shakeField(selector) {
+                $(selector).css('border-color', '#e74c3c');
+                var pos = 0;
+                var interval = setInterval(function () {
+                    $(selector).css('transform', pos % 2 === 0 ? 'translateX(6px)' : 'translateX(-6px)');
+                    pos++;
+                    if (pos > 5) {
+                        clearInterval(interval);
+                        $(selector).css({ transform: '', 'border-color': '' });
+                    }
+                }, 60);
             }
 
             $('#loginForm').on('submit', function(e) {
                 e.preventDefault();
 
-                // After "successful" login, decide where to redirect
-                if (localStorage.getItem('pendingBooking')) {
-                    // Take the user straight to the internal booking page
-                    // The data stays in localStorage so nova-reserva.html can read it
-                    window.location.href = '../utente/nova-reserva.html';
-                } else {
-                    // Normal dashboard redirect
-                    window.location.href = '../utente/index.html';
+                var email    = $('#loginEmail').val().trim();
+                var password = $('#loginPassword').val();
+
+                // ── Validation ──
+                if (!email || !password) {
+                    notify.warning('Por favor preencha todos os campos.');
+                    return;
                 }
+
+                if (email !== VALID_EMAIL) {
+                    shakeField('#loginEmail');
+                    notify.error('Email não encontrado. Verifique e tente novamente.');
+                    return;
+                }
+
+                if (password !== VALID_PASSWORD) {
+                    shakeField('#loginPassword');
+                    notify.error('Senha incorreta. Tente novamente.');
+                    return;
+                }
+
+                // ── Login successful ──
+                notify.success('Login efetuado com sucesso! A redirecionar...');
+
+                setTimeout(function () {
+                    if (localStorage.getItem('pendingBooking')) {
+                        window.location.href = '../utente/nova-reserva.html';
+                    } else {
+                        window.location.href = '../utente/index.html';
+                    }
+                }, 1800);
+            });
+
+            // Reset border color on typing
+            $('#loginEmail, #loginPassword').on('input', function() {
+                $(this).css('border-color', '');
             });
         });
     </script>

@@ -195,6 +195,7 @@
         <script src="js/stellar.js"></script>
         <script src="vendors/lightbox/simpleLightbox.min.js"></script>
         <script src="js/custom.js"></script>
+        <script src="js/notify.js"></script>
         <script>
             $(function () {
                 $('#datetimepickerArrival').datetimepicker({
@@ -203,8 +204,7 @@
             });
             $('#checkinForm').on('submit', function(e) {
                 e.preventDefault();
-                alert('Check-in confirmado! Bem-vindo ao Epic Sana Luanda.');
-                // Aqui você pode adicionar código para enviar os dados para um servidor
+                notify.success('Check-in confirmado! Bem-vindo ao Epic Sana Luanda.');
             });
         </script>
     </body>

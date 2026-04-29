@@ -246,6 +246,7 @@
     <script src="js/stellar.js"></script>
     <script src="vendors/lightbox/simpleLightbox.min.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/notify.js"></script>
     <script>
         $(function () {
             $('#datetimepicker11').datetimepicker({
@@ -270,8 +271,8 @@
             // Save to localStorage
             localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
 
-            alert('Para concluir a reserva, por favor faça login na sua conta.');
-            window.location.href = 'auth/login.html';
+            notify.info('Para concluir a reserva, por favor faça login na sua conta.');
+            setTimeout(() => window.location.href = 'auth/login.html', 2500);
         });
     </script>
 </body>

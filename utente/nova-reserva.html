@@ -107,6 +107,7 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../js/notify.js"></script>
     
     <script>
         $(function () {
@@ -122,15 +123,16 @@
                 
                 // Clear after loading
                 localStorage.removeItem('pendingBooking');
-                alert('Os dados da sua reserva foram carregados automaticamente!');
+                notify.info('Os dados da sua reserva foram carregados automaticamente!');
             }
 
             $('#internalBookingForm').on('submit', function(e) {
                 e.preventDefault();
-                alert('Reserva realizada com sucesso! Você pode acompanhar o status em "Minhas Reservas".');
-                window.location.href = 'minhas-reservas.html';
+                notify.success('Reserva realizada com sucesso! Acompanhe o status em "Minhas Reservas".');
+                setTimeout(() => window.location.href = 'minhas-reservas.html', 2000);
             });
         });
     </script>
+    <script src="../js/dashboard.js"></script>
 </body>
 </html>

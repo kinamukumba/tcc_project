@@ -25,12 +25,15 @@ $(function () {
     /* ── Logout ── */
     $(document).on('click', '.btn-logout', function (e) {
         e.preventDefault();
-        var href = $(this).attr('href') || '../index.html';
         notify.confirm(
             'Tem certeza que deseja sair do sistema?',
             function () {
                 notify.info('A sair do sistema...');
-                setTimeout(function () { window.location.href = href; }, 1500);
+                if(typeof logout === 'function') {
+                    logout();
+                } else {
+                    setTimeout(function () { window.location.href = '../index.html'; }, 1500);
+                }
             }
         );
         return false;

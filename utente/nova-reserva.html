@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Reserva - Epic Sana Luanda</title>
-    <link rel="icon" href="../image/favicon.png" type="image/png">
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../vendors/linericon/style.css">
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
-    <link rel="stylesheet" href="../vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="../vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendors/linericon/style.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../assets/vendors/nice-select/css/nice-select.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
 
@@ -21,7 +21,7 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <a href="../index.html">
-                <img src="../image/Logo.png" alt="Epic Sana">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
             </a>
         </div>
         <div class="sidebar-menu">
@@ -45,8 +45,8 @@
         <header class="top-header">
             <div class="page-title"><h4>Nova Reserva</h4></div>
             <div class="user-profile">
-                <div class="user-info"><span class="name">Paula Castro</span></div>
-                <div class="user-avatar"><img src="../image/img/user.png" alt="Utente"></div>
+                <div class="user-info"><span class="name user-name-display">Nome do Usu�rio</span></div>
+                <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Utente"></div>
             </div>
         </header>
 
@@ -56,26 +56,23 @@
                 <form id="internalBookingForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label>Data de Chegada</label>
+                            <label>Data de Início</label>
                             <div class='input-group date' id='datetimepicker11'>
                                 <input type='text' class="form-control" name="arrival" required />
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Data de Partida</label>
+                            <label>Data de Término</label>
                             <div class='input-group date' id='datetimepicker1'>
                                 <input type='text' class="form-control" name="departure" required />
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Tipo de Acomodação</label>
-                            <select class="form-control" name="roomType" required>
-                                <option value="deluxe">Quarto Deluxe</option>
-                                <option value="executive">Suíte Executiva</option>
-                                <option value="presidential">Suíte Presidencial</option>
-                                <option value="standard">Quarto Standard</option>
+                            <label>Serviço Desejado</label>
+                            <select class="form-control" name="id_servico" id="serviceSelect" required>
+                                <option value="">Carregando serviços...</option>
                             </select>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -104,10 +101,10 @@
     </main>
 
     <!-- JS -->
-    <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
-    <script src="../js/notify.js"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
     
     <script>
         $(function () {
@@ -117,7 +114,7 @@
                 const data = JSON.parse(pendingBooking);
                 $('input[name="arrival"]').val(data.arrival);
                 $('input[name="departure"]').val(data.departure);
-                $('select[name="roomType"]').val(data.roomType);
+                $('select[name="id_servico"]').val(data.roomType);
                 $('select[name="adults"]').val(data.adults);
                 $('select[name="children"]').val(data.children);
                 
@@ -125,14 +122,10 @@
                 localStorage.removeItem('pendingBooking');
                 notify.info('Os dados da sua reserva foram carregados automaticamente!');
             }
-
-            $('#internalBookingForm').on('submit', function(e) {
-                e.preventDefault();
-                notify.success('Reserva realizada com sucesso! Acompanhe o status em "Minhas Reservas".');
-                setTimeout(() => window.location.href = 'minhas-reservas.html', 2000);
-            });
         });
     </script>
-    <script src="../js/dashboard.js"></script>
-</body>
+    <script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/utente-nova-reserva.js"></script>`n</body>
 </html>
+
+

@@ -5,15 +5,15 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="../image/favicon.png" type="image/png">
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
     <title>Entrar - Epic Sana Luanda</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../vendors/linericon/style.css">
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendors/linericon/style.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <!-- main css -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 
 <body class="body-login">
@@ -29,7 +29,7 @@
     </div>
 
     <form id="loginForm">
-        <a href="../index.html"><img src="../image/Logo.png" alt="Epic Sana Luanda"></a>
+        <a href="../index.html"><img src="../assets/image/Logo.png" alt="Epic Sana Luanda"></a>
         <h1>Entra na tua conta</h1>
 
         <!-- Pending booking notice -->
@@ -53,14 +53,11 @@
         </span>
     </form>
 
-    <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/notify.js"></script>
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
     <script>
         $(function() {
-            // Credentials (frontend demo only — substituir por autenticação real no backend)
-            const VALID_EMAIL    = 'paula.castro@email.com';
-            const VALID_PASSWORD = '123456';
-
             // Show pending booking notice
             if (localStorage.getItem('pendingBooking')) {
                 $('#pendingNotice').show();
@@ -80,40 +77,44 @@
                 }, 60);
             }
 
-            $('#loginForm').on('submit', function(e) {
+            $('#loginForm').on('submit', async function(e) {
                 e.preventDefault();
 
                 var email    = $('#loginEmail').val().trim();
                 var password = $('#loginPassword').val();
 
-                // ── Validation ──
                 if (!email || !password) {
                     notify.warning('Por favor preencha todos os campos.');
                     return;
                 }
-
-                if (email !== VALID_EMAIL) {
-                    shakeField('#loginEmail');
-                    notify.error('Email não encontrado. Verifique e tente novamente.');
-                    return;
-                }
-
-                if (password !== VALID_PASSWORD) {
-                    shakeField('#loginPassword');
-                    notify.error('Senha incorreta. Tente novamente.');
-                    return;
-                }
-
-                // ── Login successful ──
-                notify.success('Login efetuado com sucesso! A redirecionar...');
-
-                setTimeout(function () {
-                    if (localStorage.getItem('pendingBooking')) {
-                        window.location.href = '../utente/nova-reserva.html';
+                
+                try {
+                    const response = await fetch('/tcc_project/api/auth/login.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, senha: password })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        notify.success('Login efetuado com sucesso! A redirecionar...');
+                        setTimeout(function () {
+                            if (localStorage.getItem('pendingBooking') && data.user.role === 'utente') {
+                                window.location.href = '../utente/nova-reserva.html';
+                            } else {
+                                redirectUser(data.user.role);
+                            }
+                        }, 1500);
                     } else {
-                        window.location.href = '../utente/index.html';
+                        shakeField('#loginEmail');
+                        shakeField('#loginPassword');
+                        notify.error(data.message || 'Erro no login.');
                     }
-                }, 1800);
+                } catch(error) {
+                    notify.error('Erro de conexão com o servidor.');
+                    console.error("Erro no login:", error);
+                }
             });
 
             // Reset border color on typing

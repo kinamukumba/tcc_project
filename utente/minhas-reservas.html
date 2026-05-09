@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Reservas - Epic Sana Luanda</title>
-    <link rel="icon" href="../image/favicon.png" type="image/png">
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <a href="../index.html">
-                <img src="../image/Logo.png" alt="Epic Sana">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
             </a>
         </div>
         <div class="sidebar-menu">
@@ -70,11 +70,11 @@
             </div>
             <div class="user-profile">
                 <div class="user-info">
-                    <span class="name">Paula Castro</span>
-                    <span class="role">Utente Gold</span>
+                    <span class="name user-name-display">Nome do Usu�rio</span>
+                    <span class="role user-role-display">Papel</span>
                 </div>
                 <div class="user-avatar">
-                    <img src="../image/img/user.png" alt="Utente">
+                    <img src="../assets/image/img/user.png" alt="Utente">
                 </div>
             </div>
         </header>
@@ -98,41 +98,9 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="reservas-table-body">
                             <tr>
-                                <td>#RSV-4521</td>
-                                <td>Quarto Deluxe</td>
-                                <td>24 Mai, 2024</td>
-                                <td>26 Mai, 2024</td>
-                                <td>60.000,00 KZ</td>
-                                <td><span class="status-badge badge-pending">Pendente</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info" title="Ver Detalhes"><i class="fa fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#RSV-4410</td>
-                                <td>Mesa Restaurante (4px)</td>
-                                <td>15 Abr, 2024</td>
-                                <td>15 Abr, 2024</td>
-                                <td>---</td>
-                                <td><span class="status-badge badge-confirmed">Concluída</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info" title="Ver Detalhes"><i class="fa fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-warning" title="Deixar Feedback"><i class="fa fa-star"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#RSV-4350</td>
-                                <td>Quarto Standard</td>
-                                <td>10 Mar, 2024</td>
-                                <td>12 Mar, 2024</td>
-                                <td>500.000,00 KZ</td>
-                                <td><span class="status-badge badge-confirmed">Concluída</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info" title="Ver Detalhes"><i class="fa fa-eye"></i></button>
-                                </td>
+                                <td colspan="7" class="text-center">Carregando reservas...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -142,9 +110,11 @@
     </main>
 
     <!-- JS -->
-    <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/notify.js"></script>
-    <script src="../js/dashboard.js"></script>
-</body>
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/utente-reservas.js"></script>`n</body>
 </html>
+
+

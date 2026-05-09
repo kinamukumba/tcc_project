@@ -1,0 +1,17 @@
+Chat, trabalhe como um profissional na área de desenvolvimento de softwares com mais de 20 anso de experiencias neste ramo, onde já tiverás desenvolvido vários sistemas robústos semelhantes as este projecto.
+Trabalhe na base das boas práticas, profissionalismo e eficiência.
+Use as seguintes tecnologias: HTML, CSS E JS para o frontend e PHP (pdo) e JS (fetch) para o backend.
+
+o backend será a base de APIS feitos com PHP (pdo) e os dados serão consumidos via JS (fetch) no formato JSON e apresentados nas páginas com elementos HTML.
+
+Chat, faça uma revisada neste projecto, delete todos e qualquer arquivo desbecessário que esteja a ser usado neste momento e nem vai ser usado um futuro próximo neste projecto e organize muito bem as pastas do /assets... e a pasta das entidades teste projecto, que são /admin, /utente e crie a pasta /gerente onde terá as páginas do dashboard do gerente com as funcionalidades que irei citar em baixo..., depois disso crie um documneto de implementeção completo atendendo estas funcionalidades iniciais:
+
+Utente: cadastrar, logar, carregar os dados do utente em todas as páginas do utente, ou seja realizar todo o processo de autenticação de utente, realizar reservas, acompanhas os status das reservas, dar o seu feedback da reservas realizada , editar o perfil e trocar mensagens com o admin.
+
+Admin: ver e verificar reservas, total de reservas, total de utentes, receita estimada trocar o statu da reserva,cadastrar, ver, editar e deletar utentes, trocar mensagens com o utente, receber feedback de reservas, percentagens de satisfação, gerar relatócios, gráficos indicativos e exportar relatório em pdf.
+
+Gerente: receber notificações de reservas aprovadas pelo admin, total de receitas em serviços de reservas, relatório final de opecações do sistema...
+
+Em suma este deve ser o funcionamento principa e prioritário do  neste momento.
+
+Faça este trabalho e entregue o melhor resultado, entregue para mim tudo funcional, crie o que tem que ser criado(base de dados sql, html, css)

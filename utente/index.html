@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Área - Epic Sana Luanda</title>
-    <link rel="icon" href="../image/favicon.png" type="image/png">
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <a href="../index.html">
-                <img src="../image/Logo.png" alt="Epic Sana">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
             </a>
         </div>
         <div class="sidebar-menu">
@@ -67,15 +67,15 @@
         <!-- Top Header -->
         <header class="top-header">
             <div class="page-title">
-                <h4>Bem-vindo, Paula!</h4>
+                <h4>Bem-vindo(a), <span class="user-name-display">Usu�rio</span>!</h4>
             </div>
             <div class="user-profile">
                 <div class="user-info">
-                    <span class="name">Paula Castro</span>
-                    <span class="role">Utente Gold</span>
+                    <span class="name user-name-display">Nome do Usu�rio</span>
+                    <span class="role user-role-display">Papel</span>
                 </div>
                 <div class="user-avatar">
-                    <img src="../image/img/user.png" alt="Utente">
+                    <img src="../assets/image/img/user.png" alt="Utente">
                 </div>
             </div>
         </header>
@@ -89,7 +89,7 @@
                         <i class="fa fa-hotel"></i>
                     </div>
                     <div class="stat-details">
-                        <h3>01</h3>
+                        <h3 id="stat-reservas">0</h3>
                         <p>Reserva Ativa</p>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                         <i class="fa fa-bell-o"></i>
                     </div>
                     <div class="stat-details">
-                        <h3>03</h3>
+                        <h3 id="stat-notificacoes">0</h3>
                         <p>Notificações</p>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                         <i class="fa fa-ticket"></i>
                     </div>
                     <div class="stat-details">
-                        <h3>12</h3>
+                        <h3 id="stat-pontos">0</h3>
                         <p>Pontos Fidelidade</p>
                     </div>
                 </div>
@@ -117,21 +117,14 @@
                 <!-- Current Active Booking -->
                 <div class="col-lg-8">
                     <div class="card-table">
-                        <div class="table-header">
+                        <div class="table-header" id="latest-booking-header">
                             <h5>Última Reserva</h5>
                             <span class="status-badge badge-pending">Em Análise</span>
                         </div>
-                        <div class="active-booking-details" style="padding: 10px 0;">
+                        <div class="active-booking-details" id="latest-booking-container" style="padding: 10px 0;">
                             <div class="row align-items-center">
-                                <div class="col-md-4">
-                                    <img src="../image/img/img-q-dlx.jpeg" class="img-fluid rounded" alt="Room">
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 style="font-weight: 700;">Quarto Deluxe - Vista Baía</h6>
-                                    <p class="text-muted mb-2"><i class="fa fa-calendar"></i> Check-in: 24 Mai, 2024</p>
-                                    <p class="text-muted mb-3"><i class="fa fa-user"></i> 2 Adultos, 0 Crianças</p>
-                                    <button class="btn btn-sm" style="background: #d4ab04; color: white;">Ver Voucher</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Cancelar</button>
+                                <div class="col-md-12 text-center">
+                                    <p class="text-muted">Carregando...</p>
                                 </div>
                             </div>
                         </div>
@@ -158,9 +151,11 @@
     </main>
 
     <!-- JS -->
-    <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/notify.js"></script>
-    <script src="../js/dashboard.js"></script>
-</body>
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+<script src="../assets/js/utente-dashboard.js"></script>`n</body>
 </html>
+
+

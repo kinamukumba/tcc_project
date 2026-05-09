@@ -5,19 +5,19 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="../image/favicon.png" type="image/png">
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
     <title>Epic Sana Luanda</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../vendors/linericon/style.css">
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
-    <link rel="stylesheet" href="../vendors/owl-carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="../vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="../vendors/nice-select/css/nice-select.css">
-    <link rel="stylesheet" href="../vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendors/linericon/style.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../assets/vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="../assets/vendors/owl-carousel/owl.carousel.min.css">
     <!-- main css -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 
 <body class="body-login">
@@ -31,25 +31,24 @@
             </div>
         </div>
     </div>
-    <form>
-        <a href="../index.html"><img src="../image/Logo.png" alt=""></a>
+    <form id="registerForm">
+        <a href="../index.html"><img src="../assets/image/Logo.png" alt=""></a>
         <h1>Registe-se</h1>
         <div class="form-group">
             <label for="InputName">Nome completo</label>
-            <input type="text" class="form-control" id="InputName" aria-describedby="NameHelp">
+            <input type="text" class="form-control" id="InputName" required>
         </div>
         <div class="form-group">
             <label for="InputEmail">Email</label>
-            <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">Nunca compartilharemos seu e-mail com ninguém.</small>
+            <input type="email" class="form-control" id="InputEmail" required>
         </div>
         <div class="form-group">
             <label for="InputPhone">Telefone</label>
-            <input type="tel" class="form-control" id="InputPhone" aria-describedby="PhoneHelp">
+            <input type="tel" class="form-control" id="InputPhone" required>
         </div>
         <div class="form-group">
             <label for="InputPassword">Senha</label>
-            <input type="password" class="form-control" id="InputPassword">
+            <input type="password" class="form-control" id="InputPassword" required>
         </div>
         <button type="submit" class="btn theme_btn">Registar</button>
 
@@ -58,4 +57,52 @@
             <a href="login.html">Entre aqui</a>
         </span>
     </form>
+
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        $(function() {
+            $('#registerForm').on('submit', async function(e) {
+                e.preventDefault();
+
+                var nome     = $('#InputName').val().trim();
+                var email    = $('#InputEmail').val().trim();
+                var telefone = $('#InputPhone').val().trim();
+                var password = $('#InputPassword').val();
+
+                if (!nome || !email || !password) {
+                    notify.warning('Por favor preencha os campos obrigatórios.');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/tcc_project/api/auth/register.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            nome: nome, 
+                            email: email, 
+                            telefone: telefone, 
+                            senha: password 
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        notify.success('Registro efetuado com sucesso! Redirecionando...');
+                        setTimeout(function () {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    } else {
+                        notify.error(data.message || 'Erro no registro.');
+                    }
+                } catch(error) {
+                    notify.error('Erro de conexão com o servidor.');
+                    console.error("Erro:", error);
+                }
+            });
+        });
+    </script>
 </body>

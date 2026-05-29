@@ -1,200 +1,222 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios - Epic Sana Luanda Admin</title>
+    <title>Relatorios - Admin Epic Sana</title>
     <link rel="icon" href="../assets/image/favicon.png" type="image/png">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <style>
+        .report-card { background:#fff; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:24px; margin-bottom:24px; }
+        .report-card h5 { color:#04091e; font-weight:700; margin-bottom:16px; }
+        .period-btn { padding:6px 18px; border-radius:20px; font-size:12px; font-weight:600; border:2px solid #d4ab04; color:#d4ab04; background:transparent; margin-right:6px; cursor:pointer; transition:0.2s; }
+        .period-btn.active, .period-btn:hover { background:#d4ab04; color:#04091e; }
+        .report-stat { text-align:center; padding:20px; background:#f8f9fc; border-radius:12px; }
+        .report-stat h2 { font-weight:700; color:#04091e; font-size:32px; margin-bottom:4px; }
+        .report-stat p { color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin:0; }
+    </style>
 </head>
 <body>
-
-            <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <a href="dashboard.html">
-                <img src="../assets/image/Logo.png" alt="Epic Sana">
-            </a>
+<aside class="sidebar">
+    <div class="sidebar-header"><a href="dashboard.html"><img src="../assets/image/Logo.png" alt="Epic Sana"></a></div>
+    <div class="sidebar-menu">
+        <ul>
+            <li><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
+            <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
+            <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utentes &amp; Recepcionistas</span></a></li>
+            <li><a href="servicos.html"><i class="fa fa-bed"></i><span>Servicos &amp; Quartos</span></a></li>
+            <li class="active"><a href="relatorios.html"><i class="fa fa-bar-chart"></i><span>Relatorios</span></a></li>
+        </ul>
+    </div>
+    <div class="sidebar-footer"><button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button></div>
+</aside>
+<main class="main-content">
+    <header class="top-header">
+        <div class="page-title"><h4>Relatorios do Sistema</h4></div>
+        <div class="user-profile">
+            <div class="user-info"><span class="name user-name-display">Admin</span><span class="role user-role-display">ADMIN</span></div>
+            <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Admin"></div>
         </div>
-        <div class="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="dashboard.html">
-                        <i class="fa fa-desktop"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="reservas.html">
-                        <i class="fa fa-calendar"></i>
-                        <span>Reservas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="utentes.html">
-                        <i class="fa fa-users"></i>
-                        <span>Utilizadores & Permissões</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="servicos.html">
-                        <i class="fa fa-bed"></i>
-                        <span>Serviços & Quartos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="mensagens.html">
-                        <i class="fa fa-comments"></i>
-                        <span>Mensagens</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="feedbacks.html">
-                        <i class="fa fa-star"></i>
-                        <span>Feedbacks</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="relatorios.html">
-                        <i class="fa fa-bar-chart"></i>
-                        <span>Relatórios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="configuracoes.html">
-                        <i class="fa fa-cogs"></i>
-                        <span>Configurações & Manutenção</span>
-                    </a>
-                </li>
-            </ul>
+    </header>
+    <div class="content-wrapper">
+
+        <!-- Period Selector -->
+        <div class="mb-4">
+            <button class="period-btn active" data-period="diario" onclick="selectPeriod(this,'diario')">Diario</button>
+            <button class="period-btn" data-period="semanal" onclick="selectPeriod(this,'semanal')">Semanal</button>
+            <button class="period-btn" data-period="anual" onclick="selectPeriod(this,'anual')">Anual</button>
         </div>
-        <div class="sidebar-footer">
-            <a href="#" class="btn-logout text-center" onclick="logout()" style="text-decoration: none; display: block;">
-                <i class="fa fa-sign-out"></i> Sair
-            </a>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <header class="top-header">
-            <div class="page-title"><h4>Relatórios e Análise</h4></div>
-            <div class="user-profile">
-                <div class="user-info"><span class="name user-name-display">Nome do Usu�rio</span></div>
-                <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Admin"></div>
+        <!-- KPI Cards -->
+        <div class="stats-grid mb-4">
+            <div class="stat-card">
+                <div class="stat-icon icon-bookings"><i class="fa fa-calendar"></i></div>
+                <div class="stat-details"><h3 id="rpt-total">—</h3><p>Total Reservas</p></div>
             </div>
-        </header>
-
-        <div class="content-wrapper">
-            <!-- Filter Bar -->
-            <div class="card-table mb-4" style="padding: 15px;">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h6 class="mb-0">Período: <strong>Maio 2024</strong></h6>
-                    </div>
-                    <div class="col-md-4 text-right">
-                        <button class="btn btn-sm btn-outline-dark"><i class="fa fa-download"></i> Exportar PDF</a>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-users" style="background:rgba(40,167,69,0.1);">
+                    <i class="fa fa-check-circle" style="color:#28a745;"></i>
                 </div>
+                <div class="stat-details"><h3 id="rpt-confirmed">—</h3><p>Confirmadas</p></div>
             </div>
-
-            <div class="row">
-                <!-- Occupation Chart Placeholder -->
-                <div class="col-lg-6 mb-4">
-                    <div class="card-table">
-                        <div class="table-header">
-                            <h5>Taxa de Ocupação</h5>
-                        </div>
-                        <div class="p-4 text-center">
-                            <div style="height: 200px; background: #f8f9fa; border-radius: 10px; display: flex; align-items: flex-end; gap: 10px; padding: 10px;">
-                                <div style="flex: 1; background: #d4ab04; height: 40%; border-radius: 5px 5px 0 0;"></div>
-                                <div style="flex: 1; background: #d4ab04; height: 60%; border-radius: 5px 5px 0 0;"></div>
-                                <div style="flex: 1; background: #d4ab04; height: 85%; border-radius: 5px 5px 0 0;"></div>
-                                <div style="flex: 1; background: #d4ab04; height: 70%; border-radius: 5px 5px 0 0;"></div>
-                                <div style="flex: 1; background: #d4ab04; height: 95%; border-radius: 5px 5px 0 0;"></div>
-                                <div style="flex: 1; background: #d4ab04; height: 50%; border-radius: 5px 5px 0 0;"></div>
-                            </div>
-                            <small class="text-muted mt-2 d-block">Evolução semanal da ocupação</small>
-                        </div>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-feedback" style="background:rgba(220,53,69,0.1);">
+                    <i class="fa fa-times-circle" style="color:#dc3545;"></i>
                 </div>
-
-                <!-- Revenue Card -->
-                <div class="col-lg-6 mb-4">
-                    <div class="card-table">
-                        <div class="table-header">
-                            <h5>Receita por Serviço</h5>
-                        </div>
-                        <div class="p-3">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Quartos
-                                    <span class="badge badge-pill" style="background: #d4ab04; color: white;">65%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Restaurante
-                                    <span class="badge badge-pill" style="background: #52c5fd; color: white;">20%</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Salas de Eventos
-                                    <span class="badge badge-pill" style="background: #2ecc71; color: white;">15%</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <div class="stat-details"><h3 id="rpt-cancelled">—</h3><p>Canceladas</p></div>
             </div>
-
-            <!-- Detailed Stats Table -->
-            <div class="card-table">
-                <div class="table-header">
-                    <h5>Resumo Mensal de Operações</h5>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Mês</th>
-                                <th>Novos Utentes</th>
-                                <th>Reservas</th>
-                                <th>Cancelamentos</th>
-                                <th>Receita (KZ)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Maio 2024</td>
-                                <td>+45</td>
-                                <td>154</td>
-                                <td>12</td>
-                                <td>850.000,00</td>
-                            </tr>
-                            <tr>
-                                <td>Abril 2024</td>
-                                <td>+38</td>
-                                <td>142</td>
-                                <td>15</td>
-                                <td>780.000,00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-revenue"><i class="fa fa-percent"></i></div>
+                <div class="stat-details"><h3 id="rpt-occupancy">—</h3><p>Taxa Ocupacao</p></div>
             </div>
         </div>
-    </main>
 
-    <!-- JS -->
-    <script src="../assets/js/jquery-3.2.1.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
+        <!-- Chart -->
+        <div class="report-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="m-0">Volume de Reservas</h5>
+            </div>
+            <canvas id="reportChart" style="max-height:300px;"></canvas>
+        </div>
+
+        <!-- Reservations Table -->
+        <div class="card-table">
+            <div class="table-header d-flex justify-content-between align-items-center">
+                <h5 class="m-0 font-weight-bold" style="color:#04091e;">Detalhe de Reservas do Periodo</h5>
+                <button class="btn btn-sm" style="background:#04091e;color:#d4ab04;font-weight:600;border-radius:8px;" onclick="exportCSV()">
+                    <i class="fa fa-download"></i> Exportar CSV
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr><th>CODIGO</th><th>UTENTE</th><th>SERVICO</th><th>CHECK-IN</th><th>CHECK-OUT</th><th>STATUS</th></tr>
+                    </thead>
+                    <tbody id="reportTableBody">
+                        <tr><td colspan="6" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i> A carregar...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../assets/js/notify.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+var currentPeriod = 'diario';
+var chartInstance = null;
+var allReservations = [];
+
+var STATUS_LABELS = {
+    'pendente':   '<span class="badge" style="background:#ffc107;color:#000;padding:3px 8px;border-radius:20px;font-size:11px;">Pendente</span>',
+    'aprovada':   '<span class="badge" style="background:#28a745;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Aprovada</span>',
+    'confirmada': '<span class="badge" style="background:#17a2b8;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Confirmada</span>',
+    'cancelada':  '<span class="badge" style="background:#dc3545;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Cancelada</span>',
+    'check-in':   '<span class="badge" style="background:#6f42c1;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Check-in</span>',
+    'check-out':  '<span class="badge" style="background:#6c757d;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Check-out</span>'
+};
+
+$(function() { loadReport('diario'); });
+
+function selectPeriod(btn, period) {
+    $('.period-btn').removeClass('active');
+    $(btn).addClass('active');
+    currentPeriod = period;
+    loadReport(period);
+}
+
+async function loadReport(period) {
+    try {
+        var res = await fetch('/tcc_project/api/gerente/estatisticas.php?period=' + period);
+        if (res.ok) {
+            var data = await res.json();
+            $('#rpt-total').text(data.total_bookings || 0);
+            $('#rpt-confirmed').text(data.confirmed_bookings || 0);
+            $('#rpt-cancelled').text(data.cancelled_bookings || 0);
+            $('#rpt-occupancy').text((data.occupancy_rate || 0) + '%');
+            if (data.monthly_chart) drawChart(data.monthly_chart.labels, data.monthly_chart.data);
+        }
+    } catch(e) { console.error('Stats error:', e); }
+
+    try {
+        var res2 = await fetch('/tcc_project/api/admin/reservas.php');
+        var data2 = await res2.json();
+        allReservations = Array.isArray(data2) ? data2 : (data2.reservas || []);
+
+        var now = new Date();
+        var filtered = allReservations.filter(function(r) {
+            var d = new Date(r.data_checkin || r.created_at || r.data_reserva);
+            if (period === 'diario') {
+                return d.toDateString() === now.toDateString();
+            } else if (period === 'semanal') {
+                var weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+                return d >= weekAgo;
+            } else {
+                var yearAgo = new Date(); yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+                return d >= yearAgo;
+            }
+        });
+
+        if (filtered.length === 0) {
+            $('#reportTableBody').html('<tr><td colspan="6" class="text-center py-4 text-muted">Nenhuma reserva no periodo seleccionado.</td></tr>');
+            return;
+        }
+        var html = '';
+        filtered.forEach(function(r) {
+            var s = STATUS_LABELS[r.status] || ('<span class="badge badge-secondary">' + r.status + '</span>');
+            var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+            var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+            html += '<tr><td><strong>' + (r.codigo_reserva || '#'+r.id_reserva) + '</strong></td><td>' + (r.cliente_nome||'--') + '</td><td>' + (r.servico||'--') + '</td><td>' + ci + '</td><td>' + co + '</td><td>' + s + '</td></tr>';
+        });
+        $('#reportTableBody').html(html);
+    } catch(e) { console.error('Reservas error:', e); }
+}
+
+function drawChart(labels, data) {
+    var ctx = document.getElementById('reportChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{ label: 'Reservas', data: data, backgroundColor: 'rgba(212,171,4,0.7)', borderColor: '#d4ab04', borderWidth: 2, borderRadius: 6 }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+}
+
+function exportCSV() {
+    if (allReservations.length === 0) { notify.warning('Sem dados para exportar.'); return; }
+    var rows = [['Codigo','Utente','Servico','Check-in','Check-out','Status']];
+    allReservations.forEach(function(r) {
+        rows.push([
+            r.codigo_reserva || r.id_reserva,
+            r.cliente_nome || '',
+            r.servico || '',
+            r.data_checkin || '',
+            r.data_checkout || '',
+            r.status || ''
+        ]);
+    });
+    var csv = rows.map(function(r){ return r.join(','); }).join('\n');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'relatorio_' + currentPeriod + '_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.click();
+}
+</script>
 </body>
 </html>
-
-
-

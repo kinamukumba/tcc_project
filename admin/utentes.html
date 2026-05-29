@@ -1,183 +1,247 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Utentes - Epic Sana Luanda</title>
+    <title>Utilizadores - Admin Epic Sana</title>
     <link rel="icon" href="../assets/image/favicon.png" type="image/png">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
-
-        <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <a href="dashboard.html">
-                <img src="../assets/image/Logo.png" alt="Epic Sana">
-            </a>
+<aside class="sidebar">
+    <div class="sidebar-header"><a href="dashboard.html"><img src="../assets/image/Logo.png" alt="Epic Sana"></a></div>
+    <div class="sidebar-menu">
+        <ul>
+            <li><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
+            <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
+            <li class="active"><a href="utentes.html"><i class="fa fa-users"></i><span>Utentes &amp; Recepcionistas</span></a></li>
+            <li><a href="servicos.html"><i class="fa fa-bed"></i><span>Servicos &amp; Quartos</span></a></li>
+            <li><a href="relatorios.html"><i class="fa fa-bar-chart"></i><span>Relatorios</span></a></li>
+        </ul>
+    </div>
+    <div class="sidebar-footer"><button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button></div>
+</aside>
+<main class="main-content">
+    <header class="top-header">
+        <div class="page-title"><h4>Gestao de Utilizadores</h4></div>
+        <div class="user-profile">
+            <div class="user-info"><span class="name user-name-display">Admin</span><span class="role user-role-display">ADMIN</span></div>
+            <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Admin"></div>
         </div>
-        <div class="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="dashboard.html">
-                        <i class="fa fa-desktop"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="reservas.html">
-                        <i class="fa fa-calendar"></i>
-                        <span>Reservas</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="utentes.html">
-                        <i class="fa fa-users"></i>
-                        <span>Utilizadores & Permissões</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="servicos.html">
-                        <i class="fa fa-bed"></i>
-                        <span>Serviços & Quartos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="mensagens.html">
-                        <i class="fa fa-comments"></i>
-                        <span>Mensagens</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="feedbacks.html">
-                        <i class="fa fa-star"></i>
-                        <span>Feedbacks</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="relatorios.html">
-                        <i class="fa fa-bar-chart"></i>
-                        <span>Relatórios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="configuracoes.html">
-                        <i class="fa fa-cogs"></i>
-                        <span>Configurações & Manutenção</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="sidebar-footer">
-            <a href="#" class="btn-logout text-center" onclick="logout()" style="text-decoration: none; display: block;">
-                <i class="fa fa-sign-out"></i> Sair
-            </a>
-        </div>
-    </aside>
+    </header>
+    <div class="content-wrapper">
+        <!-- TABS -->
+        <ul class="nav nav-tabs mb-4" id="userTabs" style="border-bottom:2px solid #d4ab04;">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-utentes" href="#" onclick="switchTab('utentes');return false;" style="font-weight:600;">
+                    <i class="fa fa-user"></i> Utentes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-recepcionistas" href="#" onclick="switchTab('recepcionistas');return false;" style="font-weight:600;">
+                    <i class="fa fa-id-badge"></i> Recepcionistas
+                </a>
+            </li>
+        </ul>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <header class="top-header">
-            <div class="page-title">
-                <h4>Gestão de Utentes</h4>
-            </div>
-            <div class="user-profile">
-                <div class="user-info">
-                    <span class="name user-name-display">Nome do Usu�rio</span>
-                    <span class="role user-role-display">Papel</span>
-                </div>
-                <div class="user-avatar">
-                    <img src="../assets/image/img/user.png" alt="Admin">
-                </div>
-            </div>
-        </header>
-
-        <div class="content-wrapper">
-            <div class="card-table">
-                <div class="table-header">
-                    <h5>Utentes Cadastrados</h5>
-                    <button class="btn btn-sm btn-dark"><i class="fa fa-plus"></i> Novo Utente</a>
+        <!-- UTENTES -->
+        <div id="panel-utentes">
+            <div class="card-table mb-4">
+                <div class="table-header d-flex justify-content-between align-items-center">
+                    <h5 class="m-0 font-weight-bold" style="color:#04091e;">Lista de Utentes</h5>
+                    <button class="btn btn-primary btn-sm" onclick="prepareNew('utente')" data-toggle="modal" data-target="#userModal">
+                        <i class="fa fa-user-plus"></i> Novo Utente
+                    </button>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Telefone</th>
-                                <th>Data Cadastro</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="../assets/image/img/user.png" width="30" class="rounded-circle mr-2" alt="">
-                                        <span>Paula Castro</span>
-                                    </div>
-                                </td>
-                                <td>paula.castro@email.com</td>
-                                <td>+244 923 000 000</td>
-                                <td>10/01/2024</td>
-                                <td><span class="badge badge-success">Ativo</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger"><i class="fa fa-ban"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="../assets/image/img/user.png" width="30" class="rounded-circle mr-2" alt="">
-                                        <span>João Silva</span>
-                                    </div>
-                                </td>
-                                <td>joao.silva@email.com</td>
-                                <td>+244 912 111 222</td>
-                                <td>15/02/2024</td>
-                                <td><span class="badge badge-success">Ativo</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger"><i class="fa fa-ban"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="../assets/image/img/user.png" width="30" class="rounded-circle mr-2" alt="">
-                                        <span>Maria Antónia</span>
-                                    </div>
-                                </td>
-                                <td>m.antonia@email.com</td>
-                                <td>+244 931 444 555</td>
-                                <td>20/03/2024</td>
-                                <td><span class="badge badge-secondary">Inativo</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <thead><tr><th>#</th><th>NOME</th><th>EMAIL</th><th>TELEFONE</th><th class="text-center">ACOES</th></tr></thead>
+                        <tbody id="utentesBody"><tr><td colspan="5" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i></td></tr></tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- JS -->
-    <script src="../assets/js/jquery-3.2.1.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
+        <!-- RECEPCIONISTAS -->
+        <div id="panel-recepcionistas" style="display:none;">
+            <div class="card-table mb-4">
+                <div class="table-header d-flex justify-content-between align-items-center">
+                    <h5 class="m-0 font-weight-bold" style="color:#04091e;">Lista de Recepcionistas</h5>
+                    <button class="btn btn-primary btn-sm" onclick="prepareNew('recepcionista')" data-toggle="modal" data-target="#userModal">
+                        <i class="fa fa-id-badge"></i> Nova Recepcionista
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead><tr><th>#</th><th>NOME</th><th>EMAIL</th><th>TELEFONE</th><th class="text-center">ACOES</th></tr></thead>
+                        <tbody id="recepcionistasBody"><tr><td colspan="5" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i></td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Utilizador -->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius:14px;border:none;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title font-weight-bold" id="userModalTitle" style="color:#04091e;">Novo Utilizador</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="formUser">
+                    <input type="hidden" id="usr_id">
+                    <input type="hidden" id="usr_tipo">
+                    <div class="form-group">
+                        <label class="font-weight-bold" style="font-size:12px;">NOME COMPLETO</label>
+                        <input type="text" class="form-control" id="usr_nome" required placeholder="Nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" style="font-size:12px;">E-MAIL</label>
+                        <input type="email" class="form-control" id="usr_email" required placeholder="email@exemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" style="font-size:12px;">TELEFONE</label>
+                        <input type="text" class="form-control" id="usr_tel" placeholder="Numero de telefone">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold" style="font-size:12px;">SENHA</label>
+                        <input type="password" class="form-control" id="usr_senha" placeholder="Senha de acesso">
+                        <small class="text-muted">Deixe em branco para manter a senha actual (ao editar).</small>
+                    </div>
+                    <div class="text-right mt-4">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/notify.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+var currentTab = 'utentes';
+var loadedUsers = [];
+
+function switchTab(tab) {
+    currentTab = tab;
+    $('#panel-utentes').toggle(tab === 'utentes');
+    $('#panel-recepcionistas').toggle(tab === 'recepcionistas');
+    $('#tab-utentes').toggleClass('active', tab === 'utentes');
+    $('#tab-recepcionistas').toggleClass('active', tab === 'recepcionistas');
+    if (tab === 'utentes') loadUsers('utente');
+    else loadUsers('recepcionista');
+}
+
+$(function() {
+    loadUsers('utente');
+    loadUsers('recepcionista');
+});
+
+async function loadUsers(tipo) {
+    var bodyId = tipo === 'utente' ? '#utentesBody' : '#recepcionistasBody';
+    var colCount = 5;
+    try {
+        var res = await fetch('/tcc_project/api/admin/usuarios.php?tipo=' + tipo);
+        var data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) {
+            $(bodyId).html('<tr><td colspan="' + colCount + '" class="text-center py-4 text-muted">Nenhum registo encontrado.</td></tr>');
+            return;
+        }
+        var html = '';
+        data.forEach(function(u) {
+            html += '<tr>' +
+                '<td><strong>#' + u.id_usuario + '</strong></td>' +
+                '<td>' + (u.nome || '--') + '</td>' +
+                '<td>' + (u.email || '--') + '</td>' +
+                '<td>' + (u.telefone || '--') + '</td>' +
+                '<td class="text-center">' +
+                '<button class="btn btn-sm btn-outline-primary edit-usr-btn" data-id="' + u.id_usuario + '" data-tipo="' + tipo + '" data-toggle="modal" data-target="#userModal"><i class="fa fa-edit"></i> Editar</button>' +
+                ' <button class="btn btn-sm btn-outline-danger del-usr-btn ml-1" data-id="' + u.id_usuario + '" data-tipo="' + tipo + '"><i class="fa fa-trash"></i></button>' +
+                '</td></tr>';
+        });
+        if (tipo === 'utente') loadedUsers = data;
+        $(bodyId).html(html);
+        bindUserActions(tipo);
+    } catch(e) {
+        $(bodyId).html('<tr><td colspan="' + colCount + '" class="text-center text-danger">Erro ao carregar.</td></tr>');
+    }
+}
+
+function bindUserActions(tipo) {
+    var bodyId = tipo === 'utente' ? '#utentesBody' : '#recepcionistasBody';
+    $(bodyId + ' .edit-usr-btn').on('click', function() {
+        var id = $(this).data('id');
+        var t  = $(this).data('tipo');
+        var list = (t === 'utente') ? loadedUsers : loadedUsers;
+        fetch('/tcc_project/api/admin/usuarios.php?tipo=' + t).then(function(r){ return r.json(); }).then(function(data) {
+            var u = data.find(function(x){ return x.id_usuario == id; });
+            if (u) {
+                $('#userModalTitle').text('Editar ' + (t === 'utente' ? 'Utente' : 'Recepcionista'));
+                $('#usr_id').val(u.id_usuario);
+                $('#usr_tipo').val(t);
+                $('#usr_nome').val(u.nome);
+                $('#usr_email').val(u.email);
+                $('#usr_tel').val(u.telefone);
+                $('#usr_senha').val('');
+            }
+        });
+    });
+    $(bodyId + ' .del-usr-btn').on('click', async function() {
+        var id = $(this).data('id');
+        var t  = $(this).data('tipo');
+        if (!confirm('Deseja eliminar este utilizador?')) return;
+        try {
+            var res = await fetch('/tcc_project/api/admin/usuarios.php?id=' + id, { method: 'DELETE' });
+            var d = await res.json();
+            if (res.ok) { notify.success(d.message || 'Eliminado.'); loadUsers(t); }
+            else { notify.error(d.message || 'Erro.'); }
+        } catch(e) { notify.error('Erro de ligacao.'); }
+    });
+}
+
+window.prepareNew = function(tipo) {
+    $('#userModalTitle').text(tipo === 'utente' ? 'Novo Utente' : 'Nova Recepcionista');
+    $('#formUser')[0].reset();
+    $('#usr_id').val('');
+    $('#usr_tipo').val(tipo);
+};
+
+$('#formUser').on('submit', async function(e) {
+    e.preventDefault();
+    var id    = $('#usr_id').val();
+    var tipo  = $('#usr_tipo').val();
+    var nome  = $('#usr_nome').val().trim();
+    var email = $('#usr_email').val().trim();
+    var tel   = $('#usr_tel').val().trim();
+    var senha = $('#usr_senha').val();
+    var method = id ? 'PUT' : 'POST';
+    var payload = { nome: nome, email: email, telefone: tel, senha: senha, tipo_usuario: tipo };
+    if (id) payload.id_usuario = id;
+    if (!id && !senha) { notify.warning('A senha e obrigatoria para novos utilizadores.'); return; }
+    try {
+        var res = await fetch('/tcc_project/api/admin/usuarios.php', {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        var data = await res.json();
+        if (res.ok) {
+            notify.success(data.message || 'Guardado.');
+            $('#userModal').modal('hide');
+            loadUsers(tipo);
+        } else { notify.error(data.message || 'Erro.'); }
+    } catch(e) { notify.error('Erro de ligacao.'); }
+});
+</script>
 </body>
 </html>
-
-
-

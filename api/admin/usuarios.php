@@ -16,13 +16,26 @@ $db = $database->getConnection();
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method == 'GET') {
-    // Listar apenas utentes e recepcionistas
-    $query = "SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE tipo_usuario IN ('utente', 'recepcionista') ORDER BY tipo_usuario ASC, nome ASC";
-    $stmt = $db->query($query);
-    $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    http_response_code(200);
-    echo json_encode($usuarios);
+    $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : null;
+    $id   = isset($_GET['id'])   ? (int)$_GET['id'] : null;
+
+    if ($id) {
+        $stmt = $db->prepare("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE id_usuario = :id LIMIT 1");
+        $stmt->execute([':id' => $id]);
+        $u = $stmt->fetch(PDO::FETCH_ASSOC);
+        http_response_code(200);
+        echo json_encode($u ?: []);
+    } elseif ($tipo && in_array($tipo, ['utente','recepcionista'])) {
+        $stmt = $db->prepare("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE tipo_usuario = :tipo ORDER BY nome ASC");
+        $stmt->execute([':tipo' => $tipo]);
+        http_response_code(200);
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    } else {
+        // Listar utentes e recepcionistas (ambos)
+        $stmt = $db->query("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE tipo_usuario IN ('utente', 'recepcionista') ORDER BY tipo_usuario ASC, nome ASC");
+        http_response_code(200);
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
 } 
 else if ($method == 'POST') {
     $data = json_decode(file_get_contents("php://input"));

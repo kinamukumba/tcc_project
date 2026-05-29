@@ -1,209 +1,215 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Epic Sana Luanda</title>
     <link rel="icon" href="../assets/image/favicon.png" type="image/png">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
-
-            <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="dashboard.html">
-                <img src="../assets/image/Logo.png" alt="Epic Sana">
-            </a>
+            <a href="dashboard.html"><img src="../assets/image/Logo.png" alt="Epic Sana"></a>
         </div>
         <div class="sidebar-menu">
             <ul>
-                <li class="active">
-                    <a href="dashboard.html">
-                        <i class="fa fa-desktop"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="reservas.html">
-                        <i class="fa fa-calendar"></i>
-                        <span>Reservas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="utentes.html">
-                        <i class="fa fa-users"></i>
-                        <span>Utilizadores & Permissões</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="servicos.html">
-                        <i class="fa fa-bed"></i>
-                        <span>Serviços & Quartos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="mensagens.html">
-                        <i class="fa fa-comments"></i>
-                        <span>Mensagens</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="feedbacks.html">
-                        <i class="fa fa-star"></i>
-                        <span>Feedbacks</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="relatorios.html">
-                        <i class="fa fa-bar-chart"></i>
-                        <span>Relatórios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="configuracoes.html">
-                        <i class="fa fa-cogs"></i>
-                        <span>Configurações & Manutenção</span>
-                    </a>
-                </li>
+                <li class="active"><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
+                <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
+                <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utentes &amp; Recepcionistas</span></a></li>
+                <li><a href="servicos.html"><i class="fa fa-bed"></i><span>Servicos &amp; Quartos</span></a></li>
+                <li><a href="relatorios.html"><i class="fa fa-bar-chart"></i><span>Relatorios</span></a></li>
             </ul>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="btn-logout text-center" onclick="logout()" style="text-decoration: none; display: block;">
-                <i class="fa fa-sign-out"></i> Sair
-            </a>
+            <button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button>
         </div>
     </aside>
-
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Top Header -->
         <header class="top-header">
-            <div class="page-title">
-                <h4>Dashboard Overview</h4>
-            </div>
+            <div class="page-title"><h4>Visao Geral do Sistema</h4></div>
             <div class="user-profile">
                 <div class="user-info">
-                    <span class="name user-name-display">Nome do Usu�rio</span>
-                    <span class="role user-role-display">Papel</span>
+                    <span class="name user-name-display">Administrador</span>
+                    <span class="role user-role-display">ADMIN</span>
                 </div>
-                <div class="user-avatar">
-                    <img src="../assets/image/img/user.png" alt="Admin">
-                </div>
+                <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Admin"></div>
             </div>
         </header>
-
-        <!-- Content -->
         <div class="content-wrapper">
-            <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon icon-bookings">
-                        <i class="fa fa-bookmark"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>154</h3>
-                        <p>Total de Reservas</p>
-                    </div>
+                    <div class="stat-icon icon-bookings"><i class="fa fa-calendar"></i></div>
+                    <div class="stat-details"><h3 id="stat-total-reservas">...</h3><p>Total de Reservas</p></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon icon-users">
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>1.2k</h3>
-                        <p>Utentes Ativos</p>
-                    </div>
+                    <div class="stat-icon icon-users"><i class="fa fa-users"></i></div>
+                    <div class="stat-details"><h3 id="stat-total-utentes">...</h3><p>Utentes Registados</p></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon icon-revenue">
-                        <i class="fa fa-money"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>850k</h3>
-                        <p>Receita Estimada (KZ)</p>
-                    </div>
+                    <div class="stat-icon icon-revenue"><i class="fa fa-clock-o"></i></div>
+                    <div class="stat-details"><h3 id="stat-pendentes">...</h3><p>Reservas Pendentes</p></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon icon-feedback">
-                        <i class="fa fa-comments"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>42</h3>
-                        <p>Novos Feedbacks</p>
-                    </div>
+                    <div class="stat-icon icon-feedback"><i class="fa fa-bed"></i></div>
+                    <div class="stat-details"><h3 id="stat-servicos">...</h3><p>Servicos Disponiveis</p></div>
                 </div>
             </div>
-
-            <!-- Recent Bookings Table -->
             <div class="card-table">
-                <div class="table-header">
-                    <h5>Reservas Recentes</h5>
-                    <a href="reservas.html" class="btn btn-link btn-sm" style="color: #d4ab04;">Ver Todas</a>
+                <div class="table-header d-flex justify-content-between align-items-center">
+                    <h5 class="m-0 font-weight-bold" style="color:#04091e;">Reservas Recentes</h5>
+                    <a href="reservas.html" class="btn btn-sm" style="background:#d4ab04;color:#04091e;font-weight:600;border-radius:8px;"><i class="fa fa-list"></i> Ver Todas</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Ref ID</th>
-                                <th>Utente</th>
-                                <th>Serviço</th>
-                                <th>Data</th>
-                                <th>Status</th>
-                                <th>Ações</th>
+                                <th>CODIGO</th><th>UTENTE</th><th>SERVICO</th>
+                                <th>CHECK-IN</th><th>CHECK-OUT</th><th>STATUS</th><th class="text-center">ACOES</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>#RSV-4521</td>
-                                <td>Paula Castro</td>
-                                <td>Quarto Deluxe</td>
-                                <td>24 Mai, 2024</td>
-                                <td><span class="status-badge badge-pending">Pendente</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i></a>
-                                    <button class="btn btn-sm btn-outline-danger"><i class="fa fa-times"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#RSV-4520</td>
-                                <td>João Silva</td>
-                                <td>Suíte Executiva</td>
-                                <td>23 Mai, 2024</td>
-                                <td><span class="status-badge badge-confirmed">Confirmada</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#RSV-4519</td>
-                                <td>Maria Antónia</td>
-                                <td>Mesa Restaurante</td>
-                                <td>22 Mai, 2024</td>
-                                <td><span class="status-badge badge-cancelled">Cancelada</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i></button>
-                                </td>
-                            </tr>
+                        <tbody id="recentReservasBody">
+                            <tr><td colspan="7" class="text-center py-4 text-muted"><i class="fa fa-spinner fa-spin"></i> A carregar...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </main>
-
-    <!-- JS -->
+    <div class="modal fade" id="reservaDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content" style="border-radius:14px;border:none;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title font-weight-bold" style="color:#04091e;">Detalhes da Reserva</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body" id="reservaDetailBody"><p class="text-center text-muted">A carregar...</p></div>
+            </div>
+        </div>
+    </div>
     <script src="../assets/js/jquery-3.2.1.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        var STATUS_LABELS = {
+            'pendente':   '<span class="badge" style="background:#ffc107;color:#000;padding:4px 10px;border-radius:20px;">Pendente</span>',
+            'aprovada':   '<span class="badge" style="background:#28a745;color:#fff;padding:4px 10px;border-radius:20px;">Aprovada</span>',
+            'confirmada': '<span class="badge" style="background:#17a2b8;color:#fff;padding:4px 10px;border-radius:20px;">Confirmada</span>',
+            'cancelada':  '<span class="badge" style="background:#dc3545;color:#fff;padding:4px 10px;border-radius:20px;">Cancelada</span>',
+            'check-in':   '<span class="badge" style="background:#6f42c1;color:#fff;padding:4px 10px;border-radius:20px;">Check-in</span>',
+            'check-out':  '<span class="badge" style="background:#6c757d;color:#fff;padding:4px 10px;border-radius:20px;">Check-out</span>'
+        };
+        $(function() { loadDashboardStats(); loadRecentReservas(); });
+        async function loadDashboardStats() {
+            try {
+                var rRes = await fetch('/tcc_project/api/admin/reservas.php');
+                if (rRes.ok) {
+                    var rData = await rRes.json();
+                    var list = Array.isArray(rData) ? rData : (rData.reservas || []);
+                    $('#stat-total-reservas').text(list.length);
+                    $('#stat-pendentes').text(list.filter(function(r){ return r.status === 'pendente'; }).length);
+                }
+                var uRes = await fetch('/tcc_project/api/admin/usuarios.php?tipo=utente');
+                if (uRes.ok) {
+                    var uData = await uRes.json();
+                    $('#stat-total-utentes').text(Array.isArray(uData) ? uData.length : '?');
+                }
+                var sRes = await fetch('/tcc_project/api/admin/servicos.php');
+                if (sRes.ok) {
+                    var sData = await sRes.json();
+                    $('#stat-servicos').text(Array.isArray(sData) ? sData.filter(function(s){ return s.status === 'desocupado'; }).length : '?');
+                }
+            } catch(e) { console.error('Stats error:', e); }
+        }
+        async function loadRecentReservas() {
+            try {
+                var res = await fetch('/tcc_project/api/admin/reservas.php');
+                var data = await res.json();
+                var list = Array.isArray(data) ? data : (data.reservas || []);
+                var recent = list.slice(0, 8);
+                if (recent.length === 0) {
+                    $('#recentReservasBody').html('<tr><td colspan="7" class="text-center py-4 text-muted">Nenhuma reserva encontrada.</td></tr>');
+                    return;
+                }
+                var html = '';
+                recent.forEach(function(r) {
+                    var statusHtml = STATUS_LABELS[r.status] || ('<span class="badge badge-secondary">' + r.status + '</span>');
+                    var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+                    var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+                    var actions = '<button class="btn btn-sm btn-outline-info view-btn" data-id="' + r.id_reserva + '" title="Ver"><i class="fa fa-eye"></i></button>';
+                    if (r.status === 'pendente') {
+                        actions += ' <button class="btn btn-sm btn-outline-success approve-btn ml-1" data-id="' + r.id_reserva + '" title="Aprovar"><i class="fa fa-check"></i></button>';
+                        actions += ' <button class="btn btn-sm btn-outline-danger cancel-btn ml-1" data-id="' + r.id_reserva + '" title="Cancelar"><i class="fa fa-times"></i></button>';
+                    }
+                    html += '<tr><td><strong>' + (r.codigo_reserva || '#' + r.id_reserva) + '</strong></td><td>' + (r.cliente_nome || '--') + '</td><td>' + (r.servico || '--') + '</td><td>' + ci + '</td><td>' + co + '</td><td>' + statusHtml + '</td><td class="text-center">' + actions + '</td></tr>';
+                });
+                $('#recentReservasBody').html(html);
+                bindActions();
+            } catch(e) {
+                console.error('Reservas error:', e);
+                $('#recentReservasBody').html('<tr><td colspan="7" class="text-center text-danger">Erro ao carregar dados.</td></tr>');
+            }
+        }
+        function bindActions() {
+            $('.view-btn').on('click', async function() {
+                var id = $(this).data('id');
+                $('#reservaDetailBody').html('<p class="text-center"><i class="fa fa-spinner fa-spin"></i></p>');
+                $('#reservaDetailModal').modal('show');
+                try {
+                    var res = await fetch('/tcc_project/api/admin/reservas.php');
+                    var data = await res.json();
+                    var list = Array.isArray(data) ? data : (data.reservas || []);
+                    var item = list.find(function(x){ return x.id_reserva == id; });
+                    if (!item) { $('#reservaDetailBody').html('<p class="text-danger">Reserva nao encontrada.</p>'); return; }
+                    var statusHtml = STATUS_LABELS[item.status] || item.status;
+                    var ci = item.data_checkin  ? new Date(item.data_checkin).toLocaleDateString('pt-PT')  : '--';
+                    var co = item.data_checkout ? new Date(item.data_checkout).toLocaleDateString('pt-PT') : '--';
+                    $('#reservaDetailBody').html(
+                        '<div class="row">' +
+                        '<div class="col-md-6">' +
+                        '<p><strong>Codigo:</strong> ' + (item.codigo_reserva || '#' + item.id_reserva) + '</p>' +
+                        '<p><strong>Utente:</strong> ' + (item.cliente_nome || '--') + '</p>' +
+                        '<p><strong>Email:</strong> ' + (item.cliente_email || '--') + '</p>' +
+                        '<p><strong>Servico:</strong> ' + (item.servico || '--') + '</p>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<p><strong>Check-in:</strong> ' + ci + '</p>' +
+                        '<p><strong>Check-out:</strong> ' + co + '</p>' +
+                        '<p><strong>Valor Total:</strong> ' + (item.valor_total ? 'KZ ' + parseFloat(item.valor_total).toLocaleString('pt-PT') : '--') + '</p>' +
+                        '<p><strong>Status:</strong> ' + statusHtml + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        (item.observacoes ? '<p><strong>Observacoes:</strong> ' + item.observacoes + '</p>' : '')
+                    );
+                } catch(e) { $('#reservaDetailBody').html('<p class="text-danger">Erro ao carregar detalhes.</p>'); }
+            });
+            $('.approve-btn').on('click', async function() {
+                var id = $(this).data('id');
+                if (!confirm('Confirmar aprovacao desta reserva?')) return;
+                await updateStatus(id, 'aprovada');
+            });
+            $('.cancel-btn').on('click', async function() {
+                var id = $(this).data('id');
+                if (!confirm('Cancelar esta reserva?')) return;
+                await updateStatus(id, 'cancelada');
+            });
+        }
+        async function updateStatus(id, status) {
+            try {
+                var res = await fetch('/tcc_project/api/admin/reservas.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_reserva: id, status: status })
+                });
+                var data = await res.json();
+                if (res.ok) { notify.success(data.message || 'Atualizado.'); loadRecentReservas(); loadDashboardStats(); }
+                else { notify.error(data.message || 'Erro.'); }
+            } catch(e) { notify.error('Erro de conexao.'); }
+        }
+    </script>
 </body>
 </html>
-
-
-

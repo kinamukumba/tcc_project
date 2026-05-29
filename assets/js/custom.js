@@ -44,6 +44,37 @@
     }
     testimonialSlider();
     
+    function accomodationSlider(){
+        if ( $('.accomodation_slider').length ){
+            $('.accomodation_slider').owlCarousel({
+                loop:true,
+                margin: 30,
+                items: 4,
+                nav:true,
+                autoplay: true,
+                dots: false,
+                smartSpeed: 1500,
+                navText: ["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    576: {
+                        items: 2,
+                    },
+                    992: {
+                        items: 3,
+                    },
+                    1200: {
+                        items: 4,
+                    }
+                }
+            })
+        }
+    }
+    accomodationSlider();
+    
     //------- Mailchimp js --------//  
 
     function mailChimp(){

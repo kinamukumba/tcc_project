@@ -5,7 +5,7 @@ include_once '../config/database.php';
 $database = new Database();
 $db = $database->getConnection();
 
-$query = "SELECT id_serviço, tipos_servicos, descrição, preço FROM serviço";
+$query = "SELECT id_serviço, tipos_servicos, descrição, preço FROM serviço WHERE status = 'desocupado'";
 $stmt = $db->prepare($query);
 $stmt->execute();
 

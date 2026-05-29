@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações & Manutenção - Epic Sana Admin</title>
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body>
+
+        <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="dashboard.html">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa fa-desktop"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="reservas.html">
+                        <i class="fa fa-calendar"></i>
+                        <span>Reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="utentes.html">
+                        <i class="fa fa-users"></i>
+                        <span>Utilizadores & Permissões</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="servicos.html">
+                        <i class="fa fa-bed"></i>
+                        <span>Serviços & Quartos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mensagens.html">
+                        <i class="fa fa-comments"></i>
+                        <span>Mensagens</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="feedbacks.html">
+                        <i class="fa fa-star"></i>
+                        <span>Feedbacks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html">
+                        <i class="fa fa-bar-chart"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="configuracoes.html">
+                        <i class="fa fa-cogs"></i>
+                        <span>Configurações & Manutenção</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout text-center" onclick="logout()" style="text-decoration: none; display: block;">
+                <i class="fa fa-sign-out"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title"><h4>Configurações & Manutenção do Sistema</h4></div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name user-name-display">Administrador</span>
+                    <span class="role user-role-display">ADMIN</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../assets/image/img/user.png" alt="Admin">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <div class="row">
+                <!-- Left: Maintenance Operations -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card p-4 border-0 shadow-sm" style="border-radius:15px; height:100%;">
+                        <h5 class="mb-4 font-weight-bold" style="color: #04091e;"><i class="fa fa-wrench"></i> Operações de Manutenção</h5>
+                        
+                        <div class="d-flex flex-column gap-3">
+                            <!-- Database Backup -->
+                            <div class="p-3 border rounded-lg mb-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="font-weight-bold mb-1">Backup da Base de Dados</h6>
+                                    <small class="text-muted">Descarregar ficheiro SQL de segurança com toda a estrutura e dados.</small>
+                                </div>
+                                <a href="/tcc_project/api/admin/manutencao.php?action=backup" class="btn btn-warning font-weight-bold text-dark"><i class="fa fa-download"></i> Backup</a>
+                            </div>
+
+                            <!-- Optimize Database -->
+                            <div class="p-3 border rounded-lg mb-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="font-weight-bold mb-1">Desfragmentar & Otimizar Tabelas</h6>
+                                    <small class="text-muted">Executar comando SQL OPTIMIZE para libertar espaço físico de armazenamento.</small>
+                                </div>
+                                <button id="btnOptimize" class="btn btn-primary font-weight-bold"><i class="fa fa-magic"></i> Otimizar</button>
+                            </div>
+
+                            <!-- System Config simulated parameters -->
+                            <div class="p-3 border rounded-lg d-flex flex-column">
+                                <h6 class="font-weight-bold mb-2">Segurança: Limite de Sessões & Acessos</h6>
+                                <div class="form-group mb-2">
+                                    <label class="font-weight-bold text-muted mb-1" style="font-size:11px;">MÁXIMO DE TENTATIVAS DE LOGIN FALHADAS</label>
+                                    <input type="number" class="form-control form-control-sm" value="5" style="max-width: 100px;">
+                                </div>
+                                <div class="form-group form-check mb-0 mt-2">
+                                    <input type="checkbox" class="form-check-input" id="logCheck" checked>
+                                    <label class="form-check-label text-muted" for="logCheck" style="font-size:12px;">Habilitar registo detalhado de logs de segurança em tempo real</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Security access logs -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card p-4 border-0 shadow-sm" style="border-radius:15px; height:100%;">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="m-0 font-weight-bold" style="color: #04091e;"><i class="fa fa-shield"></i> Auditoria de Acesso & Segurança</h5>
+                            <button id="btnClearLogs" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i> Limpar</button>
+                        </div>
+
+                        <div class="table-responsive" style="max-height: 380px; overflow-y:auto;">
+                            <table class="table table-sm" style="font-size:12px;">
+                                <thead>
+                                    <tr>
+                                        <th>DATA/HORA</th>
+                                        <th>UTILIZADOR</th>
+                                        <th>IP</th>
+                                        <th>EVENTO</th>
+                                        <th class="text-right">STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="securityLogsBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4 text-muted">Carregando logs...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+    <script>
+        $(function () {
+            loadLogs();
+
+            async function loadLogs() {
+                try {
+                    const res = await fetch('/tcc_project/api/admin/manutencao.php?action=logs');
+                    if (res.ok) {
+                        const logs = await res.json();
+                        var html = '';
+                        logs.forEach(log => {
+                            var statusClass = log.status === 'SUCESSO' ? 'text-success font-weight-bold' : 'text-danger font-weight-bold';
+                            html += `
+                                <tr>
+                                    <td>${log.data}</td>
+                                    <td><strong>${log.usuario}</strong></td>
+                                    <td><code>${log.ip}</code></td>
+                                    <td>${log.evento}</td>
+                                    <td class="text-right ${statusClass}">${log.status}</td>
+                                </tr>
+                            `;
+                        });
+                        $('#securityLogsBody').html(html);
+                    }
+                } catch(e) {
+                    $('#securityLogsBody').html('<tr><td colspan="5" class="text-center text-danger">Erro de ligação.</td></tr>');
+                }
+            }
+
+            // Optimize DB Action
+            $('#btnOptimize').on('click', async function() {
+                try {
+                    $(this).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> A otimizar...');
+                    
+                    const res = await fetch('/tcc_project/api/admin/manutencao.php?action=optimize', {
+                        method: 'POST'
+                    });
+                    const data = await res.json();
+                    
+                    if(res.ok) {
+                        notify.success(data.message);
+                    } else {
+                        notify.error(data.message);
+                    }
+                } catch(e) {
+                    notify.error("Erro de conexão.");
+                } finally {
+                    $('#btnOptimize').prop('disabled', false).html('<i class="fa fa-magic"></i> Otimizar');
+                }
+            });
+
+            // Clear Logs Action
+            $('#btnClearLogs').on('click', async function() {
+                if(!confirm("Deseja realmente limpar a auditoria antiga de segurança?")) return;
+                
+                try {
+                    const res = await fetch('/tcc_project/api/admin/manutencao.php?action=clear_logs', {
+                        method: 'POST'
+                    });
+                    const data = await res.json();
+                    if(res.ok) {
+                        notify.success(data.message);
+                        loadLogs();
+                    }
+                } catch(e) {
+                    notify.error("Erro de conexão.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

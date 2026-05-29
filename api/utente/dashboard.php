@@ -24,8 +24,8 @@ $rowAtivas = $stmtAtivas->fetch(PDO::FETCH_ASSOC);
 $stats['reservas_ativas'] = $rowAtivas['total'];
 
 // Mock para notificações e fidelidade, já que não tem na base
-$stats['notificacoes'] = 2; // Simulado
-$stats['pontos_fidelidade'] = 150; // Simulado
+$stats['notificacoes'] = 0; // Simulado
+$stats['pontos_fidelidade'] = 0; // Simulado
 
 // Buscar a última reserva para destaque no dashboard
 $queryUltima = "SELECT r.id_reserva, r.data_checkin, r.data_checkout, r.status_reserva, r.n_pessoa, s.tipos_servicos, s.descrição

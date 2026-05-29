@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços & Quartos - Epic Sana Admin</title>
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="dashboard.html">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fa fa-desktop"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="reservas.html">
+                        <i class="fa fa-calendar"></i>
+                        <span>Reservas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="utentes.html">
+                        <i class="fa fa-users"></i>
+                        <span>Utilizadores & Permissões</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="servicos.html">
+                        <i class="fa fa-bed"></i>
+                        <span>Serviços & Quartos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mensagens.html">
+                        <i class="fa fa-comments"></i>
+                        <span>Mensagens</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="feedbacks.html">
+                        <i class="fa fa-star"></i>
+                        <span>Feedbacks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="relatorios.html">
+                        <i class="fa fa-bar-chart"></i>
+                        <span>Relatórios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="configuracoes.html">
+                        <i class="fa fa-cogs"></i>
+                        <span>Configurações & Manutenção</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <a href="#" class="btn-logout text-center" onclick="logout()" style="text-decoration: none; display: block;">
+                <i class="fa fa-sign-out"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title"><h4>Gestão de Serviços & Quartos</h4></div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name user-name-display">Administrador</span>
+                    <span class="role user-role-display">ADMIN</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../assets/image/img/user.png" alt="Admin">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <div class="card-table">
+                <div class="table-header d-flex justify-content-between align-items-center">
+                    <h5 class="m-0 font-weight-bold" style="color: #04091e;">Controle Geral de Acomodações & Serviços</h5>
+                    <button class="btn btn-primary btn-sm" onclick="prepareCreate()" data-toggle="modal" data-target="#modalServico">
+                        <i class="fa fa-plus"></i> Novo Quarto / Serviço
+                    </button>
+                </div>
+
+                <!-- Search box -->
+                <div class="px-3 mb-3">
+                    <input type="text" id="searchServiceInput" class="form-control" placeholder="Pesquisar por nome ou descrição..." style="height: 40px; font-size:13px;">
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>TIPO DE SERVIÇO</th>
+                                <th>DESCRIÇÃO</th>
+                                <th>PREÇO DIÁRIO (KZ)</th>
+                                <th>STATUS</th>
+                                <th class="text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-table-body">
+                            <tr>
+                                <td colspan="6" class="text-center py-4">Carregando serviços...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Create/Edit Service -->
+    <div class="modal fade" id="modalServico" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 12px; border:none;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title font-weight-bold" id="modalTitle" style="color:#04091e;">Novo Serviço / Quarto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formServico">
+                        <input type="hidden" id="s_id">
+                        
+                        <div class="form-group">
+                            <label class="font-weight-bold" style="font-size:12px;">NOME DO SERVIÇO / QUARTO</label>
+                            <input type="text" class="form-control" id="s_tipo" required placeholder="Ex: Quarto Deluxe Presidencial">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="font-weight-bold" style="font-size:12px;">DESCRIÇÃO</label>
+                            <textarea class="form-control" id="s_descricao" rows="3" required placeholder="Ex: Cama king-size, ar condicionado, vista mar..."></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold" style="font-size:12px;">PREÇO DIÁRIO (KZ)</label>
+                                <input type="number" class="form-control" id="s_preco" step="0.01" required placeholder="Ex: 85000">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold" style="font-size:12px;">ESTADO DE DISPONIBILIDADE</label>
+                                <select class="form-control" id="s_status" required>
+                                    <option value="desocupado">Desocupado (Disponível)</option>
+                                    <option value="ocupado">Ocupado (Indisponível)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="text-right mt-4">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Serviço</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/admin-servicos.js"></script>
+</body>
+</html>

@@ -28,12 +28,12 @@ if(!empty($data->nome) && !empty($data->email) && !empty($data->senha)) {
         $stmtUsuario = $db->prepare($queryUsuario);
         
         $telefone = isset($data->telefone) ? $data->telefone : '';
-        $senha = $data->senha; // Ideal: hash, ex: password_hash($data->senha, PASSWORD_DEFAULT);
+        $hashed_senha = md5($data->senha);
 
         $stmtUsuario->bindParam(':nome', $data->nome);
         $stmtUsuario->bindParam(':email', $data->email);
         $stmtUsuario->bindParam(':telefone', $telefone);
-        $stmtUsuario->bindParam(':senha', $senha);
+        $stmtUsuario->bindParam(':senha', $hashed_senha);
         
         if($stmtUsuario->execute()) {
             $id_usuario = $db->lastInsertId();
@@ -50,7 +50,7 @@ if(!empty($data->nome) && !empty($data->email) && !empty($data->senha)) {
             $stmtCliente->bindParam(':email', $data->email);
             $stmtCliente->bindParam(':bi', $bi);
             $stmtCliente->bindParam(':telemovel', $telefone);
-            $stmtCliente->bindParam(':senha', $senha);
+            $stmtCliente->bindParam(':senha', $hashed_senha);
             $stmtCliente->bindParam(':id_usuario', $id_usuario);
 
             if($stmtCliente->execute()) {

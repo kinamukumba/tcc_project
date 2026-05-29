@@ -34,7 +34,8 @@
 
         <!-- Pending booking notice -->
         <div id="pendingNotice" class="alert alert-info" style="display:none; font-size: 13px;">
-            <i class="fa fa-info-circle"></i> Tens uma reserva pendente. Após o login serás redirecionado(a) automaticamente.
+            <i class="fa fa-info-circle"></i> Tens uma reserva pendente. Após o login serás redirecionado(a)
+            automaticamente.
         </div>
 
         <div class="form-group">
@@ -57,7 +58,7 @@
     <script src="../assets/js/notify.js"></script>
     <script src="../assets/js/auth.js"></script>
     <script>
-        $(function() {
+        $(function () {
             // Show pending booking notice
             if (localStorage.getItem('pendingBooking')) {
                 $('#pendingNotice').show();
@@ -77,26 +78,26 @@
                 }, 60);
             }
 
-            $('#loginForm').on('submit', async function(e) {
+            $('#loginForm').on('submit', async function (e) {
                 e.preventDefault();
 
-                var email    = $('#loginEmail').val().trim();
+                var email = $('#loginEmail').val().trim();
                 var password = $('#loginPassword').val();
 
                 if (!email || !password) {
                     notify.warning('Por favor preencha todos os campos.');
                     return;
                 }
-                
+
                 try {
                     const response = await fetch('/tcc_project/api/auth/login.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: email, senha: password })
                     });
-                    
+
                     const data = await response.json();
-                    
+
                     if (response.ok) {
                         notify.success('Login efetuado com sucesso! A redirecionar...');
                         setTimeout(function () {
@@ -111,14 +112,14 @@
                         shakeField('#loginPassword');
                         notify.error(data.message || 'Erro no login.');
                     }
-                } catch(error) {
+                } catch (error) {
                     notify.error('Erro de conexão com o servidor.');
                     console.error("Erro no login:", error);
                 }
             });
 
             // Reset border color on typing
-            $('#loginEmail, #loginPassword').on('input', function() {
+            $('#loginEmail, #loginPassword').on('input', function () {
                 $(this).css('border-color', '');
             });
         });

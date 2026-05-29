@@ -75,6 +75,11 @@
                 <li><a href="perfil.html"><i class="fa fa-user-circle-o"></i><span>Meu Perfil</span></a></li>
             </ul>
         </div>
+        <div class="sidebar-footer">
+            <button class="btn-logout">
+                <i class="fa fa-sign-out"></i> Sair
+            </button>
+        </div>
     </aside>
 
     <!-- Main Content -->
@@ -83,7 +88,7 @@
             <div class="page-title"><h4>Suporte e Mensagens</h4></div>
             <div class="user-profile">
                 <div class="user-info">
-                    <span class="name user-name-display">Nome do Usu�rio</span>
+                    <span class="name user-name-display">Nome do Usuário</span>
                 </div>
                 <div class="user-avatar">
                     <img src="../assets/image/img/user.png" alt="Utente">
@@ -103,30 +108,21 @@
                     </div>
                 </div>
 
-                <div class="chat-messages">
-                    <div class="message received">
-                        Olá Paula! Como podemos ajudar hoje?
-                    </div>
-                    <div class="message sent">
-                        Olá! Gostaria de saber se o quarto deluxe tem vista para a baía.
-                    </div>
-                    <div class="message received">
-                        Sim, todos os nossos quartos Deluxe no Epic Sana Luanda possuem vista frontal ou lateral para a baía.
-                    </div>
-                    <div class="message sent">
-                        Ótimo! Vou prosseguir com a reserva então. Obrigada!
-                    </div>
+                <div class="chat-messages" id="chat-messages-container">
+                    <div class="text-center text-muted"><small>Carregando mensagens...</small></div>
                 </div>
 
                 <div class="chat-input">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Digite sua dúvida aqui...">
-                        <div class="input-group-append">
-                            <button class="btn" style="background: #d4ab04; color: white; padding: 0 25px;">
-                                <i class="fa fa-paper-plane"></i>
-                            </button>
+                    <form id="chat-form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="chat-input-text" placeholder="Digite sua dúvida aqui..." required autocomplete="off">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn" style="background: #d4ab04; color: white; padding: 0 25px;">
+                                    <i class="fa fa-paper-plane"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -135,9 +131,9 @@
     <!-- JS -->
     <script src="../assets/js/jquery-3.2.1.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/utente-mensagens.js"></script>
 </body>
 </html>
-
-

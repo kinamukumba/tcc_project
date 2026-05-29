@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da Receção - Epic Sana Luanda</title>
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li class="active">
+                    <a href="index.html">
+                        <i class="fa fa-desktop"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mensagens.html">
+                        <i class="fa fa-comments-o"></i>
+                        <span>Mensagens (Chat)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa fa-sign-out"></i> Sair
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title">
+                <h4>Área de Receção</h4>
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name user-name-display">Recepcionista</span>
+                    <span class="role user-role-display">RECEPCIONISTA</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../assets/image/img/user.png" alt="User">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-bookings">
+                        <i class="fa fa-calendar-check-o"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="stat-today-bookings">0</h3>
+                        <p>Reservas Hoje</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-revenue">
+                        <i class="fa fa-sign-in"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="stat-checkins">0</h3>
+                        <p>Check-ins Realizados</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-feedback">
+                        <i class="fa fa-sign-out"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="stat-checkouts">0</h3>
+                        <p>Check-outs Realizados</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-users">
+                        <i class="fa fa-bed"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3 id="stat-rooms">0</h3>
+                        <p>Quartos Disponíveis</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking List Area -->
+            <div class="card-table mb-4">
+                <div class="table-header flex-column flex-md-row align-items-start align-items-md-center gap-3">
+                    <h5 class="m-0 font-weight-bold" style="color: #04091e;">Controlo Diário de Reservas</h5>
+                    <div class="d-flex w-100 w-md-auto gap-2">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar por Nome ou Código..." style="max-width: 250px; height: 38px; font-size:13px;">
+                        <select id="statusFilter" class="form-control" style="max-width: 150px; height: 38px; font-size:13px;">
+                            <option value="">Todos Status</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="aprovada" selected>Aprovada</option>
+                            <option value="checkin">Check-in</option>
+                            <option value="checkout">Check-out</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>CÓDIGO</th>
+                                <th>CLIENTE</th>
+                                <th>SERVIÇO</th>
+                                <th>CHECK-IN</th>
+                                <th>CHECK-OUT</th>
+                                <th>STATUS</th>
+                                <th>TOTAL</th>
+                                <th class="text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTableBody">
+                            <tr>
+                                <td colspan="8" class="text-center py-4">Carregando dados...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 15px; border:none;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title font-weight-bold" style="color:#04091e;"><i class="fa fa-info-circle text-primary"></i> Detalhes da Reserva</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalDetailsBody">
+                    <!-- Populated dynamically -->
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            loadStats();
+            loadReservations();
+
+            // Filters trigger reload
+            $('#searchInput').on('keyup', function() {
+                loadReservations();
+            });
+            $('#statusFilter').on('change', function() {
+                loadReservations();
+            });
+
+            async function loadStats() {
+                try {
+                    const res = await fetch('/tcc_project/api/recepcionista/dashboard_stats.php');
+                    if (res.ok) {
+                        const data = await res.json();
+                        $('#stat-today-bookings').text(data.today_bookings);
+                        $('#stat-checkins').text(data.checkins_today);
+                        $('#stat-checkouts').text(data.checkouts_today);
+                        $('#stat-rooms').text(data.available_rooms);
+                    }
+                } catch(e) {
+                    console.error("Erro estatísticas:", e);
+                }
+            }
+
+            let loadedReservationsList = [];
+
+            async function loadReservations() {
+                var search = $('#searchInput').val().trim();
+                var status = $('#statusFilter').val();
+                
+                var url = `/tcc_project/api/recepcionista/reservas.php?search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`;
+                
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        const data = await res.json();
+                        loadedReservationsList = data;
+                        renderTable(data);
+                    } else {
+                        $('#bookingsTableBody').html('<tr><td colspan="8" class="text-center text-danger">Falha ao ler dados do servidor.</td></tr>');
+                    }
+                } catch(e) {
+                    $('#bookingsTableBody').html('<tr><td colspan="8" class="text-center text-danger">Erro de rede.</td></tr>');
+                }
+            }
+
+            function renderTable(list) {
+                var html = '';
+                if (list.length === 0) {
+                    html = '<tr><td colspan="8" class="text-center py-4">Nenhuma reserva localizada.</td></tr>';
+                    $('#bookingsTableBody').html(html);
+                    return;
+                }
+
+                list.forEach(r => {
+                    var checkinDate = formatDate(r.data_checkin);
+                    var checkoutDate = formatDate(r.data_checkout);
+                    
+                    var statusBadge = '';
+                    switch (r.status_reserva) {
+                        case 'pendente':
+                            statusBadge = '<span class="badge badge-warning text-dark px-2 py-1">Pendente</span>';
+                            break;
+                        case 'aprovada':
+                            statusBadge = '<span class="badge badge-primary px-2 py-1">Aprovada</span>';
+                            break;
+                        case 'checkin':
+                            statusBadge = '<span class="badge badge-success px-2 py-1">Check-in</span>';
+                            break;
+                        case 'checkout':
+                            statusBadge = '<span class="badge badge-info px-2 py-1">Check-out</span>';
+                            break;
+                        case 'concluida':
+                            statusBadge = '<span class="badge badge-secondary px-2 py-1">Concluída</span>';
+                            break;
+                        case 'cancelada':
+                            statusBadge = '<span class="badge badge-danger px-2 py-1">Cancelada</span>';
+                            break;
+                    }
+
+                    var actions = `<button class="btn btn-sm btn-outline-primary view-details-btn" data-id="${r.id_reserva}" data-toggle="modal" data-target="#detailsModal"><i class="fa fa-eye"></i> Detalhes</button>`;
+
+                    html += `
+                        <tr>
+                            <td><strong>${r.codigo_reserva || 'S/C'}</strong></td>
+                            <td>
+                                <div><strong>${r.cliente_nome}</strong></div>
+                                <small class="text-muted">${r.cliente_email} | ${r.cliente_telefone}</small>
+                            </td>
+                            <td>${r.servico}</td>
+                            <td>${checkinDate}</td>
+                            <td>${checkoutDate}</td>
+                            <td>${statusBadge}</td>
+                            <td><strong>${r.preco_total_formatado}</strong></td>
+                            <td class="text-center">${actions}</td>
+                        </tr>
+                    `;
+                });
+
+                $('#bookingsTableBody').html(html);
+
+                // Event listener on details buttons
+                $('.view-details-btn').on('click', function() {
+                    var id = $(this).data('id');
+                    var r = loadedReservationsList.find(item => item.id_reserva == id);
+                    if (r) {
+                        var detailsHtml = `
+                            <div class="d-flex flex-column gap-2" style="font-size: 13px;">
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Código da Reserva:</span>
+                                    <strong class="text-primary">${r.codigo_reserva || 'S/C'}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Nome do Cliente:</span>
+                                    <strong>${r.cliente_nome}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">E-mail:</span>
+                                    <span>${r.cliente_email}</span>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Telefone:</span>
+                                    <span>${r.cliente_telefone}</span>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Serviço/Quarto:</span>
+                                    <strong>${r.servico}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Acomodação Check-in:</span>
+                                    <span>${formatDate(r.data_checkin)}</span>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Acomodação Check-out:</span>
+                                    <span>${formatDate(r.data_checkout)}</span>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Número de Pessoas:</span>
+                                    <span>${r.n_pessoa} Hóspede(s)</span>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Valor Total:</span>
+                                    <strong class="text-success">${r.preco_total_formatado}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between p-2 border-bottom">
+                                    <span class="text-muted font-weight-bold">Status Atual:</span>
+                                    <span class="font-weight-bold">${r.status_reserva.toUpperCase()}</span>
+                                </div>
+                            </div>
+                        `;
+                        $('#modalDetailsBody').html(detailsHtml);
+                    }
+                });
+            }
+
+            function formatDate(dateStr) {
+                if(!dateStr) return '';
+                var parts = dateStr.split('-');
+                if(parts.length === 3) return parts[2] + '/' + parts[1] + '/' + parts[0];
+                return dateStr;
+            }
+        });
+    </script>
+</body>
+</html>

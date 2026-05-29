@@ -30,7 +30,7 @@ $(function () {
             function () {
                 notify.info('A sair do sistema...');
                 if(typeof logout === 'function') {
-                    logout();
+                    setTimeout(logout, 800);
                 } else {
                     setTimeout(function () { window.location.href = '../index.html'; }, 1500);
                 }

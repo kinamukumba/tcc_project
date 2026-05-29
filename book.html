@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/vendors/linericon/style.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/vendors/owl-carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="assets/vendors/nice-select/css/nice-select.css">
     <link rel="stylesheet" href="assets/vendors/owl-carousel/owl.carousel.min.css">
     <!-- main css -->
@@ -36,16 +34,25 @@
                 </button>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav menu_nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">Sobre Nós</a></li>
-                        <li class="nav-item"><a class="nav-link" href="accomodation.html">Acomodações</a></li>
-                        <li class="nav-item"><a class="nav-link" href="gallery.html">Galeria</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="book.html">Reservar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contato</a></li>
+                    <ul class="nav navbar-nav menu_nav ml-auto" style="align-items: center;">
+                        <li class="nav-item"><a class="nav-link" href="index.html" data-translate="nav_inicio">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html" data-translate="nav_sobre">Sobre Nós</a></li>
+                        <li class="nav-item"><a class="nav-link" href="accomodation.html" data-translate="nav_acomodacoes">Acomodações</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="book.html" data-translate="nav_reservar">Reservar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html" data-translate="nav_contato">Contato</a></li>
+                        <!-- Language Dropdown -->
+                        <li class="nav-item dropdown ml-lg-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;">
+                                <i class="fa fa-globe"></i> PT
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="langDropdown" style="background: #fff; border: 1px solid #eee; min-width: 80px; padding: 0;">
+                                <a class="dropdown-item lang-switch" href="#" data-lang="pt" style="color: #222; font-size: 13px; padding: 8px 15px; border-bottom: 1px solid #eee;">PT</a>
+                                <a class="dropdown-item lang-switch" href="#" data-lang="en" style="color: #222; font-size: 13px; padding: 8px 15px;">EN</a>
+                            </div>
+                        </li>
                     </ul>
-                    <a href="auth/login.html"><button class="buttonLogin"><i class="fa fa-user" aria-hidden="true"></i> Entrar</button></a>
+                    <a href="auth/login.html" class="ml-lg-3"><button class="buttonLogin"><i class="fa fa-user" aria-hidden="true"></i>
+                            <span data-translate="nav_entrar">Entrar</span></button></a>
                 </div>
             </nav>
         </div>
@@ -54,122 +61,238 @@
 
     <!--================Banner Area =================-->
     <section class="banner_area">
-        <div class="booking_table d_flex align-items-center">
+        <div class="booking_table d_flex align-items-center" style="min-height: 350px !important;">
             <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0"
-                data-background=""></div>
+                data-background="" style="background: url('assets/image/img/img_tcc_bcg_slide.jpeg') no-repeat scroll center 0/cover !important; opacity: 0.65;"></div>
             <div class="container">
-                <div class="banner_content text-center">
-                    <h6>Reserve seu quarto</h6>
-                    <h2>Faça sua Reserva Agora</h2>
-                    <p>Preencha o formulário abaixo para reservar seu quarto no Epic Sana Luanda.</p>
-                </div>
-            </div>
-        </div>
-        <div class="hotel_booking_area position">
-            <div class="container">
-                <div class="hotel_booking_table">
-                    <div class="col-md-12">
-                        <form id="bookingForm" action="#" method="post">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="book_tabel_item">
-                                        <div class="form-group">
-                                            <div class='input-group date' id='datetimepicker11'>
-                                                <input type='text' class="form-control" name="arrival"
-                                                    placeholder="Data de Chegada" required />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" name="departure"
-                                                    placeholder="Data de Partida" required />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="book_tabel_item">
-                                        <div class="form-group">
-                                            <div class='input-group'>
-                                                <input type='text' class="form-control" name="arrival"
-                                                    placeholder="Nome completo" required />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class='input-group'>
-                                                <input type='text' class="form-control" name="departure"
-                                                    placeholder="Email" required />
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="book_tabel_item">
-                                        <div class="input-group form-group">
-                                            <select class="input-group form-control" name="roomType" required>
-                                                <option value="">Tipo de Quarto</option>
-                                                <option value="deluxe">Quarto Deluxe</option>
-                                                <option value="executive">Suíte Executiva</option>
-                                                <option value="presidential">Suíte Presidencial</option>
-                                                <option value="standard">Quarto Standard</option>
-                                            </select>
-                                        </div>
-                                        <div style="margin-top: -4%;" class="input-group form-group">
-                                            <select class="form-control" name="adults" required>
-                                                <option value="">Adultos</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="mais">Mais</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="book_tabel_item">
-                                        <div class="input-group form-group">
-                                            <select class="input-group form-control" name="children">
-                                                <option value="">Crianças</option>
-                                                <option value="0">0</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="mais">Mais</option>
-                                            </select>
-                                        </div>
-                                        <button style="margin-top: -4%;" type="submit" class="btn theme_btn button_hover">Reservar Agora</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="banner_content text-center" style="margin-bottom:0;">
+                    <h6 data-translate="book_subtitle">Preencha o formulário abaixo para reservar seu quarto no Epic Sana Luanda.</h6>
+                    <h2 data-translate="book_title">Faça sua Reserva Agora</h2>
                 </div>
             </div>
         </div>
     </section>
     <!--================Banner Area =================-->
 
+    <!--================ Main Booking Section =================-->
+    <section class="contact_area section_gap">
+        <div class="container">
+            <div class="row">
+                <!-- Left: Booking Form Wizard (2 Steps) -->
+                <div class="col-lg-8">
+                    <!-- Progress Bar -->
+                    <div class="d-flex justify-content-between mb-4 px-2" style="font-weight: 500;">
+                        <span id="step1-indicator" class="text-primary" style="border-bottom: 3px solid #f3c300; padding-bottom: 5px;">1. Detalhes da Reserva</span>
+                        <span id="step2-indicator" class="text-muted">2. Pagamento & Confirmação</span>
+                    </div>
+
+                    <!-- Step 1: Booking & Guest Details -->
+                    <div class="card p-4 shadow-sm mb-4" id="step-1-card" style="border: 1px solid #eee; border-radius: 10px;">
+                        <h4 class="mb-4" style="font-weight:600; color:#04091e;">Dados da Reserva & Pessoais</h4>
+                        <form id="wizardFormStep1">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">NOME COMPLETO</label>
+                                    <input type="text" class="form-control" id="custName" required placeholder="Digite seu nome completo">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">E-MAIL</label>
+                                    <input type="email" class="form-control" id="custEmail" required placeholder="exemplo@email.com">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">TELEFONE / TELEMÓVEL</label>
+                                    <input type="tel" class="form-control" id="custPhone" required placeholder="Ex: 912345678">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">DOCUMENTO (BI ou Passaporte)</label>
+                                    <input type="text" class="form-control" id="custBI" required placeholder="Número do seu BI">
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">DATA DE CHEGADA</label>
+                                    <input type="date" class="form-control" id="arrivalDate" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">DATA DE PARTIDA</label>
+                                    <input type="date" class="form-control" id="departureDate" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">ADULTOS</label>
+                                    <select class="form-control" id="qtyAdults" required>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">CRIANÇAS</label>
+                                    <select class="form-control" id="qtyChildren">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="font-weight-bold" style="font-size:12px;">O QUE DESEJA RESERVAR?</label>
+                                    <select class="form-control" id="serviceSelect" required>
+                                        <option value="">Carregando...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-right mt-3">
+                                <button type="submit" class="btn theme_btn" style="padding: 12px 30px; border-radius: 6px;">Prosseguir para Pagamento</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: Payment Details -->
+                    <div class="card p-4 shadow-sm mb-4" id="step-2-card" style="border: 1px solid #eee; border-radius: 10px; display: none;">
+                        <h4 class="mb-4" style="font-weight:600; color:#04091e;">Detalhes do Pagamento</h4>
+                        
+                        <!-- Booking Summary -->
+                        <div class="alert alert-warning mb-4" style="border-radius: 8px;">
+                            <h5 class="alert-heading font-weight-bold">Resumo da Reserva:</h5>
+                            <p class="mb-1"><strong>Serviço:</strong> <span id="summaryService">N/A</span></p>
+                            <p class="mb-1"><strong>Duração:</strong> <span id="summaryDays">1</span> noites (<span id="summaryDates">N/A</span>)</p>
+                            <p class="mb-0"><strong>Valor Total:</strong> <strong id="summaryTotal" style="font-size:18px;">0,00 KZ</strong></p>
+                        </div>
+
+                        <form id="wizardFormStep2">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold" style="font-size:12px;">MÉTODO DE PAGAMENTO</label>
+                                <select class="form-control" id="paymentMethod" required>
+                                    <option value="cartao">Cartão de Crédito / Débito</option>
+                                    <option value="transferencia">Transferência Bancária</option>
+                                    <option value="dinheiro">Pagamento Presencial (No Check-in)</option>
+                                </select>
+                            </div>
+
+                            <!-- Card Payment Box -->
+                            <div id="cardPaymentBox" class="p-3 mb-3" style="background:#f9f9ff; border-radius:6px; border:1px solid #ddd;">
+                                <div class="form-group mb-3">
+                                    <label style="font-size:12px;">Número do Cartão</label>
+                                    <input type="text" class="form-control" id="cardNumber" placeholder="0000 0000 0000 0000">
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 form-group">
+                                        <label style="font-size:12px;">Validade</label>
+                                        <input type="text" class="form-control" id="cardExpiry" placeholder="MM/AA">
+                                    </div>
+                                    <div class="col-6 form-group">
+                                        <label style="font-size:12px;">CVV</label>
+                                        <input type="text" class="form-control" id="cardCvv" placeholder="123">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bank Transfer Box -->
+                            <div id="transferPaymentBox" class="p-3 mb-3" style="background:#f9f9ff; border-radius:6px; border:1px solid #ddd; display:none;">
+                                <p class="mb-2">Por favor efetue a transferência bancária para a conta do hotel:</p>
+                                <p class="mb-1"><strong>IBAN:</strong> <code style="font-size: 14px; font-weight:700;">AO06 0040 0000 1234 5678 9012 3</code></p>
+                                <p class="mb-1"><strong>Banco:</strong> BFA - Banco de Fomento Angola</p>
+                                <p class="mb-0 text-muted" style="font-size:11px;"><i class="fa fa-info-circle"></i> O comprovativo deve ser apresentado no balcão no momento do Check-in.</p>
+                            </div>
+
+                            <div class="form-group form-check mb-4">
+                                <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                                <label class="form-check-label text-muted" for="termsCheck" style="font-size:12px; cursor:pointer;">
+                                    Aceito os Termos de Serviço e a Política de Cancelamento do Epic Sana Luanda.
+                                </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" id="prevStepBtn" class="btn btn-outline-secondary" style="padding: 12px 30px; border-radius: 6px;">Voltar</button>
+                                <button type="submit" class="btn theme_btn" style="padding: 12px 30px; border-radius: 6px;">Confirmar e Pagar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Voucher Success Modal Style Box (Printable) -->
+                    <div class="card p-5 shadow mb-4" id="success-voucher-card" style="border: 2px solid rgba(243, 195, 0, 0.4); border-radius: 12px; display: none; background: #fff;">
+                        <!-- Header Voucher -->
+                        <div class="row align-items-center mb-4 pb-3" style="border-bottom: 2px dashed #eee;">
+                            <div class="col-6">
+                                <img src="assets/image/Logo.png" alt="Epic Sana" style="height: 50px;">
+                            </div>
+                            <div class="col-6 text-right">
+                                <h4 class="text-success font-weight-bold" style="margin:0;">RESERVA CONFIRMADA</h4>
+                                <small class="text-muted">CÓDIGO: <strong id="successVoucherCodeText" style="color: #04091e;">EPIC-12345</strong></small>
+                            </div>
+                        </div>
+
+                        <!-- Content Voucher -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted text-uppercase mb-2" style="font-size: 11px; letter-spacing:1px;">Dados do Cliente</h6>
+                                <p class="mb-1"><strong>Nome:</strong> <span id="vClientName">N/A</span></p>
+                                <p class="mb-1"><strong>E-mail:</strong> <span id="vClientEmail">N/A</span></p>
+                                <p class="mb-1"><strong>Contacto:</strong> <span id="vClientPhone">N/A</span></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted text-uppercase mb-2" style="font-size: 11px; letter-spacing:1px;">Detalhes da Reserva</h6>
+                                <p class="mb-1"><strong>Serviço:</strong> <span id="vService">N/A</span></p>
+                                <p class="mb-1"><strong>Nº de Pessoas:</strong> <span id="vPeople">N/A</span></p>
+                                <p class="mb-1"><strong>Data de Chegada:</strong> <span id="vCheckin">N/A</span></p>
+                                <p class="mb-1"><strong>Data de Partida:</strong> <span id="vCheckout">N/A</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Financial details -->
+                        <div class="row mt-4 pt-3" style="border-top: 1px solid #eee;">
+                            <div class="col-6">
+                                <p class="text-muted mb-0">Total Pago / Estadia:</p>
+                                <h3 style="color:#04091e; font-weight:700; margin:0;" id="vTotalPrice">0,00 KZ</h3>
+                            </div>
+                            <div class="col-6 text-right d-print-none align-self-center">
+                                <button onclick="window.print()" class="btn btn-outline-secondary mr-2" style="border-radius: 6px;"><i class="fa fa-print"></i> Imprimir</button>
+                                <a href="consulta-reserva.html" class="btn btn-warning" style="border-radius: 6px; color:#04091e; font-weight:600;">Gerenciar Reservas</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Side Rooms Carousel -->
+                <div class="col-lg-4 d-print-none">
+                    <div class="card p-4 shadow-sm mb-4" style="border: 1px solid #eee; border-radius: 10px; background:#fafafa;">
+                        <h4 class="mb-3" style="font-weight:600; color:#04091e; font-size:18px;">Nossos Quartos</h4>
+                        <div class="owl-carousel sidebar-rooms-carousel">
+                            <div class="item">
+                                <img src="assets/image/img/img-q-dlx.jpeg" alt="Quarto Deluxe" style="border-radius: 8px; height: 180px; object-fit: cover;">
+                                <h5 class="mt-2 font-weight-bold" style="font-size: 15px; color:#04091e;">Quarto Deluxe</h5>
+                                <p style="font-size:12px; line-height: 18px; margin-bottom:0;">Luxo e requinte com vista sobre a magnífica Baía de Luanda.</p>
+                            </div>
+                            <div class="item">
+                                <img src="assets/image/img/img_tcc_suite_ex.jpeg" alt="Suíte Executiva" style="border-radius: 8px; height: 180px; object-fit: cover;">
+                                <h5 class="mt-2 font-weight-bold" style="font-size: 15px; color:#04091e;">Suíte Executiva</h5>
+                                <p style="font-size:12px; line-height: 18px; margin-bottom:0;">Amplo espaço com área de estar separada e escritório de trabalho.</p>
+                            </div>
+                            <div class="item">
+                                <img src="assets/image/img/img_tcc-suite_pr.jpeg" alt="Suíte Presidencial" style="border-radius: 8px; height: 180px; object-fit: cover;">
+                                <h5 class="mt-2 font-weight-bold" style="font-size: 15px; color:#04091e;">Suíte Presidencial</h5>
+                                <p style="font-size:12px; line-height: 18px; margin-bottom:0;">A maior acomodação do hotel com spa particular e serviço de mordomo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ Main Booking Section =================-->
+
     <!--================ start footer Area  =================-->
-    <footer class="footer-area section_gap">
+    <footer class="footer-area section_gap d-print-none">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4  col-md-6 col-sm-6">
                     <div class="single-footer-widget">
                         <h6 class="footer_title">Sobre o Hotel</h6>
-                        <p>O Epic Sana Luanda é um destino de luxo em Angola, oferecendo vistas deslumbrantes e serviços
-                            de alta qualidade para uma estadia inesquecível.</p>
+                        <p>O Epic Sana Luanda é um destino de luxo em Angola, oferecendo vistas deslumbrantes e serviços de alta qualidade para uma estadia inesquecível.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">
@@ -187,7 +310,6 @@
                             <div class="col-4">
                                 <ul class="list_style">
                                     <li><a href="book.html">Reservar</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
                                     <li><a href="contact.html">Contato</a></li>
                                 </ul>
                             </div>
@@ -198,81 +320,207 @@
                     <div class="single-footer-widget">
                         <h6 class="footer_title">Boletim Informativo</h6>
                         <p>Inscreva-se para receber as últimas novidades e ofertas especiais do Epic Sana Luanda.</p>
-                        <div id="mc_embed_signup">
-                            <form target="_blank"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="subscribe_form relative">
-                                <div class="input-group d-flex flex-row">
-                                    <input name="EMAIL" placeholder="Endereço de Email" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Endereço de Email '" required="" type="email">
-                                    <button class="btn sub-btn"><span class="lnr lnr-location"></span></button>
-                                </div>
-                                <div class="mt-10 info"></div>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
             <div class="border_line"></div>
             <div class="row footer-bottom d-flex justify-content-between align-items-center">
                 <p class="col-lg-8 col-sm-12 footer-text m-0">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> Todos os direitos reservados
+                    Copyright &copy; <script>document.write(new Date().getFullYear());</script> Todos os direitos reservados
                 </p>
-                <div class="col-lg-4 col-sm-12 footer-social">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                </div>
             </div>
         </div>
     </footer>
     <!--================ End footer Area  =================-->
 
-
     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/popper.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/vendors/owl-carousel/owl.carousel.min.js"></script>
-    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
-    <script src="assets/js/mail-script.js"></script>
-    <script src="assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
     <script src="assets/vendors/nice-select/js/jquery.nice-select.js"></script>
-    <script src="assets/js/mail-script.js"></script>
-    <script src="assets/js/stellar.js"></script>
-    <script src="assets/vendors/lightbox/simpleLightbox.min.js"></script>
-    <script src="assets/js/custom.js"></script>
     <script src="assets/js/notify.js"></script>
+    <script src="assets/js/language.js"></script>
     <script>
         $(function () {
-            $('#datetimepicker11').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
-            $('#datetimepicker1').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
-        });
-        $('#bookingForm').on('submit', function (e) {
-            e.preventDefault();
-            
-            // Collect form data
-            const bookingData = {
-                arrival: $('input[name="arrival"]').val(),
-                departure: $('input[name="departure"]').val(),
-                roomType: $('select[name="roomType"]').val(),
-                adults: $('select[name="adults"]').val(),
-                children: $('select[name="children"]').val()
-            };
+            var selectedPrice = 0;
+            var selectedServiceName = "";
+            var servicesList = [];
+            var numDays = 1;
 
-            // Save to localStorage
-            localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
+            // Date validation rules (starts from today)
+            var today = new Date().toISOString().split('T')[0];
+            $('#arrivalDate').attr('min', today);
+            $('#departureDate').attr('min', today);
 
-            notify.info('Para concluir a reserva, por favor faça login na sua conta.');
-            setTimeout(() => window.location.href = 'auth/login.html', 2500);
+            $('#arrivalDate').on('change', function() {
+                $('#departureDate').attr('min', $(this).val());
+            });
+
+            // Carregar serviços da API
+            fetch('/tcc_project/api/utente/servicos.php')
+                .then(res => res.json())
+                .then(servicos => {
+                    servicesList = servicos;
+                    const select = $('#serviceSelect');
+                    select.empty();
+                    select.append('<option value="">Selecione o serviço...</option>');
+                    servicos.forEach(s => {
+                        select.append(`<option value="${s.id_serviço}">${s.tipos_servicos}</option>`);
+                    });
+                }).catch(console.error);
+
+            // Popular dados do usuário logado se houver sessão
+            fetch('/tcc_project/api/auth/session.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.authenticated && data.user.role === 'utente') {
+                        $('#custName').val(data.user.nome);
+                        $('#custEmail').val(data.user.email);
+                        // Carregar telefone e BI do perfil se necessário
+                    }
+                }).catch(console.error);
+
+            // Carousel Sidebar Room
+            $('.sidebar-rooms-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                items: 1,
+                autoplay: true,
+                dots: true,
+                nav: false
+            });
+
+            // Step 1 Submission
+            $('#wizardFormStep1').on('submit', function (e) {
+                e.preventDefault();
+                
+                var serviceId = $('#serviceSelect').val();
+                var checkin = $('#arrivalDate').val();
+                var checkout = $('#departureDate').val();
+
+                if (!serviceId) {
+                    notify.warning("Selecione um quarto/serviço.");
+                    return;
+                }
+
+                // Calcular dias/noites
+                var date1 = new Date(checkin);
+                var date2 = new Date(checkout);
+                var timeDiff = date2.getTime() - date1.getTime();
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                numDays = diffDays > 0 ? diffDays : 1;
+
+                // Buscar detalhes do serviço selecionado
+                var matched = servicesList.find(s => s.id_serviço == serviceId);
+                selectedPrice = matched ? matched.preço : 0;
+                selectedServiceName = matched ? matched.tipos_servicos : "Quarto";
+
+                var totalPrice = selectedPrice * numDays;
+                
+                // Formatar datas para exibição
+                var formattedDates = formatDateString(checkin) + " a " + formatDateString(checkout);
+
+                // Atualizar dados no Passo 2
+                $('#summaryService').text(selectedServiceName);
+                $('#summaryDays').text(numDays);
+                $('#summaryDates').text(formattedDates);
+                $('#summaryTotal').text(formatMoney(totalPrice) + ' KZ');
+
+                // Animar transição de passo
+                $('#step-1-card').hide();
+                $('#step1-indicator').removeClass('text-primary').addClass('text-muted').css('border-bottom', 'none');
+                
+                $('#step-2-card').fadeIn();
+                $('#step2-indicator').removeClass('text-muted').addClass('text-primary').css('border-bottom', '3px solid #f3c300');
+            });
+
+            $('#prevStepBtn').on('click', function() {
+                $('#step-2-card').hide();
+                $('#step2-indicator').removeClass('text-primary').addClass('text-muted').css('border-bottom', 'none');
+                
+                $('#step-1-card').fadeIn();
+                $('#step1-indicator').removeClass('text-muted').addClass('text-primary').css('border-bottom', '3px solid #f3c300');
+            });
+
+            // Handle payment method change layout
+            $('#paymentMethod').on('change', function() {
+                var method = $(this).val();
+                if (method === 'cartao') {
+                    $('#cardPaymentBox').show();
+                    $('#transferPaymentBox').hide();
+                } else if (method === 'transferencia') {
+                    $('#cardPaymentBox').hide();
+                    $('#transferPaymentBox').show();
+                } else {
+                    $('#cardPaymentBox').hide();
+                    $('#transferPaymentBox').hide();
+                }
+            });
+
+            // Step 2 Submission (Confirm and Pay)
+            $('#wizardFormStep2').on('submit', async function(e) {
+                e.preventDefault();
+
+                var bookingData = {
+                    nome: $('#custName').val().trim(),
+                    email: $('#custEmail').val().trim(),
+                    telemovel: $('#custPhone').val().trim(),
+                    bi: $('#custBI').val().trim(),
+                    data_checkin: $('#arrivalDate').val(),
+                    data_checkout: $('#departureDate').val(),
+                    id_servico: $('#serviceSelect').val(),
+                    n_pessoa: parseInt($('#qtyAdults').val()) + parseInt($('#qtyChildren').val()),
+                    metodo_pagamento: $('#paymentMethod').val()
+                };
+
+                try {
+                    const response = await fetch('/tcc_project/api/reserva_publica.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bookingData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        notify.success("Reserva confirmada com sucesso!");
+                        
+                        // Populate Voucher Screen
+                        $('#successVoucherCodeText').text(data.codigo_reserva);
+                        $('#vClientName').text(bookingData.nome);
+                        $('#vClientEmail').text(bookingData.email);
+                        $('#vClientPhone').text(bookingData.telemovel);
+                        $('#vService').text(selectedServiceName);
+                        $('#vPeople').text(bookingData.n_pessoa);
+                        $('#vCheckin').text(formatDateString(bookingData.data_checkin));
+                        $('#vCheckout').text(formatDateString(bookingData.data_checkout));
+                        $('#vTotalPrice').text(data.valor_total);
+
+                        // Clear pending booking
+                        localStorage.removeItem('pendingBooking');
+
+                        // Show Voucher and Hide form wizard
+                        $('#step-2-card').hide();
+                        $('#step2-indicator').css('border-bottom', 'none');
+                        $('#success-voucher-card').fadeIn();
+                    } else {
+                        notify.error(data.message || "Ocorreu um erro ao efetuar a reserva.");
+                    }
+                } catch (error) {
+                    notify.error("Erro ao comunicar com o servidor.");
+                }
+            });
+
+            function formatMoney(amount) {
+                return amount.toFixed(2).replace('.', ',').replace(/\d(?=(\d{3})+,)/g, '$&.');
+            }
+
+            function formatDateString(dateStr) {
+                var parts = dateStr.split('-');
+                if(parts.length === 3) return parts[2] + '/' + parts[1] + '/' + parts[0];
+                return dateStr;
+            }
         });
     </script>
 </body>

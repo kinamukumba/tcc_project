@@ -94,8 +94,8 @@ body {
   line-height: 24px;
   font-size: 14px;
   font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  color: #777777;
+  font-weight: 400;
+  color: #333333;
 }
 
 section {
@@ -156,7 +156,7 @@ button:focus {
 .section_title p {
   font-size: 14px;
   line-height: 30px;
-  color: #777777;
+  color: #555555;
   margin-bottom: 0px;
 }
 
@@ -834,7 +834,7 @@ button:focus {
 .accomodation_item h5 {
   font-size: 24px;
   line-height: 28px;
-  color: #52c5fd;
+  color: #c59b08;
   font-weight: 600;
   margin-bottom: 0px;
 }
@@ -3697,71 +3697,129 @@ h6 {
 
 
 /*login page style*/
-.body-login{
+.body-login {
   padding: 0;
   margin: 0;
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: row;
-  gap: 5%;
-
-.form-img{
-  width: 50%;
-  height: 100vh;
-  background-image: url(../image/img/img_tcc_bcg.jpeg);
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(rgba(4, 9, 30, 0.75), rgba(4, 9, 30, 0.75)), url("../image/img/img_tcc_bcg.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  font-family: "Poppins", sans-serif;
+}
+
+.body-login .form-img {
+  display: none !important;
+}
+
+.body-login form {
+  width: 90%;
+  max-width: 450px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
-  align-items: end;
-  justify-content: end;
-
-  .container{
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-  }
+  align-items: center;
+  gap: 20px;
 }
-  form{
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:start;
-    gap: 20px;
 
-    img{
-      width: auto;
-      height: 70px;
-    }
-    h1{
-      width: 100%;
-      font-size: 25px;
-    }
-    .form-group{
-      width: 100%;
-    }
+.body-login form img {
+  width: auto;
+  height: 60px;
+  margin-bottom: 10px;
+}
 
-    button{
-      width: 100%;
-      background-color: var();
-    }
+.body-login form h1 {
+  width: 100%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #04091e;
+  text-align: center;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #f3c300;
+  padding-bottom: 10px;
+}
 
-    .option-register{
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      flex-direction: row;
-      gap: 5px;
-      a{
-        color: var(--primary-color);
-        font-weight: 500; 
-      }
-    }
-  }
+.body-login form .form-group {
+  width: 100%;
+  margin-bottom: 0px;
+}
+
+.body-login form .form-group label {
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.body-login form .form-control {
+  height: 45px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #333333;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.body-login form .form-control:focus {
+  border-color: #f3c300;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 0.2rem rgba(243, 195, 0, 0.15);
+  outline: none;
+}
+
+.body-login form button.theme_btn {
+  width: 100%;
+  height: 45px;
+  background-color: #f3c300;
+  color: #04091e;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.body-login form button.theme_btn:hover {
+  background-color: #d4ab04;
+  color: #ffffff;
+  box-shadow: 0 5px 15px rgba(243, 195, 0, 0.3);
+}
+
+.body-login form .option-register {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #666666;
+}
+
+.body-login form .option-register p {
+  margin: 0;
+}
+
+.body-login form .option-register a {
+  color: #d4ab04;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.body-login form .option-register a:hover {
+  color: #f8b100;
 }

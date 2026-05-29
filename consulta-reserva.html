@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="pt">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="assets/image/favicon.png" type="image/png">
+    <title>Consultar Reserva - Epic Sana Luanda</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/vendors/linericon/style.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="assets/vendors/owl-carousel/owl.carousel.min.css">
+    <!-- main css -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+
+<body>
+    <!--================Header Area =================-->
+    <header class="header_area">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="index.html"><img src="assets/image/Logo.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto" style="align-items: center;">
+                        <li class="nav-item"><a class="nav-link" href="index.html" data-translate="nav_inicio">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html" data-translate="nav_sobre">Sobre Nós</a></li>
+                        <li class="nav-item"><a class="nav-link" href="accomodation.html" data-translate="nav_acomodacoes">Acomodações</a></li>
+                        <li class="nav-item"><a class="nav-link" href="book.html" data-translate="nav_reservar">Reservar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html" data-translate="nav_contato">Contato</a></li>
+                        <!-- Language Dropdown -->
+                        <li class="nav-item dropdown ml-lg-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: uppercase;">
+                                <i class="fa fa-globe"></i> PT
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="langDropdown" style="background: #fff; border: 1px solid #eee; min-width: 80px; padding: 0;">
+                                <a class="dropdown-item lang-switch" href="#" data-lang="pt" style="color: #222; font-size: 13px; padding: 8px 15px; border-bottom: 1px solid #eee;">PT</a>
+                                <a class="dropdown-item lang-switch" href="#" data-lang="en" style="color: #222; font-size: 13px; padding: 8px 15px;">EN</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="auth/login.html" class="ml-lg-3"><button class="buttonLogin"><i class="fa fa-user" aria-hidden="true"></i>
+                            <span data-translate="nav_entrar">Entrar</span></button></a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!--================Header Area =================-->
+
+    <!--================Breadcrumb Area =================-->
+    <section class="breadcrumb_area">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0" data-background="">
+        </div>
+        <div class="container">
+            <div class="page-cover text-center">
+                <h2 class="page-cover-tittle">Consultar Reserva</h2>
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Início</a></li>
+                    <li class="active">Consultar</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <!--================Breadcrumb Area =================-->
+
+    <!--================ Lookup Area =================-->
+    <section class="contact_area section_gap">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="card p-4 shadow-sm" style="border: 1px solid #eee; border-radius: 10px;">
+                        <h4 class="mb-4 text-center" style="font-weight:600; color:#04091e;">Localizar Reserva</h4>
+                        <form id="lookupForm">
+                            <div class="form-group mb-3">
+                                <label style="font-weight: 500; font-size: 13px;">E-mail Utilizado na Reserva</label>
+                                <input type="email" class="form-control" id="lookupEmail" placeholder="exemplo@email.com" required style="height: 45px; border-radius: 6px;">
+                            </div>
+                            <div class="form-group mb-4">
+                                <label style="font-weight: 500; font-size: 13px;">Código de Reserva (ex: EPIC-XXXXXX)</label>
+                                <input type="text" class="form-control" id="lookupCode" placeholder="EPIC-XXXXXX" required style="height: 45px; border-radius: 6px; text-transform: uppercase;">
+                            </div>
+                            <button type="submit" class="btn theme_btn btn-block" style="height: 45px; border-radius: 6px;">Buscar Reserva</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Box -->
+            <div class="row justify-content-center mt-5" id="resultContainer" style="display: none;">
+                <div class="col-lg-8">
+                    <div class="card p-5 shadow" id="voucherPrintArea" style="border: 1px solid rgba(243, 195, 0, 0.3); border-radius: 12px; background: #fff;">
+                        <!-- Header Voucher -->
+                        <div class="row align-items-center mb-4 pb-3" style="border-bottom: 2px dashed #eee;">
+                            <div class="col-6">
+                                <img src="assets/image/Logo.png" alt="Epic Sana" style="height: 50px;">
+                            </div>
+                            <div class="col-6 text-right">
+                                <h4 class="text-uppercase" style="color: #c59b08; font-weight:700; margin:0;" id="voucherStatus">PENDENTE</h4>
+                                <small class="text-muted">CÓDIGO: <strong id="voucherCodeText" style="color: #04091e;">EPIC-12345</strong></small>
+                            </div>
+                        </div>
+
+                        <!-- Content Voucher -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted text-uppercase mb-2" style="font-size: 11px; letter-spacing:1px;">Dados do Cliente</h6>
+                                <p class="mb-1"><strong>Nome:</strong> <span id="voucherClientName">N/A</span></p>
+                                <p class="mb-1"><strong>E-mail:</strong> <span id="voucherClientEmail">N/A</span></p>
+                                <p class="mb-1"><strong>Contacto:</strong> <span id="voucherClientPhone">N/A</span></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted text-uppercase mb-2" style="font-size: 11px; letter-spacing:1px;">Detalhes da Reserva</h6>
+                                <p class="mb-1"><strong>Serviço:</strong> <span id="voucherService">N/A</span></p>
+                                <p class="mb-1"><strong>Nº de Pessoas:</strong> <span id="voucherPeople">N/A</span></p>
+                                <p class="mb-1"><strong>Data de Chegada:</strong> <span id="voucherCheckin">N/A</span></p>
+                                <p class="mb-1"><strong>Data de Partida:</strong> <span id="voucherCheckout">N/A</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Financial details -->
+                        <div class="row mt-4 pt-3" style="border-top: 1px solid #eee;">
+                            <div class="col-6">
+                                <p class="text-muted mb-0">Total Estadia (<span id="voucherDays">1</span> noites):</p>
+                                <h3 style="color:#04091e; font-weight:700; margin:0;" id="voucherTotalPrice">0,00 KZ</h3>
+                            </div>
+                            <div class="col-6 text-right d-print-none align-self-center">
+                                <button onclick="window.print()" class="btn btn-outline-secondary mr-2" style="border-radius: 6px;"><i class="fa fa-print"></i> Imprimir</button>
+                                <button id="cancelReservationBtn" class="btn btn-danger" style="border-radius: 6px;"><i class="fa fa-times"></i> Cancelar Reserva</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ Lookup Area =================-->
+
+    <!--================ start footer Area  =================-->
+    <footer class="footer-area section_gap d-print-none">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Sobre o Hotel</h6>
+                        <p>O Epic Sana Luanda é um destino de luxo em Angola, oferecendo vistas deslumbrantes e serviços de alta qualidade para uma estadia inesquecível.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Links de Navegação</h6>
+                        <div class="row">
+                            <div class="col-4">
+                                <ul class="list_style">
+                                    <li><a href="index.html">Início</a></li>
+                                    <li><a href="about.html">Sobre</a></li>
+                                    <li><a href="accomodation.html">Acomodações</a></li>
+                                    <li><a href="gallery.html">Galeria</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <ul class="list_style">
+                                    <li><a href="book.html">Reservar</a></li>
+                                    <li><a href="contact.html">Contato</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6 class="footer_title">Boletim Informativo</h6>
+                        <p>Inscreva-se para receber as últimas novidades e ofertas especiais do Epic Sana Luanda.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border_line"></div>
+            <div class="row footer-bottom d-flex justify-content-between align-items-center">
+                <p class="col-lg-8 col-sm-12 footer-text m-0">
+                    Copyright &copy; <script>document.write(new Date().getFullYear());</script> Todos os direitos reservados
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+
+    <!-- Optional JavaScript -->
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/popper.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/vendors/nice-select/js/jquery.nice-select.js"></script>
+    <script src="assets/js/notify.js"></script>
+    <script src="assets/js/language.js"></script>
+    <script>
+        $(function () {
+            var activeReserva = null;
+
+            $('#lookupForm').on('submit', async function (e) {
+                e.preventDefault();
+                var email = $('#lookupEmail').val().trim();
+                var code = $('#lookupCode').val().trim().toUpperCase();
+
+                if (!email || !code) {
+                    notify.warning("Preencha todos os campos.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/tcc_project/api/reserva_consulta.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, codigo_reserva: code })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        activeReserva = data;
+                        displayReservation(data);
+                    } else {
+                        $('#resultContainer').hide();
+                        notify.error(data.message || "Reserva não localizada.");
+                    }
+                } catch (err) {
+                    notify.error("Erro ao comunicar com o servidor.");
+                }
+            });
+
+            function displayReservation(res) {
+                $('#voucherStatus').text(res.status_reserva.toUpperCase());
+                
+                // Color indicator for status
+                var badgeClass = "badge-pending";
+                if(res.status_reserva === "aprovada" || res.status_reserva === "checkin") badgeClass = "text-success";
+                else if(res.status_reserva === "cancelada" || res.status_reserva === "rejeitada") badgeClass = "text-danger";
+                
+                $('#voucherStatus').attr('class', 'text-uppercase ' + badgeClass);
+                
+                $('#voucherCodeText').text(res.codigo_reserva);
+                $('#voucherClientName').text(res.nome);
+                $('#voucherClientEmail').text(res.email);
+                $('#voucherClientPhone').text(res.telemovel);
+                $('#voucherService').text(res.servico);
+                $('#voucherPeople').text(res.n_pessoa);
+                $('#voucherCheckin').text(formatDate(res.data_checkin));
+                $('#voucherCheckout').text(formatDate(res.data_checkout));
+                $('#voucherDays').text(res.dias);
+                $('#voucherTotalPrice').text(res.preco_total_formatado);
+
+                // Show/hide cancel button based on status (only pendente)
+                if (res.status_reserva === 'pendente') {
+                    $('#cancelReservationBtn').show();
+                } else {
+                    $('#cancelReservationBtn').hide();
+                }
+
+                $('#resultContainer').fadeIn();
+            }
+
+            function formatDate(dateStr) {
+                var parts = dateStr.split('-');
+                if(parts.length === 3) return parts[2] + '/' + parts[1] + '/' + parts[0];
+                return dateStr;
+            }
+
+            $('#cancelReservationBtn').on('click', async function () {
+                if (!activeReserva) return;
+                
+                if (!confirm("Tem certeza que deseja CANCELAR esta reserva? Esta ação não pode ser desfeita.")) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/tcc_project/api/reserva_consulta.php', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id_reserva: activeReserva.id_reserva,
+                            email: activeReserva.email,
+                            codigo_reserva: activeReserva.codigo_reserva
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        notify.success("Reserva cancelada com sucesso!");
+                        $('#voucherStatus').text("CANCELADA").attr('class', 'text-uppercase text-danger');
+                        $('#cancelReservationBtn').hide();
+                    } else {
+                        notify.error(data.message || "Erro ao cancelar.");
+                    }
+                } catch (err) {
+                    notify.error("Erro ao comunicar com o servidor.");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -30,6 +30,11 @@
                 <li class="active"><a href="perfil.html"><i class="fa fa-user-circle-o"></i><span>Meu Perfil</span></a></li>
             </ul>
         </div>
+        <div class="sidebar-footer">
+            <button class="btn-logout">
+                <i class="fa fa-sign-out"></i> Sair
+            </button>
+        </div>
     </aside>
 
     <!-- Main Content -->
@@ -48,51 +53,58 @@
                 <div class="col-lg-4">
                     <div class="card-table text-center" style="padding: 30px;">
                         <img src="../assets/image/img/user.png" class="rounded-circle mb-3" style="width: 100px; border: 3px solid #d4ab04;">
-                        <h5 class="mb-1">Paula Castro</h5>
-                        <p class="text-muted">Utente Gold</p>
+                        <h5 class="mb-1" id="profile-name-display">Carregando...</h5>
+                        <p class="text-muted">Utente Registrado</p>
                         <hr>
                         <div class="text-left">
-                            <p><small class="text-muted d-block">Membro desde:</small> Janeiro 2024</p>
-                            <p><small class="text-muted d-block">Total de Estadias:</small> 05</p>
+                            <p><small class="text-muted d-block">Membro desde:</small> <span id="profile-member-since">-</span></p>
+                            <p><small class="text-muted d-block">Total de Estadias:</small> <span id="profile-total-stays">0</span></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="card-table" style="padding: 30px;">
                         <h5 class="mb-4">Informações Pessoais</h5>
-                        <form>
+                        <form id="form-perfil">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Nome Completo</label>
-                                    <input type="text" class="form-control" value="Paula Castro">
+                                    <label>Nome</label>
+                                    <input type="text" class="form-control" name="nome" id="input-nome">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Sobrenome</label>
+                                    <input type="text" class="form-control" name="sobrenome" id="input-sobrenome">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" value="paula.castro@email.com">
+                                    <input type="email" class="form-control" name="email" id="input-email">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Telefone</label>
-                                    <input type="text" class="form-control" value="+244 923 000 000">
+                                    <input type="text" class="form-control" name="telemovel" id="input-telefone">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Cidade</label>
-                                    <input type="text" class="form-control" value="Luanda">
+                                    <label>BI</label>
+                                    <input type="text" class="form-control" name="bi" id="input-bi" readonly title="Entre em contato com suporte para alterar o BI">
                                 </div>
                             </div>
                             <hr>
-                            <h5 class="mb-4">Alterar Senha</h5>
+                            <h5 class="mb-4">Alterar Senha (Opcional)</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label>Senha Atual</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" name="senha_atual" id="input-senha-atual">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label>Nova Senha</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" name="nova_senha" id="input-nova-senha">
                                 </div>
                             </div>
-                            <div class="text-right mt-3">
-                                <button type="button" class="btn" style="background: #d4ab04; color: white; padding: 10px 30px;">Salvar Alterações</button>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <button type="button" class="btn btn-outline-danger btn-sm" id="btn-delete-account">
+                                    <i class="fa fa-trash"></i> Eliminar Minha Conta
+                                </button>
+                                <button type="submit" class="btn" style="background: #d4ab04; color: white; padding: 10px 30px;">Salvar Alterações</button>
                             </div>
                         </form>
                     </div>
@@ -104,8 +116,9 @@
     <!-- JS -->
     <script src="../assets/js/jquery-3.2.1.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/notify.js"></script>    <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/utente-perfil.js"></script>
 </body>
 </html>
 

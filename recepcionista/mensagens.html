@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens - Epic Sana Receção</title>
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <style>
+        .chat-container { height: calc(100vh - 200px); display: flex; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .chat-list { width: 300px; border-right: 1px solid #eee; display: flex; flex-direction: column; }
+        .chat-box { flex: 1; display: flex; flex-direction: column; }
+        .chat-item { padding: 15px; border-bottom: 1px solid #f9f9f9; cursor: pointer; transition: 0.3s; }
+        .chat-item:hover, .chat-item.active { background: #f4f7f6; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: #f9f9f9; }
+        .message { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .message.sent { align-items: flex-end; }
+        .message.received { align-items: flex-start; }
+        .message-content { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 14px; }
+        .sent .message-content { background: #d4ab04; color: white; border-bottom-right-radius: 2px; }
+        .received .message-content { background: white; color: #333; border-bottom-left-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .message-time { font-size: 10px; color: #999; margin-top: 5px; }
+        .chat-input-area { padding: 20px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html">
+                <img src="../assets/image/Logo.png" alt="Epic Sana">
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="fa fa-desktop"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="mensagens.html">
+                        <i class="fa fa-comments-o"></i>
+                        <span>Mensagens (Chat)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">
+                <i class="fa fa-sign-out"></i> Sair
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title"><h4>Centro de Mensagens (Receção)</h4></div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <span class="name user-name-display">Recepcionista</span>
+                    <span class="role user-role-display">RECEPCIONISTA</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../assets/image/img/user.png" alt="Recep">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <div class="chat-container">
+                <div class="chat-list">
+                    <div class="p-3 border-bottom"><input type="text" class="form-control form-control-sm" placeholder="Procurar conversa..."></div>
+                    <div id="chat-list-body" class="overflow-auto" style="flex: 1;">
+                        <p class="text-center p-4 small text-muted">Carregando conversas...</p>
+                    </div>
+                </div>
+                <div class="chat-box">
+                    <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-white">
+                        <h6 class="mb-0" id="chat-with-name">Selecione uma conversa</h6>
+                    </div>
+                    <div id="chat-messages-body" class="chat-messages">
+                        <div class="text-center mt-5 text-muted"><i class="fa fa-comments-o fa-3x mb-3"></i><p>Selecione um utente à esquerda para iniciar o atendimento.</p></div>
+                    </div>
+                    <div class="chat-input-area bg-white">
+                        <input type="text" id="recep-chat-input" class="form-control" placeholder="Escreva sua resposta aqui...">
+                        <button class="btn" id="btn-send-message" style="background: #d4ab04; color: white;"><i class="fa fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/recepcionista-mensagens.js"></script>
+</body>
+</html>

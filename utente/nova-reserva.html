@@ -8,10 +8,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/vendors/linericon/style.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="../assets/vendors/nice-select/css/nice-select.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
@@ -26,48 +23,76 @@
         </div>
         <div class="sidebar-menu">
             <ul>
-                <li><a href="index.html"><i class="fa fa-home"></i><span>Início</span></a></li>
-                <li><a href="minhas-reservas.html"><i class="fa fa-calendar-check-o"></i><span>Minhas Reservas</span></a></li>
-                <li class="active"><a href="nova-reserva.html"><i class="fa fa-plus-circle"></i><span>Nova Reserva</span></a></li>
-                <li><a href="mensagens.html"><i class="fa fa-comments-o"></i><span>Mensagens</span></a></li>
-                <li><a href="perfil.html"><i class="fa fa-user-circle-o"></i><span>Meu Perfil</span></a></li>
+                <li>
+                    <a href="index.html">
+                        <i class="fa fa-home"></i>
+                        <span>Início</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="minhas-reservas.html">
+                        <i class="fa fa-calendar-check-o"></i>
+                        <span>Minhas Reservas</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="nova-reserva.html">
+                        <i class="fa fa-plus-circle"></i>
+                        <span>Nova Reserva</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mensagens.html">
+                        <i class="fa fa-comments-o"></i>
+                        <span>Mensagens</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="perfil.html">
+                        <i class="fa fa-user-circle-o"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="sidebar-footer">
-            <a href="../index.html" class="btn-logout text-center" style="text-decoration: none; display: block;">
+            <button class="btn-logout">
                 <i class="fa fa-sign-out"></i> Sair
-            </a>
+            </button>
         </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
         <header class="top-header">
-            <div class="page-title"><h4>Nova Reserva</h4></div>
+            <div class="page-title">
+                <h4>Nova Reserva</h4>
+            </div>
             <div class="user-profile">
-                <div class="user-info"><span class="name user-name-display">Nome do Usu�rio</span></div>
-                <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Utente"></div>
+                <div class="user-info">
+                    <span class="name user-name-display">Nome do Usuário</span>
+                    <span class="role user-role-display">Papel</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="../assets/image/img/user.png" alt="Utente">
+                </div>
             </div>
         </header>
 
         <div class="content-wrapper">
-            <div class="card-table" style="padding: 30px;">
-                <h5 class="mb-4">Detalhes da Reserva</h5>
+            <div class="card-form">
+                <div class="form-header">
+                    <h5>Detalhes da Reserva</h5>
+                </div>
                 <form id="internalBookingForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Data de Início</label>
-                            <div class='input-group date' id='datetimepicker11'>
-                                <input type='text' class="form-control" name="arrival" required />
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            </div>
+                            <input type="date" class="form-control" name="arrival" id="arrivalDate" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Data de Término</label>
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" name="departure" required />
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            </div>
+                            <input type="date" class="form-control" name="departure" id="departureDate" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label>Serviço Desejado</label>
@@ -92,6 +117,11 @@
                             </select>
                         </div>
                     </div>
+                    
+                    <div id="booking-summary" class="mt-4">
+                        <p class="text-muted small text-center py-3">Selecione as datas e o serviço para ver o resumo do pagamento.</p>
+                    </div>
+
                     <div class="text-right mt-4">
                         <button type="submit" class="btn" style="background: #d4ab04; color: white; padding: 12px 40px;">Confirmar Reserva</button>
                     </div>
@@ -103,29 +133,9 @@
     <!-- JS -->
     <script src="../assets/js/jquery-3.2.1.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js"></script>
-    <script src="../assets/js/notify.js"></script>`n    <script src="../assets/js/auth.js"></script>
-    
-    <script>
-        $(function () {
-            // Check for pending data in localStorage
-            const pendingBooking = localStorage.getItem('pendingBooking');
-            if (pendingBooking) {
-                const data = JSON.parse(pendingBooking);
-                $('input[name="arrival"]').val(data.arrival);
-                $('input[name="departure"]').val(data.departure);
-                $('select[name="id_servico"]').val(data.roomType);
-                $('select[name="adults"]').val(data.adults);
-                $('select[name="children"]').val(data.children);
-                
-                // Clear after loading
-                localStorage.removeItem('pendingBooking');
-                notify.info('Os dados da sua reserva foram carregados automaticamente!');
-            }
-        });
-    </script>
+    <script src="../assets/js/notify.js"></script>
+    <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/dashboard.js"></script>
-<script src="../assets/js/utente-nova-reserva.js"></script>`n</body>
+    <script src="../assets/js/utente-nova-reserva.js"></script>
+</body>
 </html>
-
-

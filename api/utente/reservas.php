@@ -66,7 +66,7 @@ else if($method == 'POST') {
         // Verificação 2: Sobreposição de datas com reservas ativas
         $qOverLap = "SELECT id_reserva FROM reserva 
                      WHERE id_serviço = :id_servico 
-                       AND status_reserva IN ('aprovada', 'checkin', 'pendente')
+                       AND status_reserva IN ('aprovada', 'check-in', 'pendente')
                        AND NOT (data_checkout <= :checkin OR data_checkin >= :checkout)";
         $sOverLap = $db->prepare($qOverLap);
         $sOverLap->execute([
@@ -91,8 +91,13 @@ else if($method == 'POST') {
         $stmt->bindParam(':checkout', $data->data_checkout);
         
         if($stmt->execute()) {
+            $newId = $db->lastInsertId();
+            if ($newId) {
+                $cod = "RES" . str_pad($newId, 5, "0", STR_PAD_LEFT) . strtoupper(substr(md5($newId . "epic"), 0, 4));
+                $db->prepare("UPDATE reserva SET codigo_reserva = :c WHERE id_reserva = :id")->execute([':c' => $cod, ':id' => $newId]);
+            }
             http_response_code(201);
-            echo json_encode(array("message" => "Reserva efetuada com sucesso!"));
+            echo json_encode(array("message" => "Reserva efetuada com sucesso!", "codigo" => $cod ?? ""));
         } else {
             http_response_code(503);
             echo json_encode(array("message" => "Não foi possível efetuar a reserva."));
@@ -120,7 +125,7 @@ else if($method == 'PUT') {
                 $qOverLap = "SELECT id_reserva FROM reserva 
                              WHERE id_serviço = :id_servico 
                                AND id_reserva != :id_reserva
-                               AND status_reserva IN ('aprovada', 'checkin', 'pendente')
+                               AND status_reserva IN ('aprovada', 'check-in', 'pendente')
                                AND NOT (data_checkout <= :checkin OR data_checkin >= :checkout)";
                 $sOverLap = $db->prepare($qOverLap);
                 $sOverLap->execute([

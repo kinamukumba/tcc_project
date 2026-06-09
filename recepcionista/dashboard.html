@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Recepcao - Epic Sana Luanda</title>
+    <link rel="icon" href="../assets/image/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <style>
+        .filter-bar { background:#fff; border-radius:12px; padding:14px 20px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,0.05); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+        .filter-btn { padding:6px 16px; border-radius:20px; font-size:12px; font-weight:600; border:2px solid #dee2e6; background:transparent; color:#666; cursor:pointer; transition:0.2s; }
+        .filter-btn.active, .filter-btn:hover { border-color:#d4ab04; background:#d4ab04; color:#04091e; }
+        .badge-status { padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; display:inline-block; }
+        .badge-pendente   { background:#fff3cd; color:#856404; }
+        .badge-aprovada   { background:#d4edda; color:#155724; }
+        .badge-confirmada { background:#cce5ff; color:#004085; }
+        .badge-check-in   { background:#e2d9f3; color:#4a235a; }
+        .badge-check-out  { background:#e2e3e5; color:#383d41; }
+        .badge-cancelada  { background:#f8d7da; color:#721c24; }
+        .badge-concluida  { background:#d6d8db; color:#1b1e21; }
+        .unread-badge { position:absolute; top:-4px; right:-6px; background:#dc3545; color:#fff; border-radius:50%; font-size:9px; font-weight:700; width:16px; height:16px; display:flex; align-items:center; justify-content:center; }
+    </style>
+</head>
+<body>
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <a href="dashboard.html"><img src="../assets/image/Logo.png" alt="Epic Sana"></a>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li class="active"><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
+            <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
+            <li>
+                <a href="mensagens.html" style="position:relative;">
+                    <i class="fa fa-comments-o"></i>
+                    <span>Mensagens</span>
+                    <span id="msg-badge" class="unread-badge" style="display:none;">0</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button>
+    </div>
+</aside>
+
+<main class="main-content">
+    <header class="top-header">
+        <div class="page-title"><h4>Area de Recepcao</h4></div>
+        <div class="user-profile">
+            <div class="user-info">
+                <span class="name user-name-display">Recepcionista</span>
+                <span class="role user-role-display">RECEPCIONISTA</span>
+            </div>
+            <div class="user-avatar"><img src="../assets/image/img/user.png" alt="User"></div>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-bookings"><i class="fa fa-calendar-check-o"></i></div>
+                <div class="stat-details"><h3 id="stat-total">--</h3><p>Total Reservas</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(40,167,69,0.1);">
+                    <i class="fa fa-sign-in" style="color:#28a745;"></i>
+                </div>
+                <div class="stat-details"><h3 id="stat-checkin">--</h3><p>Check-ins Hoje</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(108,117,125,0.1);">
+                    <i class="fa fa-sign-out" style="color:#6c757d;"></i>
+                </div>
+                <div class="stat-details"><h3 id="stat-checkout">--</h3><p>Check-outs Hoje</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:rgba(255,193,7,0.1);">
+                    <i class="fa fa-clock-o" style="color:#ffc107;"></i>
+                </div>
+                <div class="stat-details"><h3 id="stat-pendentes">--</h3><p>Pendentes</p></div>
+            </div>
+        </div>
+
+        <!-- Reservas de Hoje -->
+        <div class="card-table mb-4">
+            <div class="table-header d-flex justify-content-between align-items-center">
+                <h5 class="m-0 font-weight-bold" style="color:#04091e;">
+                    <i class="fa fa-calendar" style="color:#d4ab04;margin-right:8px;"></i>
+                    Movimento de Hoje
+                </h5>
+                <a href="reservas.html" class="btn btn-sm" style="background:#d4ab04;color:#04091e;font-weight:600;border-radius:8px;">
+                    Ver Todas
+                </a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>CODIGO</th>
+                            <th>HOSPEDE</th>
+                            <th>SERVICO</th>
+                            <th>CHECK-IN</th>
+                            <th>CHECK-OUT</th>
+                            <th>STATUS</th>
+                            <th class="text-center">ACCOES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="todayBody">
+                        <tr><td colspan="7" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Aprovadas aguardando check-in -->
+        <div class="card-table">
+            <div class="table-header">
+                <h5 class="m-0 font-weight-bold" style="color:#04091e;">
+                    <i class="fa fa-check-circle" style="color:#28a745;margin-right:8px;"></i>
+                    Aprovadas - Aguardando Check-in
+                </h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>CODIGO</th>
+                            <th>HOSPEDE</th>
+                            <th>SERVICO</th>
+                            <th>CHECK-IN</th>
+                            <th>CHECK-OUT</th>
+                            <th class="text-center">ACCAO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approvedBody">
+                        <tr><td colspan="6" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Detalhes -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" style="border-radius:14px;border:none;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title font-weight-bold" style="color:#04091e;">Detalhes da Reserva</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer border-0" id="detailActions"></div>
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/popper.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/notify.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+var STATUS_LABELS = {
+    'pendente':   '<span class="badge-status badge-pendente">Pendente</span>',
+    'aprovada':   '<span class="badge-status badge-aprovada">Aprovada</span>',
+    'confirmada': '<span class="badge-status badge-confirmada">Confirmada</span>',
+    'check-in':   '<span class="badge-status badge-check-in">Check-in</span>',
+    'check-out':  '<span class="badge-status badge-check-out">Check-out</span>',
+    'cancelada':  '<span class="badge-status badge-cancelada">Cancelada</span>',
+    'concluida':  '<span class="badge-status badge-concluida">Concluida</span>'
+};
+
+var allToday = [], allApproved = [];
+
+$(function() {
+    loadDashboard();
+    checkUnreadMessages();
+    setInterval(checkUnreadMessages, 30000);
+});
+
+async function loadDashboard() {
+    try {
+        // Reservas do dia
+        var r1 = await fetch('/tcc_project/api/recepcionista/reservas.php?date=today');
+        allToday = await r1.json();
+        if (!Array.isArray(allToday)) allToday = [];
+
+        // Aprovadas
+        var r2 = await fetch('/tcc_project/api/recepcionista/reservas.php?status=aprovada');
+        allApproved = await r2.json();
+        if (!Array.isArray(allApproved)) allApproved = [];
+
+        // Stats - endpoint dedicado
+        var statsRes = await fetch('/tcc_project/api/recepcionista/dashboard_stats.php');
+        var stats = await statsRes.json();
+        if (stats && !stats.message) {
+            $('#stat-total').text(stats.total    || 0);
+            $('#stat-checkin').text(stats.checkins  || 0);
+            $('#stat-checkout').text(stats.checkouts || 0);
+            $('#stat-pendentes').text(stats.pendentes || 0);
+        }
+
+        renderTodayTable(allToday);
+        renderApprovedTable(allApproved);
+    } catch(e) {
+        console.error('Dashboard error:', e);
+    }
+}
+
+function renderTodayTable(list) {
+    if (!list.length) {
+        $('#todayBody').html('<tr><td colspan="7" class="text-center py-4 text-muted">Sem movimento para hoje.</td></tr>');
+        return;
+    }
+    var html = '';
+    list.forEach(function(r) {
+        var sl = STATUS_LABELS[r.status] || r.status;
+        var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+        var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+        html += '<tr>' +
+            '<td><strong>' + (r.codigo_reserva || '#'+r.id_reserva) + '</strong></td>' +
+            '<td>' + (r.cliente_nome||'--') + '</td>' +
+            '<td>' + (r.servico||'--') + '</td>' +
+            '<td>' + ci + '</td>' + '<td>' + co + '</td>' +
+            '<td>' + sl + '</td>' +
+            '<td class="text-center">' + buildActionBtns(r) + '</td>' +
+            '</tr>';
+    });
+    $('#todayBody').html(html);
+    bindActions('#todayBody');
+}
+
+function renderApprovedTable(list) {
+    if (!list.length) {
+        $('#approvedBody').html('<tr><td colspan="6" class="text-center py-4 text-muted">Nenhuma reserva aprovada aguardando check-in.</td></tr>');
+        return;
+    }
+    var html = '';
+    list.forEach(function(r) {
+        var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+        var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+        html += '<tr>' +
+            '<td><strong>' + (r.codigo_reserva || '#'+r.id_reserva) + '</strong></td>' +
+            '<td>' + (r.cliente_nome||'--') + '</td>' +
+            '<td>' + (r.servico||'--') + '</td>' +
+            '<td>' + ci + '</td>' + '<td>' + co + '</td>' +
+            '<td class="text-center">' +
+            '<button class="btn btn-sm btn-success checkin-btn" data-id="' + r.id_reserva + '"><i class="fa fa-sign-in"></i> Fazer Check-in</button>' +
+            '</td></tr>';
+    });
+    $('#approvedBody').html(html);
+    $('#approvedBody .checkin-btn').on('click', async function() {
+        var id = $(this).data('id');
+        if (!confirm('Confirmar check-in desta reserva?')) return;
+        await updateStatus(id, 'check-in');
+    });
+}
+
+function buildActionBtns(r) {
+    var btns = '<button class="btn btn-sm btn-outline-info view-btn" data-id="' + r.id_reserva + '" title="Detalhes"><i class="fa fa-eye"></i></button>';
+    if (r.status === 'aprovada') {
+        btns += ' <button class="btn btn-sm btn-success checkin-inline-btn ml-1" data-id="' + r.id_reserva + '"><i class="fa fa-sign-in"></i> Check-in</button>';
+    }
+    if (r.status === 'check-in') {
+        btns += ' <button class="btn btn-sm btn-secondary checkout-inline-btn ml-1" data-id="' + r.id_reserva + '"><i class="fa fa-sign-out"></i> Check-out</button>';
+    }
+    return btns;
+}
+
+function bindActions(context) {
+    $(context + ' .view-btn').on('click', function() { showDetail($(this).data('id')); });
+    $(context + ' .checkin-inline-btn').on('click', async function() {
+        if (!confirm('Confirmar check-in?')) return;
+        await updateStatus($(this).data('id'), 'check-in');
+    });
+    $(context + ' .checkout-inline-btn').on('click', async function() {
+        if (!confirm('Confirmar check-out?')) return;
+        await updateStatus($(this).data('id'), 'check-out');
+    });
+}
+
+function showDetail(id) {
+    var all = allToday.concat(allApproved);
+    var r = all.find(function(x){ return x.id_reserva == id; });
+    if (!r) return;
+    var sl  = STATUS_LABELS[r.status] || r.status;
+    var ci  = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+    var co  = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+    $('#detailBody').html(
+        '<div class="row">' +
+        '<div class="col-md-6">' +
+        '<p><strong>Codigo:</strong> ' + (r.codigo_reserva||'#'+r.id_reserva) + '</p>' +
+        '<p><strong>Hospede:</strong> ' + (r.cliente_nome||'--') + '</p>' +
+        '<p><strong>Email:</strong> ' + (r.cliente_email||'--') + '</p>' +
+        '<p><strong>Telefone:</strong> ' + (r.cliente_telefone||'--') + '</p>' +
+        '</div><div class="col-md-6">' +
+        '<p><strong>Servico:</strong> ' + (r.servico||'--') + '</p>' +
+        '<p><strong>Check-in:</strong> ' + ci + '</p>' +
+        '<p><strong>Check-out:</strong> ' + co + '</p>' +
+        '<p><strong>Pessoas:</strong> ' + (r.n_pessoa||'--') + '</p>' +
+        '<p><strong>Status:</strong> ' + sl + '</p>' +
+        '</div></div>' +
+        (r.observacoes ? '<p><strong>Observacoes:</strong> ' + r.observacoes + '</p>' : '')
+    );
+    var acts = '';
+    if (r.status === 'aprovada')   acts = '<button class="btn btn-success modal-action-btn" data-id="' + id + '" data-st="check-in"><i class="fa fa-sign-in"></i> Check-in</button>';
+    if (r.status === 'check-in')   acts = '<button class="btn btn-secondary modal-action-btn" data-id="' + id + '" data-st="check-out"><i class="fa fa-sign-out"></i> Check-out</button>';
+    $('#detailActions').html(acts);
+    $('.modal-action-btn').on('click', async function() {
+        await updateStatus($(this).data('id'), $(this).data('st'));
+        $('#detailModal').modal('hide');
+    });
+    $('#detailModal').modal('show');
+}
+
+async function updateStatus(id, status) {
+    try {
+        var res = await fetch('/tcc_project/api/recepcionista/reservas.php', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_reserva: id, status: status })
+        });
+        var data = await res.json();
+        if (res.ok) { notify.success(data.message || 'Actualizado.'); loadDashboard(); }
+        else { notify.error(data.message || 'Erro.'); }
+    } catch(e) { notify.error('Erro de ligacao.'); }
+}
+
+async function checkUnreadMessages() {
+    try {
+        var res = await fetch('/tcc_project/api/recepcionista/conversas.php');
+        var data = await res.json();
+        if (Array.isArray(data)) {
+            var unread = data.reduce(function(acc, c){ return acc + (parseInt(c.nao_lidas)||0); }, 0);
+            if (unread > 0) { $('#msg-badge').text(unread > 9 ? '9+' : unread).show(); }
+            else { $('#msg-badge').hide(); }
+        }
+    } catch(e) {}
+}
+</script>
+</body>
+</html>

@@ -1,281 +1,231 @@
 <?php
-// api/admin/usuarios.php
+// api/admin/usuarios.php — CRUD completo para utentes, recepcionistas e gerentes
 session_start();
 header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'admin') {
     http_response_code(403);
-    echo json_encode(array("message" => "Acesso negado."));
+    echo json_encode(["message" => "Acesso negado."]);
     exit;
 }
 
 $database = new Database();
 $db = $database->getConnection();
-
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method == 'GET') {
-    $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : null;
-    $id   = isset($_GET['id'])   ? (int)$_GET['id'] : null;
+// ── GET ──────────────────────────────────────────────────────────────────────
+if ($method === 'GET') {
+    $tipo = isset($_GET['tipo']) ? trim($_GET['tipo']) : null;
+    $id   = isset($_GET['id'])   ? (int)$_GET['id']   : null;
+
+    $allowed = ['utente', 'recepcionista', 'gerente'];
 
     if ($id) {
         $stmt = $db->prepare("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE id_usuario = :id LIMIT 1");
         $stmt->execute([':id' => $id]);
-        $u = $stmt->fetch(PDO::FETCH_ASSOC);
-        http_response_code(200);
-        echo json_encode($u ?: []);
-    } elseif ($tipo && in_array($tipo, ['utente','recepcionista'])) {
+        echo json_encode($stmt->fetch(PDO::FETCH_ASSOC) ?: []);
+    } elseif ($tipo && in_array($tipo, $allowed)) {
         $stmt = $db->prepare("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE tipo_usuario = :tipo ORDER BY nome ASC");
         $stmt->execute([':tipo' => $tipo]);
-        http_response_code(200);
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
     } else {
-        // Listar utentes e recepcionistas (ambos)
-        $stmt = $db->query("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE tipo_usuario IN ('utente', 'recepcionista') ORDER BY tipo_usuario ASC, nome ASC");
-        http_response_code(200);
+        $stmt = $db->query("SELECT id_usuario, nome, email, telefone, tipo_usuario FROM usuario WHERE tipo_usuario IN ('utente','recepcionista','gerente') ORDER BY tipo_usuario ASC, nome ASC");
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
-} 
-else if ($method == 'POST') {
-    $data = json_decode(file_get_contents("php://input"));
-    
-    if (!empty($data->nome) && !empty($data->email) && !empty($data->telefone) && !empty($data->senha) && !empty($data->tipo_usuario)) {
-        
-        if ($data->tipo_usuario == 'admin' || $data->tipo_usuario == 'gerente') {
-            http_response_code(403);
-            echo json_encode(array("message" => "Não é permitido cadastrar administradores ou gerentes através deste painel."));
-            exit;
-        }
-        try {
-            $db->beginTransaction();
-            
-            // Verificar email duplicado
-            $qCheck = "SELECT id_usuario FROM usuario WHERE email = :email LIMIT 1";
-            $sCheck = $db->prepare($qCheck);
-            $sCheck->execute([':email' => $data->email]);
-            if ($sCheck->rowCount() > 0) {
-                throw new Exception("E-mail já está em uso por outro utilizador.");
-            }
-            
-            // 1. Inserir na tabela geral usuario
-            $qUser = "INSERT INTO usuario (nome, email, telefone, senha, tipo_usuario) 
-                      VALUES (:nome, :email, :tel, MD5(:senha), :tipo)";
-            $sUser = $db->prepare($qUser);
-            $sUser->execute([
-                ':nome' => $data->nome,
-                ':email' => $data->email,
-                ':tel' => $data->telefone,
-                ':senha' => $data->senha,
-                ':tipo' => $data->tipo_usuario
-            ]);
-            $id_usuario = $db->lastInsertId();
-            
-            // 2. Inserir na tabela secundária correspondente
-            if ($data->tipo_usuario == 'utente') {
-                $qSub = "INSERT INTO cliente (nome, email, telemovel, bi, senha, id_usuario) 
-                         VALUES (:nome, :email, :tel, :bi, MD5(:senha), :id_usuario)";
-                $sSub = $db->prepare($qSub);
-                $sSub->execute([
-                    ':nome' => $data->nome,
-                    ':email' => $data->email,
-                    ':tel' => $data->telefone,
-                    ':bi' => isset($data->bi) ? $data->bi : 'S/N',
-                    ':senha' => $data->senha,
-                    ':id_usuario' => $id_usuario
-                ]);
-            } 
-            else if ($data->tipo_usuario == 'admin') {
-                $qSub = "INSERT INTO administrador (nome, email, senha, nivel_acesso, id_usuario) 
-                         VALUES (:nome, :email, MD5(:senha), 'total', :id_usuario)";
-                $sSub = $db->prepare($qSub);
-                $sSub->execute([
-                    ':nome' => $data->nome,
-                    ':email' => $data->email,
-                    ':senha' => $data->senha,
-                    ':id_usuario' => $id_usuario
-                ]);
-            } 
-            else if ($data->tipo_usuario == 'gerente') {
-                $qSub = "INSERT INTO gestor (nome, telefone, email, senha, nivel_acesso, id_usuario) 
-                         VALUES (:nome, :tel, :email, MD5(:senha), 'geral', :id_usuario)";
-                $sSub = $db->prepare($qSub);
-                $sSub->execute([
-                    ':nome' => $data->nome,
-                    ':tel' => $data->telefone,
-                    ':email' => $data->email,
-                    ':senha' => $data->senha,
-                    ':id_usuario' => $id_usuario
-                ]);
-            } 
-            else if ($data->tipo_usuario == 'recepcionista') {
-                $qSub = "INSERT INTO recepcionista (nome, telefone, email, senha, id_usuario) 
-                         VALUES (:nome, :tel, :email, MD5(:senha), :id_usuario)";
-                $sSub = $db->prepare($qSub);
-                $sSub->execute([
-                    ':nome' => $data->nome,
-                    ':tel' => $data->telefone,
-                    ':email' => $data->email,
-                    ':senha' => $data->senha,
-                    ':id_usuario' => $id_usuario
-                ]);
-            }
-            
-            $db->commit();
-            http_response_code(201);
-            echo json_encode(array("message" => "Utilizador criado com sucesso!"));
-        } catch (Exception $e) {
-            $db->rollBack();
-            http_response_code(500);
-            echo json_encode(array("message" => "Erro ao criar utilizador: " . $e->getMessage()));
-        }
-    } else {
-        http_response_code(400);
-        echo json_encode(array("message" => "Dados incompletos."));
-    }
-} 
-else if ($method == 'PUT') {
-    $data = json_decode(file_get_contents("php://input"));
-    
-    if (!empty($data->id_usuario) && !empty($data->nome) && !empty($data->email) && !empty($data->telefone)) {
-        // Verificar tipo do utilizador para impedir alteração de admin ou gerente
-        $qType = "SELECT tipo_usuario FROM usuario WHERE id_usuario = :id LIMIT 1";
-        $sType = $db->prepare($qType);
-        $sType->execute([':id' => $data->id_usuario]);
-        $userTypeRow = $sType->fetch(PDO::FETCH_ASSOC);
-        if (!$userTypeRow) {
-            http_response_code(404);
-            echo json_encode(array("message" => "Utilizador não encontrado."));
-            exit;
-        }
-        $userType = $userTypeRow['tipo_usuario'];
-        if ($userType == 'admin' || $userType == 'gerente') {
-            http_response_code(403);
-            echo json_encode(array("message" => "Não é permitido alterar administradores ou gerentes através deste painel."));
-            exit;
-        }
-
-        try {
-            $db->beginTransaction();
-            
-            // Atualizar na tabela geral
-            if (!empty($data->senha)) {
-                $qUser = "UPDATE usuario SET nome = :nome, email = :email, telefone = :tel, senha = MD5(:senha) WHERE id_usuario = :id";
-                $params = [
-                    ':nome' => $data->nome,
-                    ':email' => $data->email,
-                    ':tel' => $data->telefone,
-                    ':senha' => $data->senha,
-                    ':id' => $data->id_usuario
-                ];
-            } else {
-                $qUser = "UPDATE usuario SET nome = :nome, email = :email, telefone = :tel WHERE id_usuario = :id";
-                $params = [
-                    ':nome' => $data->nome,
-                    ':email' => $data->email,
-                    ':tel' => $data->telefone,
-                    ':id' => $data->id_usuario
-                ];
-            }
-            $sUser = $db->prepare($qUser);
-            $sUser->execute($params);
-            
-            // Identificar tipo de usuário para atualizar tabela secundária
-            $qType = "SELECT tipo_usuario FROM usuario WHERE id_usuario = :id LIMIT 1";
-            $sType = $db->prepare($qType);
-            $sType->execute([':id' => $data->id_usuario]);
-            $userType = $sType->fetch(PDO::FETCH_ASSOC)['tipo_usuario'];
-            
-            if ($userType == 'utente') {
-                $qSub = !empty($data->senha) 
-                    ? "UPDATE cliente SET nome = :nome, email = :email, telemovel = :tel, bi = :bi, senha = MD5(:senha) WHERE id_usuario = :id" 
-                    : "UPDATE cliente SET nome = :nome, email = :email, telemovel = :tel, bi = :bi WHERE id_usuario = :id";
-                $sSub = $db->prepare($qSub);
-                $subParams = [':nome' => $data->nome, ':email' => $data->email, ':tel' => $data->telefone, ':bi' => isset($data->bi) ? $data->bi : 'S/N', ':id' => $data->id_usuario];
-                if (!empty($data->senha)) $subParams[':senha'] = $data->senha;
-                $sSub->execute($subParams);
-            } 
-            else if ($userType == 'admin') {
-                $qSub = !empty($data->senha) 
-                    ? "UPDATE administrador SET nome = :nome, email = :email, senha = MD5(:senha) WHERE id_usuario = :id" 
-                    : "UPDATE administrador SET nome = :nome, email = :email WHERE id_usuario = :id";
-                $sSub = $db->prepare($qSub);
-                $subParams = [':nome' => $data->nome, ':email' => $data->email, ':id' => $data->id_usuario];
-                if (!empty($data->senha)) $subParams[':senha'] = $data->senha;
-                $sSub->execute($subParams);
-            } 
-            else if ($userType == 'gerente') {
-                $qSub = !empty($data->senha) 
-                    ? "UPDATE gestor SET nome = :nome, email = :email, telefone = :tel, senha = MD5(:senha) WHERE id_usuario = :id" 
-                    : "UPDATE gestor SET nome = :nome, email = :email, telefone = :tel WHERE id_usuario = :id";
-                $sSub = $db->prepare($qSub);
-                $subParams = [':nome' => $data->nome, ':email' => $data->email, ':tel' => $data->telefone, ':id' => $data->id_usuario];
-                if (!empty($data->senha)) $subParams[':senha'] = $data->senha;
-                $sSub->execute($subParams);
-            } 
-            else if ($userType == 'recepcionista') {
-                $qSub = !empty($data->senha) 
-                    ? "UPDATE recepcionista SET nome = :nome, email = :email, telefone = :tel, senha = MD5(:senha) WHERE id_usuario = :id" 
-                    : "UPDATE recepcionista SET nome = :nome, email = :email, telefone = :tel WHERE id_usuario = :id";
-                $sSub = $db->prepare($qSub);
-                $subParams = [':nome' => $data->nome, ':email' => $data->email, ':tel' => $data->telefone, ':id' => $data->id_usuario];
-                if (!empty($data->senha)) $subParams[':senha'] = $data->senha;
-                $sSub->execute($subParams);
-            }
-            
-            $db->commit();
-            http_response_code(200);
-            echo json_encode(array("message" => "Utilizador atualizado com sucesso!"));
-        } catch (Exception $e) {
-            $db->rollBack();
-            http_response_code(500);
-            echo json_encode(array("message" => "Erro ao atualizar utilizador: " . $e->getMessage()));
-        }
-    } else {
-        http_response_code(400);
-        echo json_encode(array("message" => "Dados incompletos."));
-    }
-} 
-else if ($method == 'DELETE') {
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
-    
-    if ($id) {
-        // Impedir que o próprio administrador logado se auto-exclua
-        if ($id == $_SESSION['user_id']) {
-            http_response_code(400);
-            echo json_encode(array("message" => "Não é permitido excluir o próprio utilizador ativo da sessão."));
-            exit;
-        }
-
-        // Impedir exclusão de admin ou gerente
-        $qType = "SELECT tipo_usuario FROM usuario WHERE id_usuario = :id LIMIT 1";
-        $sType = $db->prepare($qType);
-        $sType->execute([':id' => $id]);
-        $userTypeRow = $sType->fetch(PDO::FETCH_ASSOC);
-        if ($userTypeRow) {
-            $userType = $userTypeRow['tipo_usuario'];
-            if ($userType == 'admin' || $userType == 'gerente') {
-                http_response_code(403);
-                echo json_encode(array("message" => "Não é permitido excluir administradores ou gerentes através deste painel."));
-                exit;
-            }
-        }
-        
-        $query = "DELETE FROM usuario WHERE id_usuario = :id";
-        $stmt = $db->prepare($query);
-        if ($stmt->execute([':id' => $id])) {
-            http_response_code(200);
-            echo json_encode(array("message" => "Utilizador excluído com sucesso."));
-        } else {
-            http_response_code(500);
-            echo json_encode(array("message" => "Erro ao excluir utilizador."));
-        }
-    } else {
-        http_response_code(400);
-        echo json_encode(array("message" => "ID não fornecido."));
-    }
-} else {
-    http_response_code(405);
-    echo json_encode(array("message" => "Método não permitido."));
+    exit;
 }
+
+// ── POST (criar) ──────────────────────────────────────────────────────────────
+if ($method === 'POST') {
+    $data = json_decode(file_get_contents("php://input"));
+
+    $nome  = isset($data->nome)         ? trim($data->nome)         : '';
+    $email = isset($data->email)        ? trim($data->email)        : '';
+    $tel   = isset($data->telefone)     ? trim($data->telefone)     : '';
+    $senha = isset($data->senha)        ? trim($data->senha)        : '';
+    $tipo  = isset($data->tipo_usuario) ? trim($data->tipo_usuario) : '';
+
+    // Admin nao pode criar outro admin por aqui
+    if ($tipo === 'admin') {
+        http_response_code(403);
+        echo json_encode(["message" => "Nao e permitido criar administradores por este painel."]);
+        exit;
+    }
+
+    if (!$nome || !$email || !$senha || !$tipo) {
+        http_response_code(400);
+        echo json_encode(["message" => "Dados incompletos. Nome, email, senha e tipo sao obrigatorios."]);
+        exit;
+    }
+
+    // Verificar email duplicado
+    $chk = $db->prepare("SELECT id_usuario FROM usuario WHERE email = :email LIMIT 1");
+    $chk->execute([':email' => $email]);
+    if ($chk->rowCount() > 0) {
+        http_response_code(409);
+        echo json_encode(["message" => "Este e-mail ja esta em uso por outro utilizador."]);
+        exit;
+    }
+
+    try {
+        $db->beginTransaction();
+
+        // 1. Inserir na tabela principal usuario
+        $s1 = $db->prepare("INSERT INTO usuario (nome, email, telefone, senha, tipo_usuario) VALUES (:nome, :email, :tel, MD5(:senha), :tipo)");
+        $s1->execute([':nome' => $nome, ':email' => $email, ':tel' => $tel, ':senha' => $senha, ':tipo' => $tipo]);
+        $uid = $db->lastInsertId();
+
+        // 2. Inserir na tabela secundaria do perfil
+        if ($tipo === 'utente') {
+            $s2 = $db->prepare("INSERT INTO cliente (nome, email, telemovel, bi, senha, id_usuario) VALUES (:nome,:email,:tel,'S/N',MD5(:senha),:id)");
+            $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':senha'=>$senha,':id'=>$uid]);
+        } elseif ($tipo === 'recepcionista') {
+            $s2 = $db->prepare("INSERT INTO recepcionista (nome, telefone, email, senha, id_usuario) VALUES (:nome,:tel,:email,MD5(:senha),:id)");
+            $s2->execute([':nome'=>$nome,':tel'=>$tel,':email'=>$email,':senha'=>$senha,':id'=>$uid]);
+        } elseif ($tipo === 'gerente') {
+            $s2 = $db->prepare("INSERT INTO gestor (nome, telefone, email, senha, nivel_acesso, id_usuario) VALUES (:nome,:tel,:email,MD5(:senha),'geral',:id)");
+            $s2->execute([':nome'=>$nome,':tel'=>$tel,':email'=>$email,':senha'=>$senha,':id'=>$uid]);
+        }
+
+        $db->commit();
+        http_response_code(201);
+        echo json_encode(["message" => ucfirst($tipo) . " criado com sucesso.", "id_usuario" => $uid]);
+    } catch (Exception $e) {
+        $db->rollBack();
+        http_response_code(500);
+        echo json_encode(["message" => "Erro ao criar utilizador: " . $e->getMessage()]);
+    }
+    exit;
+}
+
+// ── PUT (editar) ──────────────────────────────────────────────────────────────
+if ($method === 'PUT') {
+    $data = json_decode(file_get_contents("php://input"));
+
+    $id    = isset($data->id_usuario) ? (int)$data->id_usuario : 0;
+    $nome  = isset($data->nome)       ? trim($data->nome)       : '';
+    $email = isset($data->email)      ? trim($data->email)      : '';
+    $tel   = isset($data->telefone)   ? trim($data->telefone)   : '';
+    $senha = isset($data->senha)      ? trim($data->senha)      : '';
+
+    if (!$id || !$nome || !$email) {
+        http_response_code(400);
+        echo json_encode(["message" => "Dados incompletos."]);
+        exit;
+    }
+
+    // Verificar tipo actual do utilizador
+    $chkType = $db->prepare("SELECT tipo_usuario FROM usuario WHERE id_usuario = :id LIMIT 1");
+    $chkType->execute([':id' => $id]);
+    $row = $chkType->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode(["message" => "Utilizador nao encontrado."]);
+        exit;
+    }
+
+    if ($row['tipo_usuario'] === 'admin') {
+        http_response_code(403);
+        echo json_encode(["message" => "Nao e permitido editar administradores por este painel."]);
+        exit;
+    }
+
+    try {
+        $db->beginTransaction();
+        $tipo = $row['tipo_usuario'];
+
+        // Atualizar tabela principal
+        if ($senha) {
+            $s = $db->prepare("UPDATE usuario SET nome=:nome, email=:email, telefone=:tel, senha=MD5(:senha) WHERE id_usuario=:id");
+            $s->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':senha'=>$senha,':id'=>$id]);
+        } else {
+            $s = $db->prepare("UPDATE usuario SET nome=:nome, email=:email, telefone=:tel WHERE id_usuario=:id");
+            $s->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':id'=>$id]);
+        }
+
+        // Atualizar tabela secundaria
+        if ($tipo === 'utente') {
+            if ($senha) {
+                $s2 = $db->prepare("UPDATE cliente SET nome=:nome,email=:email,telemovel=:tel,senha=MD5(:senha) WHERE id_usuario=:id");
+                $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':senha'=>$senha,':id'=>$id]);
+            } else {
+                $s2 = $db->prepare("UPDATE cliente SET nome=:nome,email=:email,telemovel=:tel WHERE id_usuario=:id");
+                $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':id'=>$id]);
+            }
+        } elseif ($tipo === 'recepcionista') {
+            if ($senha) {
+                $s2 = $db->prepare("UPDATE recepcionista SET nome=:nome,email=:email,telefone=:tel,senha=MD5(:senha) WHERE id_usuario=:id");
+                $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':senha'=>$senha,':id'=>$id]);
+            } else {
+                $s2 = $db->prepare("UPDATE recepcionista SET nome=:nome,email=:email,telefone=:tel WHERE id_usuario=:id");
+                $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':id'=>$id]);
+            }
+        } elseif ($tipo === 'gerente') {
+            if ($senha) {
+                $s2 = $db->prepare("UPDATE gestor SET nome=:nome,email=:email,telefone=:tel,senha=MD5(:senha) WHERE id_usuario=:id");
+                $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':senha'=>$senha,':id'=>$id]);
+            } else {
+                $s2 = $db->prepare("UPDATE gestor SET nome=:nome,email=:email,telefone=:tel WHERE id_usuario=:id");
+                $s2->execute([':nome'=>$nome,':email'=>$email,':tel'=>$tel,':id'=>$id]);
+            }
+        }
+
+        $db->commit();
+        http_response_code(200);
+        echo json_encode(["message" => ucfirst($tipo) . " actualizado com sucesso."]);
+    } catch (Exception $e) {
+        $db->rollBack();
+        http_response_code(500);
+        echo json_encode(["message" => "Erro ao actualizar: " . $e->getMessage()]);
+    }
+    exit;
+}
+
+// ── DELETE ────────────────────────────────────────────────────────────────────
+if ($method === 'DELETE') {
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+    if (!$id) {
+        http_response_code(400);
+        echo json_encode(["message" => "ID nao fornecido."]);
+        exit;
+    }
+
+    if ($id === (int)$_SESSION['user_id']) {
+        http_response_code(400);
+        echo json_encode(["message" => "Nao pode eliminar a sua propria conta."]);
+        exit;
+    }
+
+    $chk = $db->prepare("SELECT tipo_usuario FROM usuario WHERE id_usuario=:id LIMIT 1");
+    $chk->execute([':id' => $id]);
+    $row = $chk->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode(["message" => "Utilizador nao encontrado."]);
+        exit;
+    }
+
+    if ($row['tipo_usuario'] === 'admin') {
+        http_response_code(403);
+        echo json_encode(["message" => "Nao e permitido eliminar administradores por este painel."]);
+        exit;
+    }
+
+    $stmt = $db->prepare("DELETE FROM usuario WHERE id_usuario=:id");
+    if ($stmt->execute([':id' => $id])) {
+        http_response_code(200);
+        echo json_encode(["message" => ucfirst($row['tipo_usuario']) . " eliminado com sucesso."]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["message" => "Erro ao eliminar."]);
+    }
+    exit;
+}
+
+http_response_code(405);
+echo json_encode(["message" => "Metodo nao permitido."]);
 ?>

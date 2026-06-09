@@ -3,580 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Gestor - Epic Sana Luanda</title>
+    <title>Login Gerente - Epic Sana Luanda</title>
     <link rel="icon" href="../assets/image/favicon.png" type="image/png">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; min-height: 100vh; display: flex; background: #f4f7f6; overflow: hidden; }
+        .left-panel {
+            flex: 1.2;
+            background: linear-gradient(160deg, #0a1a45 0%, #1a3060 50%, #0d2254 100%);
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 50px; position: relative; overflow: hidden;
+        }
+        .left-panel::before { content:''; position:absolute; width:500px; height:500px; border-radius:50%; background:rgba(212,171,4,0.07); top:-150px; right:-150px; }
+        .left-panel::after  { content:''; position:absolute; width:350px; height:350px; border-radius:50%; background:rgba(212,171,4,0.05); bottom:-100px; left:-100px; }
+        .brand { display:flex; align-items:center; gap:15px; }
+        .brand img { height:48px; filter:brightness(0) invert(1); }
+        .brand-text { color:#fff; }
+        .brand-text h3 { font-size:18px; font-weight:700; }
+        .brand-text span { font-size:11px; color:rgba(255,255,255,0.5); letter-spacing:2px; text-transform:uppercase; }
+        .left-hero { position:relative; z-index:1; }
+        .left-hero h1 { color:#fff; font-size:38px; font-weight:700; line-height:1.2; margin-bottom:16px; }
+        .left-hero h1 span { color:#d4ab04; }
+        .left-hero p { color:rgba(255,255,255,0.5); font-size:14px; line-height:1.7; max-width:380px; }
+        .feature-list { display:flex; flex-direction:column; gap:16px; position:relative; z-index:1; }
+        .feature-item { display:flex; align-items:center; gap:14px; }
+        .feature-icon { width:40px; height:40px; border-radius:10px; background:rgba(212,171,4,0.15); display:flex; align-items:center; justify-content:center; color:#d4ab04; font-size:16px; flex-shrink:0; }
+        .feature-text { color:rgba(255,255,255,0.7); font-size:13px; }
+        .feature-text strong { color:#fff; display:block; font-size:13px; margin-bottom:2px; }
+        .right-panel { flex:1; display:flex; align-items:center; justify-content:center; padding:50px 60px; background:#fff; }
+        .login-box { width:100%; max-width:400px; }
+        .login-box .tag { display:inline-flex; align-items:center; gap:8px; background:rgba(26,48,96,0.1); color:#1a3060; padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:28px; }
+        .login-box h2 { font-size:26px; font-weight:700; color:#04091e; margin-bottom:6px; }
+        .login-box p.sub { color:#999; font-size:13px; margin-bottom:36px; }
+        .form-group { margin-bottom:22px; }
+        .form-group label { display:block; font-size:11px; font-weight:600; color:#999; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
+        .input-wrap { position:relative; }
+        .input-wrap i.icon-left { position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#ccc; font-size:14px; pointer-events:none; }
+        .input-wrap i.icon-right { position:absolute; right:16px; top:50%; transform:translateY(-50%); color:#ccc; font-size:14px; cursor:pointer; }
+        .input-wrap input { width:100%; padding:14px 16px 14px 46px; border:1.5px solid #e8e8e8; border-radius:12px; font-size:14px; font-family:'Poppins',sans-serif; color:#04091e; outline:none; transition:0.2s; background:#fafafa; }
+        .input-wrap input:focus { border-color:#1a3060; background:#fff; box-shadow:0 0 0 4px rgba(26,48,96,0.1); }
+        .btn-login { width:100%; padding:15px; background:linear-gradient(90deg,#04091e,#1a3060); border:none; border-radius:12px; color:#d4ab04; font-weight:700; font-size:14px; letter-spacing:1px; cursor:pointer; transition:0.3s; font-family:'Poppins',sans-serif; margin-top:8px; }
+        .btn-login:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 25px rgba(4,9,30,0.35); }
+        .btn-login:disabled { opacity:0.65; cursor:not-allowed; }
+        .alert { padding:13px 16px; border-radius:10px; font-size:13px; margin-bottom:20px; display:none; align-items:center; gap:10px; }
+        .alert.error { background:#fff0f0; border:1.5px solid #ffcdd2; color:#c62828; }
+        .alert.success { background:#f0fff4; border:1.5px solid #c8e6c9; color:#1b5e20; }
+        .back-link { display:block; text-align:center; margin-top:28px; color:#bbb; font-size:12px; text-decoration:none; transition:0.2s; }
+        .back-link:hover { color:#1a3060; }
+        @media (max-width:768px) { .left-panel { display:none; } .right-panel { padding:40px 30px; } }
+    </style>
 </head>
 <body>
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <a href="../index.html">
-                <img src="../assets/image/Logo.png" alt="Epic Sana">
-            </a>
+    <div class="left-panel">
+        <div class="brand">
+            <img src="../assets/image/Logo.png" alt="Epic Sana">
+            <div class="brand-text"><h3>Epic Sana Luanda</h3><span>Portal de Gestao</span></div>
         </div>
-        <div class="sidebar-menu">
-            <ul>
-                <li class="active">
-                    <a href="#stats-section" class="tab-link" data-target="stats-container">
-                        <i class="fa fa-bar-chart"></i>
-                        <span>Desempenho &amp; Relatórios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#payments-section" class="tab-link" data-target="payments-container">
-                        <i class="fa fa-check-circle"></i>
-                        <span>Confirmações de Pagamento</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#admins-section" class="tab-link" data-target="admins-container">
-                        <i class="fa fa-user-secret"></i>
-                        <span>Gerir Administradores</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#occupancy-section" class="tab-link" data-target="occupancy-container">
-                        <i class="fa fa-hotel"></i>
-                        <span>Ocupação de Quartos</span>
-                    </a>
-                </li>
-            </ul>
+        <div class="left-hero">
+            <h1>Painel do<br><span>Gerente</span></h1>
+            <p>Supervisione operacoes, confirme pagamentos, gerencie administradores e aceda a relatorios completos.</p>
         </div>
-        <div class="sidebar-footer">
-            <button class="btn-logout" onclick="logout()">
-                <i class="fa fa-sign-out"></i> Sair
-            </button>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Header -->
-        <header class="top-header">
-            <div class="page-title">
-                <h4 id="panel-title-text" style="display:inline-block; margin-right:15px;">Desempenho Geral do Hotel</h4>
-                <select id="reportPeriodSelect" class="form-control form-control-sm" style="display:none; max-width: 150px; height:32px; font-size:12px; vertical-align:middle;">
-                    <option value="diario">Relatório Diário</option>
-                    <option value="semanal">Relatório Semanal</option>
-                    <option value="anual" selected>Relatório Anual</option>
-                </select>
+        <div class="feature-list">
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa fa-money"></i></div>
+                <div class="feature-text"><strong>Confirmacao de Pagamentos</strong>Validar e confirmar pagamentos das reservas</div>
             </div>
-            <div class="user-profile">
-                <div class="user-info">
-                    <span class="name user-name-display">Gestor</span>
-                    <span class="role user-role-display">GESTOR</span>
-                </div>
-                <div class="user-avatar">
-                    <img src="../assets/image/img/user.png" alt="User">
-                </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa fa-bar-chart"></i></div>
+                <div class="feature-text"><strong>Relatorios e Estatisticas</strong>Diario, semanal e anual com graficos</div>
             </div>
-        </header>
-
-        <!-- Content Area -->
-        <div class="content-wrapper">
-            
-            <!-- Section 1: Dashboard Stats & Charts -->
-            <div id="stats-container" class="tab-content">
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon icon-bookings">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3 id="gest-total-bookings">0</h3>
-                            <p>Total Reservas</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon icon-revenue">
-                            <i class="fa fa-check-circle-o"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3 id="gest-confirmed-bookings">0</h3>
-                            <p>Reservas Confirmadas</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon icon-feedback">
-                            <i class="fa fa-times-circle-o"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3 id="gest-cancellations">0</h3>
-                            <p>Cancelamentos</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon icon-users">
-                            <i class="fa fa-percent"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3 id="gest-occupancy-rate">0%</h3>
-                            <p>Taxa de Ocupação</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Charts Row -->
-                <div class="row">
-                    <div class="col-lg-7 mb-4">
-                        <div class="card p-4 border-0 shadow-sm" style="border-radius:15px;">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h5 class="mb-0 font-weight-bold" style="color: #04091e;">Reservas por Período</h5>
-                                <select id="reportPeriodSelectInline" class="form-control form-control-sm" style="max-width: 150px; height:32px; font-size:12px;">
-                                    <option value="diario">Diário</option>
-                                    <option value="semanal">Semanal</option>
-                                    <option value="anual" selected>Anual</option>
-                                </select>
-                            </div>
-                            <canvas id="monthlyChart" style="max-height: 280px;"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 mb-4">
-                        <div class="card p-4 border-0 shadow-sm" style="border-radius:15px; height:100%;">
-                            <h5 class="mb-3 font-weight-bold" style="color: #04091e;">Serviços Mais Reservados</h5>
-                            <ul class="list-group list-group-flush" id="most-booked-list">
-                                <li class="list-group-item text-center py-4 text-muted">A carregar estatísticas...</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 2: Confirmações de Pagamento -->
-            <div id="payments-container" class="tab-content" style="display: none;">
-                <div class="card-table mb-4">
-                    <div class="table-header d-flex justify-content-between align-items-center">
-                        <h5 class="m-0 font-weight-bold" style="color: #04091e;">Confirmação de Pagamentos de Reservas</h5>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="loadPayments()"><i class="fa fa-refresh"></i> Atualizar</button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>CÓDIGO RESERVA</th>
-                                    <th>CLIENTE</th>
-                                    <th>VALOR TOTAL</th>
-                                    <th>MÉTODO DE PAGAMENTO</th>
-                                    <th>STATUS DO PAGAMENTO</th>
-                                    <th>DATA TRANSACÇÃO</th>
-                                    <th class="text-center">ACÇÕES</th>
-                                </tr>
-                            </thead>
-                            <tbody id="paymentsTableBody">
-                                <tr>
-                                    <td colspan="7" class="text-center py-4">Carregando pagamentos...</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 3: Gerir Administradores -->
-            <div id="admins-container" class="tab-content" style="display: none;">
-                <div class="card-table mb-4">
-                    <div class="table-header d-flex justify-content-between align-items-center">
-                        <h5 class="m-0 font-weight-bold" style="color: #04091e;">Controle de Administradores do Sistema</h5>
-                        <button class="btn btn-primary btn-sm" onclick="prepareCreateAdmin()" data-toggle="modal" data-target="#adminModal">
-                            <i class="fa fa-user-plus"></i> Novo Administrador
-                        </button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>NOME DO ADMINISTRADOR</th>
-                                    <th>E-MAIL</th>
-                                    <th>TELEFONE</th>
-                                    <th class="text-center">ACÇÕES</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminsTableBody">
-                                <tr>
-                                    <td colspan="5" class="text-center py-4">Carregando administradores...</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 4: Room Availability / Ocupação -->
-            <div id="occupancy-container" class="tab-content" style="display: none;">
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <div class="card p-4 border-0 shadow-sm" style="border-radius:15px;">
-                            <h5 class="mb-4 font-weight-bold" style="color:#04091e;">Distribuição Física de Quartos</h5>
-                            <div class="row text-center">
-                                <div class="col-6 mb-3">
-                                    <div class="p-3 bg-success text-white rounded-lg">
-                                        <h2 id="avail-free-count" class="font-weight-bold">0</h2>
-                                        <p class="m-0">Quartos Livres</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <div class="p-3 bg-danger text-white rounded-lg">
-                                        <h2 id="avail-occupied-count" class="font-weight-bold">0</h2>
-                                        <p class="m-0">Quartos Ocupados</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card p-4 border-0 shadow-sm" style="border-radius:15px; height:100%;">
-                            <h5 class="mb-4 font-weight-bold" style="color:#04091e;">Taxa de Ocupação Atual</h5>
-                            <div class="d-flex align-items-center justify-content-center" style="height: 150px;">
-                                <div class="text-center">
-                                    <h1 id="occupancy-percentage-big" class="font-weight-bold text-primary" style="font-size: 50px;">0%</h1>
-                                    <p class="text-muted text-uppercase mb-0" style="letter-spacing:1px; font-size:12px;">Capacidade Utilizada</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Modal for Admin CRUD -->
-    <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content" style="border-radius: 12px; border:none;">
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title font-weight-bold" id="adminModalTitle" style="color:#04091e;">Novo Administrador</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formAdmin">
-                        <input type="hidden" id="adm_id">
-                        <div class="form-group">
-                            <label class="font-weight-bold" style="font-size:12px;">NOME COMPLETO</label>
-                            <input type="text" class="form-control" id="adm_nome" required placeholder="Nome do Administrador">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold" style="font-size:12px;">E-MAIL</label>
-                            <input type="email" class="form-control" id="adm_email" required placeholder="admin@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold" style="font-size:12px;">TELEFONE</label>
-                            <input type="text" class="form-control" id="adm_tel" required placeholder="N° de Telefone">
-                        </div>
-                        <div class="form-group" id="adm_pass_container">
-                            <label class="font-weight-bold" style="font-size:12px;">SENHA DE ACESSO</label>
-                            <input type="password" class="form-control" id="adm_senha" placeholder="Senha do Administrador">
-                            <small class="text-muted" style="font-size:11px;">Ao editar, deixe em branco para manter a senha atual.</small>
-                        </div>
-                        <div class="text-right mt-4">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa fa-user-secret"></i></div>
+                <div class="feature-text"><strong>Gestao de Administradores</strong>Criar, editar e remover administradores</div>
             </div>
         </div>
     </div>
-
-    <!-- JS -->
-    <script src="../assets/js/jquery-3.2.1.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../assets/js/notify.js"></script>
-    <script src="../assets/js/auth.js"></script>
+    <div class="right-panel">
+        <div class="login-box">
+            <div class="tag"><i class="fa fa-briefcase"></i> Gerente</div>
+            <h2>Bem-vindo!</h2>
+            <p class="sub">Introduza as suas credenciais para aceder ao painel de gestao.</p>
+            <div id="alertBox" class="alert"></div>
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label>Endereco de E-mail</label>
+                    <div class="input-wrap">
+                        <input type="email" id="email" placeholder="gerente@sana.com" required autocomplete="off">
+                        <i class="fa fa-envelope-o icon-left"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Senha de Acesso</label>
+                    <div class="input-wrap">
+                        <input type="password" id="senha" placeholder="**********" required>
+                        <i class="fa fa-lock icon-left"></i>
+                        <i class="fa fa-eye icon-right" id="toggleSenha" onclick="togglePwd()"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn-login" id="btnLogin">
+                    <i class="fa fa-sign-in"></i>&nbsp; Aceder ao Painel
+                </button>
+            </form>
+            <a href="../index.html" class="back-link"><i class="fa fa-arrow-left"></i> Voltar ao site</a>
+        </div>
+    </div>
     <script>
-        $(function () {
-            // Tab switching logic
-            $('.tab-link').on('click', function(e) {
-                e.preventDefault();
-                $('.sidebar-menu li').removeClass('active');
-                $(this).parent().addClass('active');
-
-                var target = $(this).data('target');
-                $('.tab-content').hide();
-                $('#' + target).fadeIn();
-
-                var title = $(this).find('span').text();
-                $('#panel-title-text').text(title);
-            });
-
-            loadEstatisticas();
-            loadPayments();
-            loadAdmins();
-
-            $('#reportPeriodSelectInline').on('change', function() {
-                loadEstatisticas($(this).val());
-            });
-
-            // Stats & charts loader
-            async function loadEstatisticas(period = 'anual') {
-                try {
-                    const res = await fetch(`/tcc_project/api/gerente/estatisticas.php?period=${period}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        
-                        // Populate widgets
-                        $('#gest-total-bookings').text(data.total_bookings);
-                        $('#gest-confirmed-bookings').text(data.confirmed_bookings);
-                        $('#gest-cancellations').text(data.cancelled_bookings);
-                        $('#gest-occupancy-rate').text(data.occupancy_rate + '%');
-                        
-                        // Occupancy Tab values
-                        $('#avail-free-count').text(data.free_rooms);
-                        $('#avail-occupied-count').text(data.occupied_rooms);
-                        $('#occupancy-percentage-big').text(data.occupancy_rate + '%');
-
-                        // Most booked list
-                        var mbHtml = '';
-                        if (data.most_booked.length === 0) {
-                            mbHtml = '<li class="list-group-item text-center">Nenhum quarto reservado.</li>';
-                        } else {
-                            data.most_booked.forEach(mb => {
-                                mbHtml += `
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        ${mb.servico}
-                                        <span class="badge badge-primary badge-pill" style="background:#f3c300; color:#04091e; font-weight:700;">${mb.reservas_count} reservas</span>
-                                    </li>
-                                `;
-                            });
-                        }
-                        $('#most-booked-list').html(mbHtml);
-
-                        // Draw Chart
-                        drawChart(data.monthly_chart.labels, data.monthly_chart.data);
-                    }
-                } catch(e) {
-                    console.error("Erro estatísticas:", e);
+        (async function() {
+            try {
+                var r = await fetch('/tcc_project/api/auth/session.php');
+                var d = await r.json();
+                if (d.authenticated) {
+                    if (d.user.role === 'gerente') window.location.href = '/tcc_project/gerente/dashboard.html';
+                    else if (d.user.role === 'admin') window.location.href = '/tcc_project/admin/dashboard.html';
                 }
-            }
-
-            var currentChart = null;
-            function drawChart(labels, data) {
-                var ctx = document.getElementById('monthlyChart').getContext('2d');
-                if (currentChart) currentChart.destroy();
-                
-                currentChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Volume de Reservas',
-                            data: data,
-                            borderColor: '#d4ab04',
-                            backgroundColor: 'rgba(212, 171, 4, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false }
-                        },
-                        scales: {
-                            y: { beginAtZero: true, ticks: { stepSize: 1 } }
-                        }
-                    }
+            } catch(e) {}
+        })();
+        function togglePwd() {
+            var i = document.getElementById('senha');
+            var ic = document.getElementById('toggleSenha');
+            i.type = i.type === 'password' ? 'text' : 'password';
+            ic.className = 'fa ' + (i.type === 'password' ? 'fa-eye' : 'fa-eye-slash') + ' icon-right';
+        }
+        function showAlert(msg, type) {
+            var el = document.getElementById('alertBox');
+            el.className = 'alert ' + type;
+            el.innerHTML = '<i class="fa fa-' + (type==='error'?'exclamation-circle':'check-circle') + '"></i> ' + msg;
+            el.style.display = 'flex';
+        }
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var btn = document.getElementById('btnLogin');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>&nbsp; A verificar...';
+            document.getElementById('alertBox').style.display = 'none';
+            try {
+                var res = await fetch('/tcc_project/api/auth/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: document.getElementById('email').value.trim(), senha: document.getElementById('senha').value })
                 });
-            }
-
-            // Confirmação de Pagamentos
-            window.loadPayments = async function() {
-                try {
-                    const res = await fetch('/tcc_project/api/gerente/pagamentos.php');
-                    const data = await res.json();
-                    
-                    var html = '';
-                    if (data.length === 0) {
-                        html = '<tr><td colspan="7" class="text-center py-4">Nenhum pagamento localizado.</td></tr>';
-                    } else {
-                        data.forEach(p => {
-                            var statusBadge = '';
-                            if (p.status_pagamento === 'pago') {
-                                statusBadge = '<span class="badge badge-success px-2 py-1">Pago</span>';
-                            } else if (p.status_pagamento === 'cancelado') {
-                                statusBadge = '<span class="badge badge-danger px-2 py-1">Cancelado</span>';
-                            } else {
-                                statusBadge = '<span class="badge badge-warning text-dark px-2 py-1">Pendente</span>';
-                            }
-
-                            var actions = '';
-                            if (p.status_pagamento === 'pendente') {
-                                actions = `<button class="btn btn-sm btn-success confirm-payment-btn" data-id="${p.id_pagamento}"><i class="fa fa-check"></i> Confirmar</button>`;
-                            } else {
-                                actions = '<span class="text-muted small">—</span>';
-                            }
-
-                            html += `
-                                <tr>
-                                    <td><strong>${p.codigo_reserva}</strong></td>
-                                    <td>
-                                        <div><strong>${p.cliente_nome}</strong></div>
-                                        <small class="text-muted">${p.cliente_email}</small>
-                                    </td>
-                                    <td><strong>${p.valor_formatado}</strong></td>
-                                    <td><span class="text-uppercase">${p.metodo_pagamento || '—'}</span></td>
-                                    <td>${statusBadge}</td>
-                                    <td>${p.data_pagamento ? new Date(p.data_pagamento).toLocaleDateString('pt-PT') : '—'}</td>
-                                    <td class="text-center">${actions}</td>
-                                </tr>
-                            `;
-                        });
+                var data = await res.json();
+                if (res.ok && data.user) {
+                    if (data.user.role !== 'gerente') {
+                        showAlert('Esta conta nao tem acesso ao painel do gerente.', 'error');
+                        btn.disabled = false; btn.innerHTML = '<i class="fa fa-sign-in"></i>&nbsp; Aceder ao Painel'; return;
                     }
-                    $('#paymentsTableBody').html(html);
-
-                    $('.confirm-payment-btn').on('click', async function() {
-                        var id = $(this).data('id');
-                        if (!confirm("Deseja marcar este pagamento como Pago?")) return;
-
-                        try {
-                            const res = await fetch('/tcc_project/api/gerente/pagamentos.php', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ id_pagamento: id, status: 'pago' })
-                            });
-                            const result = await res.json();
-                            if (res.ok) {
-                                notify.success(result.message);
-                                loadPayments();
-                                loadEstatisticas();
-                            } else {
-                                notify.error(result.message);
-                            }
-                        } catch(e) {
-                            notify.error("Erro de conexão.");
-                        }
-                    });
-                } catch(e) {
-                    console.error("Erro pagamentos:", e);
-                }
-            };
-
-            // Gerir Administradores
-            let loadedAdminsList = [];
-            async function loadAdmins() {
-                try {
-                    const res = await fetch('/tcc_project/api/gerente/admins.php');
-                    const data = await res.json();
-                    loadedAdminsList = data;
-                    
-                    var html = '';
-                    if (data.length === 0) {
-                        html = '<tr><td colspan="5" class="text-center py-4">Nenhum administrador cadastrado.</td></tr>';
-                    } else {
-                        data.forEach(a => {
-                            html += `
-                                <tr>
-                                    <td>#${a.id_usuario}</td>
-                                    <td><strong>${a.nome}</strong></td>
-                                    <td>${a.email}</td>
-                                    <td>${a.telefone || '—'}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-primary edit-admin-btn" data-id="${a.id_usuario}" data-toggle="modal" data-target="#adminModal"><i class="fa fa-edit"></i> Editar</button>
-                                        <button class="btn btn-sm btn-outline-danger delete-admin-btn ml-1" data-id="${a.id_usuario}"><i class="fa fa-trash"></i> Excluir</button>
-                                    </td>
-                                </tr>
-                            `;
-                        });
-                    }
-                    $('#adminsTableBody').html(html);
-
-                    $('.edit-admin-btn').on('click', function() {
-                        var id = $(this).data('id');
-                        var a = loadedAdminsList.find(item => item.id_usuario == id);
-                        if (a) {
-                            $('#adminModalTitle').text("Editar Administrador");
-                            $('#adm_id').val(a.id_usuario);
-                            $('#adm_nome').val(a.nome);
-                            $('#adm_email').val(a.email);
-                            $('#adm_tel').val(a.telefone);
-                            $('#adm_senha').val('');
-                        }
-                    });
-
-                    $('.delete-admin-btn').on('click', async function() {
-                        var id = $(this).data('id');
-                        if (!confirm("Deseja realmente EXCLUIR esta conta de administrador?")) return;
-
-                        try {
-                            const res = await fetch(`/tcc_project/api/gerente/admins.php?id=${id}`, {
-                                method: 'DELETE'
-                            });
-                            const result = await res.json();
-                            if (res.ok) {
-                                notify.success(result.message);
-                                loadAdmins();
-                            } else {
-                                notify.error(result.message);
-                            }
-                        } catch(e) {
-                            notify.error("Erro de conexão.");
-                        }
-                    });
-
-                } catch(e) {
-                    console.error("Erro admins:", e);
-                }
-            }
-
-            window.prepareCreateAdmin = function() {
-                $('#adminModalTitle').text("Novo Administrador");
-                $('#formAdmin')[0].reset();
-                $('#adm_id').val('');
-            };
-
-            $('#formAdmin').on('submit', async function(e) {
-                e.preventDefault();
-                var id = $('#adm_id').val();
-                var nome = $('#adm_nome').val().trim();
-                var email = $('#adm_email').val().trim();
-                var tel = $('#adm_tel').val().trim();
-                var senha = $('#adm_senha').val();
-
-                var payload = { nome: nome, email: email, telefone: tel, senha: senha };
-                var method = 'POST';
-
-                if (id) {
-                    payload.id_usuario = id;
-                    method = 'PUT';
+                    showAlert('Bem-vindo(a)! A redirecionar...', 'success');
+                    setTimeout(function() { window.location.href = '/tcc_project/gerente/dashboard.html'; }, 800);
                 } else {
-                    if (!senha) {
-                        notify.warning("A senha é obrigatória para novas contas.");
-                        return;
-                    }
+                    showAlert(data.message || 'Credenciais invalidas.', 'error');
+                    btn.disabled = false; btn.innerHTML = '<i class="fa fa-sign-in"></i>&nbsp; Aceder ao Painel';
                 }
-
-                try {
-                    const res = await fetch('/tcc_project/api/gerente/admins.php', {
-                        method: method,
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    const result = await res.json();
-                    if (res.ok) {
-                        notify.success(result.message);
-                        $('#adminModal').modal('hide');
-                        loadAdmins();
-                    } else {
-                        notify.error(result.message);
-                    }
-                } catch(e) {
-                    notify.error("Erro de conexão.");
-                }
-            });
-
+            } catch(err) {
+                showAlert('Erro de conexao. Verifique se o servidor esta activo.', 'error');
+                btn.disabled = false; btn.innerHTML = '<i class="fa fa-sign-in"></i>&nbsp; Aceder ao Painel';
+            }
         });
     </script>
 </body>

@@ -1,5 +1,4 @@
 <?php
-// api/admin/reservas.php
 session_start();
 header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
@@ -14,140 +13,129 @@ $database = new Database();
 $db = $database->getConnection();
 $method = $_SERVER['REQUEST_METHOD'];
 
-// ─── GET ──────────────────────────────────────────────────────────────────────
-if ($method == 'GET') {
-    $status = isset($_GET['status']) ? $_GET['status'] : null;
-    $id     = isset($_GET['id'])     ? (int)$_GET['id'] : null;
+if ($method === 'GET') {
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $status = isset($_GET['status']) ? trim($_GET['status']) : '';
 
-    $where = [];
+    $sql = "SELECT r.id_reserva, r.codigo_reserva,
+                   r.data_reserva, r.data_checkin, r.data_checkout,
+                   r.status_reserva AS status,
+                   r.n_pessoa,
+                   s.tipos_servicos AS servico,
+                   s.`preço`        AS preco_noite,
+                   u.nome           AS cliente_nome,
+                   u.email          AS cliente_email,
+                   c.telemovel      AS cliente_telefone
+            FROM reserva r
+            LEFT JOIN `serviço` s ON r.`id_serviço` = s.`id_serviço`
+            LEFT JOIN cliente   c ON r.id_cliente    = c.id_cliente
+            LEFT JOIN usuario   u ON c.id_usuario    = u.id_usuario
+            WHERE 1=1";
+
     $params = [];
 
-    if ($id) {
-        $where[] = "r.id_reserva = :id";
-        $params[':id'] = $id;
+    if ($search !== '') {
+        $sql .= " AND (u.nome LIKE :search OR r.codigo_reserva LIKE :search OR u.email LIKE :search)";
+        $params[':search'] = '%' . $search . '%';
     }
-    if ($status && $status !== 'Todas') {
-        $where[] = "r.status = :status";
+    if ($status !== '') {
+        $sql .= " AND r.status_reserva = :status";
         $params[':status'] = $status;
     }
 
-    $sql = "SELECT 
-                r.id_reserva,
-                r.codigo_reserva,
-                r.data_checkin,
-                r.data_checkout,
-                r.status,
-                r.n_pessoa,
-                r.observacoes,
-                r.valor_total,
-                u.nome  AS cliente_nome,
-                u.email AS cliente_email,
-                s.tipos_servicos AS servico
-            FROM reserva r
-            JOIN cliente c  ON r.id_cliente = c.id_cliente
-            JOIN usuario u  ON c.id_usuario = u.id_usuario
-            JOIN `serviço` s ON r.`id_serviço` = s.`id_serviço`"
-        . (count($where) ? " WHERE " . implode(' AND ', $where) : "")
-        . " ORDER BY r.id_reserva DESC";
+    $sql .= " ORDER BY r.id_reserva DESC";
 
-    $stmt = $db->prepare($sql);
-    $stmt->execute($params);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    http_response_code(200);
-    echo json_encode($id ? ($rows[0] ?? null) : $rows);
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular dias e preco total
+        foreach ($rows as &$row) {
+            if (!empty($row['data_checkin']) && !empty($row['data_checkout'])) {
+                $d1 = new DateTime($row['data_checkin']);
+                $d2 = new DateTime($row['data_checkout']);
+                $dias = max(1, $d1->diff($d2)->days);
+                $row['dias'] = $dias;
+                $row['preco_total'] = ($row['preco_noite'] ?? 0) * $dias;
+            }
+        }
+        
+        http_response_code(200);
+        echo json_encode($rows);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["message" => "Erro SQL: " . $e->getMessage()]);
+    }
+    exit;
 }
 
-// ─── PUT (trocar status) ──────────────────────────────────────────────────────
-else if ($method == 'PUT') {
+if ($method === 'PUT') {
     $data = json_decode(file_get_contents("php://input"));
 
     if (empty($data->id_reserva) || empty($data->status)) {
         http_response_code(400);
-        echo json_encode(["message" => "Dados incompletos (id_reserva + status)."]);
+        echo json_encode(["message" => "Dados incompletos."]);
         exit;
     }
 
-    $validStatuses = ['pendente','aprovada','confirmada','cancelada','check-in','check-out','concluida'];
-    if (!in_array($data->status, $validStatuses)) {
+    $valid = ['pendente','aprovada','confirmada','cancelada','check-in','check-out','concluida'];
+    if (!in_array($data->status, $valid)) {
         http_response_code(400);
-        echo json_encode(["message" => "Status inválido."]);
+        echo json_encode(["message" => "Status invalido."]);
         exit;
     }
 
     try {
-        $stmt = $db->prepare("UPDATE reserva SET status = :status WHERE id_reserva = :id");
+        $stmt = $db->prepare("UPDATE reserva SET status_reserva = :status WHERE id_reserva = :id");
         $stmt->execute([':status' => $data->status, ':id' => $data->id_reserva]);
 
-        // Notificação ao cliente
-        $qInfo = "SELECT id_cliente, codigo_reserva FROM reserva WHERE id_reserva = :id LIMIT 1";
-        $sInfo = $db->prepare($qInfo);
-        $sInfo->execute([':id' => $data->id_reserva]);
-        $resInfo = $sInfo->fetch(PDO::FETCH_ASSOC);
+        // Notificacao
+        $qI = "SELECT id_cliente, codigo_reserva FROM reserva WHERE id_reserva = :id LIMIT 1";
+        $sI = $db->prepare($qI);
+        $sI->execute([':id' => $data->id_reserva]);
+        $ri = $sI->fetch(PDO::FETCH_ASSOC);
 
-        if ($resInfo && !empty($resInfo['id_cliente'])) {
-            $msgs = [
-                'aprovada'   => "A sua reserva {$resInfo['codigo_reserva']} foi APROVADA.",
-                'cancelada'  => "A sua reserva {$resInfo['codigo_reserva']} foi CANCELADA.",
-                'confirmada' => "A sua reserva {$resInfo['codigo_reserva']} foi CONFIRMADA.",
-                'check-in'   => "Check-in realizado com sucesso para {$resInfo['codigo_reserva']}. Bem-vindo!",
-                'check-out'  => "Check-out realizado com sucesso para {$resInfo['codigo_reserva']}. Obrigado!",
-                'concluida'  => "A sua reserva {$resInfo['codigo_reserva']} foi CONCLUÍDA.",
+        if ($ri && !empty($ri['id_cliente'])) {
+            $msgMap = [
+                'aprovada'  => "A sua reserva {$ri['codigo_reserva']} foi APROVADA.",
+                'cancelada' => "A sua reserva {$ri['codigo_reserva']} foi cancelada.",
+                'check-in'  => "Check-in realizado para {$ri['codigo_reserva']}. Bem-vindo!",
+                'check-out' => "Check-out realizado para {$ri['codigo_reserva']}. Obrigado!",
             ];
-            $msg = $msgs[$data->status] ?? null;
-            if ($msg) {
-                $qN = "INSERT INTO notificacao (id_cliente, mensagem, lida, data_criacao) VALUES (:id_cliente, :msg, 0, NOW())";
-                $sN = $db->prepare($qN);
-                $sN->execute([':id_cliente' => $resInfo['id_cliente'], ':msg' => $msg]);
+            if (isset($msgMap[$data->status])) {
+                try {
+                    $qN = "INSERT INTO notificacao (id_cliente, mensagem, lida, data_criacao) VALUES (:c,:m,0,NOW())";
+                    $sN = $db->prepare($qN);
+                    $sN->execute([':c' => $ri['id_cliente'], ':m' => $msgMap[$data->status]]);
+                } catch (Exception $ignored) {}
             }
         }
 
         http_response_code(200);
-        echo json_encode(["message" => "Reserva actualizada para '{$data->status}' com sucesso."]);
+        echo json_encode(["message" => "Reserva actualizada para '{$data->status}'."]);
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(["message" => "Erro: " . $e->getMessage()]);
     }
+    exit;
 }
 
-// ─── POST (criar reserva manual pelo admin) ───────────────────────────────────
-else if ($method == 'POST') {
-    $data = json_decode(file_get_contents("php://input"));
-    // Suporte ao formato antigo: novo_status
-    if (!empty($data->id_reserva) && !empty($data->novo_status)) {
-        $data->status = $data->novo_status;
-        // Redirecionar para lógica PUT
-        $_SERVER['REQUEST_METHOD'] = 'PUT';
-        $stmt = $db->prepare("UPDATE reserva SET status = :status WHERE id_reserva = :id");
-        if ($stmt->execute([':status' => $data->novo_status, ':id' => $data->id_reserva])) {
-            http_response_code(200);
-            echo json_encode(["message" => "Status actualizado para '{$data->novo_status}'."]);
-        } else {
-            http_response_code(500);
-            echo json_encode(["message" => "Erro ao actualizar."]);
-        }
-        exit;
-    }
-    http_response_code(400);
-    echo json_encode(["message" => "Acção não suportada via POST. Use PUT para actualizar status."]);
-}
-
-// ─── DELETE ───────────────────────────────────────────────────────────────────
-else if ($method == 'DELETE') {
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
-    if (!$id) { http_response_code(400); echo json_encode(["message" => "ID não fornecido."]); exit; }
-    $stmt = $db->prepare("DELETE FROM reserva WHERE id_reserva = :id");
-    if ($stmt->execute([':id' => $id])) {
+if ($method === 'DELETE') {
+    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    if (!$id) { http_response_code(400); echo json_encode(["message" => "ID em falta."]); exit; }
+    try {
+        $stmt = $db->prepare("DELETE FROM reserva WHERE id_reserva = :id");
+        $stmt->execute([':id' => $id]);
         http_response_code(200);
-        echo json_encode(["message" => "Reserva eliminada com sucesso."]);
-    } else {
+        echo json_encode(["message" => "Reserva eliminada."]);
+    } catch (Exception $e) {
         http_response_code(500);
-        echo json_encode(["message" => "Erro ao eliminar reserva."]);
+        echo json_encode(["message" => "Erro: " . $e->getMessage()]);
     }
+    exit;
 }
 
-else {
-    http_response_code(405);
-    echo json_encode(["message" => "Método não permitido."]);
-}
+http_response_code(405);
+echo json_encode(["message" => "Metodo nao permitido."]);
 ?>

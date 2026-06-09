@@ -3,109 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagens - Epic Sana Receção</title>
+    <title>Mensagens - Recepcao Epic Sana</title>
     <link rel="icon" href="../assets/image/favicon.png" type="image/png">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <style>
-        .chat-container { height: calc(100vh - 200px); display: flex; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .chat-list { width: 300px; border-right: 1px solid #eee; display: flex; flex-direction: column; }
-        .chat-box { flex: 1; display: flex; flex-direction: column; }
-        .chat-item { padding: 15px; border-bottom: 1px solid #f9f9f9; cursor: pointer; transition: 0.3s; }
-        .chat-item:hover, .chat-item.active { background: #f4f7f6; }
-        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: #f9f9f9; }
-        .message { margin-bottom: 15px; display: flex; flex-direction: column; }
-        .message.sent { align-items: flex-end; }
-        .message.received { align-items: flex-start; }
-        .message-content { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 14px; }
-        .sent .message-content { background: #d4ab04; color: white; border-bottom-right-radius: 2px; }
-        .received .message-content { background: white; color: #333; border-bottom-left-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .message-time { font-size: 10px; color: #999; margin-top: 5px; }
-        .chat-input-area { padding: 20px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .content-wrapper { padding: 20px; height: calc(100vh - 70px); display: flex; flex-direction: column; }
+        .chat-wrapper { display: flex; flex: 1; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.07); min-height: 0; }
+
+        /* Sidebar de conversas */
+        .conv-list { width: 310px; min-width: 310px; border-right: 1px solid #f0f0f0; display: flex; flex-direction: column; }
+        .conv-header { padding: 20px 20px 16px; border-bottom: 1px solid #f5f5f5; }
+        .conv-header h6 { margin: 0; font-weight: 700; color: #04091e; font-size: 15px; }
+        .conv-search { margin-top: 12px; position: relative; }
+        .conv-search input { width: 100%; padding: 9px 14px 9px 36px; border: 1.5px solid #eee; border-radius: 10px; font-size: 13px; font-family: 'Poppins', sans-serif; outline: none; color: #333; transition: 0.2s; }
+        .conv-search input:focus { border-color: #d4ab04; }
+        .conv-search i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #ccc; font-size: 13px; }
+        .conv-items { flex: 1; overflow-y: auto; }
+        .conv-item { padding: 14px 20px; cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #fafafa; position: relative; }
+        .conv-item:hover { background: #fafafa; }
+        .conv-item.active { background: #fff8e1; border-left: 3px solid #d4ab04; }
+        .conv-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #d4ab04, #f3c300); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #04091e; font-size: 16px; flex-shrink: 0; }
+        .conv-info { flex: 1; min-width: 0; }
+        .conv-info .conv-name { font-weight: 600; font-size: 13px; color: #04091e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .conv-info .conv-preview { font-size: 11px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+        .conv-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+        .conv-time { font-size: 10px; color: #bbb; white-space: nowrap; }
+        .conv-unread { background: #d4ab04; color: #04091e; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+        .no-convs { padding: 40px 20px; text-align: center; color: #bbb; font-size: 13px; }
+        .no-convs i { font-size: 40px; margin-bottom: 12px; display: block; color: #ddd; }
+
+        /* Painel do chat */
+        .chat-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+        .chat-top-bar { padding: 16px 24px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 14px; background: #fff; }
+        .chat-top-bar .chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #d4ab04, #f3c300); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #04091e; font-size: 15px; }
+        .chat-top-bar .chat-user-info { flex: 1; }
+        .chat-top-bar .chat-user-info strong { display: block; font-size: 14px; color: #04091e; }
+        .chat-top-bar .chat-user-info span { font-size: 11px; color: #28a745; }
+        .chat-messages { flex: 1; padding: 20px 24px; overflow-y: auto; background: #f8f9fb; display: flex; flex-direction: column; gap: 12px; }
+        .chat-empty { margin: auto; text-align: center; color: #ccc; }
+        .chat-empty i { font-size: 48px; display: block; margin-bottom: 12px; }
+        .chat-empty p { font-size: 13px; }
+        .msg-row { display: flex; flex-direction: column; }
+        .msg-row.sent { align-items: flex-end; }
+        .msg-row.received { align-items: flex-start; }
+        .msg-bubble { max-width: 68%; padding: 10px 16px; border-radius: 18px; font-size: 13px; line-height: 1.5; word-wrap: break-word; }
+        .msg-row.sent .msg-bubble { background: linear-gradient(135deg, #d4ab04, #f3c300); color: #04091e; border-bottom-right-radius: 4px; font-weight: 500; }
+        .msg-row.received .msg-bubble { background: #fff; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+        .msg-time { font-size: 10px; color: #bbb; margin-top: 4px; padding: 0 4px; }
+        .msg-sender { font-size: 10px; color: #aaa; margin-bottom: 3px; font-weight: 600; }
+        .chat-input-area { padding: 16px 24px; border-top: 1px solid #f0f0f0; background: #fff; display: flex; align-items: flex-end; gap: 12px; }
+        .chat-input-area textarea { flex: 1; border: 1.5px solid #eee; border-radius: 14px; padding: 12px 16px; font-size: 13px; font-family: 'Poppins', sans-serif; resize: none; outline: none; transition: 0.2s; max-height: 120px; line-height: 1.5; color: #333; }
+        .chat-input-area textarea:focus { border-color: #d4ab04; }
+        .btn-send { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, #d4ab04, #f3c300); border: none; color: #04091e; font-size: 16px; cursor: pointer; transition: 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .btn-send:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(212,171,4,0.4); }
+        .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Empty state */
+        .chat-no-selection { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ccc; gap: 16px; }
+        .chat-no-selection i { font-size: 60px; }
+        .chat-no-selection p { font-size: 14px; }
     </style>
 </head>
 <body>
+<aside class="sidebar">
+    <div class="sidebar-header"><a href="dashboard.html"><img src="../assets/image/Logo.png" alt="Epic Sana"></a></div>
+    <div class="sidebar-menu">
+        <ul>
+            <li><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
+            <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
+            <li class="active"><a href="mensagens.html"><i class="fa fa-comments-o"></i><span>Mensagens</span></a></li>
+        </ul>
+    </div>
+    <div class="sidebar-footer"><button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button></div>
+</aside>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <a href="index.html">
-                <img src="../assets/image/Logo.png" alt="Epic Sana">
-            </a>
+<main class="main-content">
+    <header class="top-header">
+        <div class="page-title"><h4>Chat com Hospedes</h4></div>
+        <div class="user-profile">
+            <div class="user-info"><span class="name user-name-display">Recepcionista</span><span class="role user-role-display">RECEPCIONISTA</span></div>
+            <div class="user-avatar"><img src="../assets/image/img/user.png" alt="User"></div>
         </div>
-        <div class="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="index.html">
-                        <i class="fa fa-desktop"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="mensagens.html">
-                        <i class="fa fa-comments-o"></i>
-                        <span>Mensagens (Chat)</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="sidebar-footer">
-            <button class="btn-logout" onclick="logout()">
-                <i class="fa fa-sign-out"></i> Sair
-            </button>
-        </div>
-    </aside>
+    </header>
+    <div class="content-wrapper">
+        <div class="chat-wrapper">
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Header -->
-        <header class="top-header">
-            <div class="page-title"><h4>Centro de Mensagens (Receção)</h4></div>
-            <div class="user-profile">
-                <div class="user-info">
-                    <span class="name user-name-display">Recepcionista</span>
-                    <span class="role user-role-display">RECEPCIONISTA</span>
+            <!-- Lista de Conversas -->
+            <div class="conv-list">
+                <div class="conv-header">
+                    <h6><i class="fa fa-comments" style="color:#d4ab04;margin-right:6px;"></i> Conversas</h6>
+                    <div class="conv-search">
+                        <i class="fa fa-search"></i>
+                        <input type="text" id="convSearch" placeholder="Pesquisar hospede..." oninput="filterConversas()">
+                    </div>
                 </div>
-                <div class="user-avatar">
-                    <img src="../assets/image/img/user.png" alt="Recep">
+                <div class="conv-items" id="convList">
+                    <div class="no-convs"><i class="fa fa-spinner fa-spin"></i><p>A carregar...</p></div>
                 </div>
             </div>
-        </header>
 
-        <!-- Content -->
-        <div class="content-wrapper">
-            <div class="chat-container">
-                <div class="chat-list">
-                    <div class="p-3 border-bottom"><input type="text" class="form-control form-control-sm" placeholder="Procurar conversa..."></div>
-                    <div id="chat-list-body" class="overflow-auto" style="flex: 1;">
-                        <p class="text-center p-4 small text-muted">Carregando conversas...</p>
-                    </div>
-                </div>
-                <div class="chat-box">
-                    <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-white">
-                        <h6 class="mb-0" id="chat-with-name">Selecione uma conversa</h6>
-                    </div>
-                    <div id="chat-messages-body" class="chat-messages">
-                        <div class="text-center mt-5 text-muted"><i class="fa fa-comments-o fa-3x mb-3"></i><p>Selecione um utente à esquerda para iniciar o atendimento.</p></div>
-                    </div>
-                    <div class="chat-input-area bg-white">
-                        <input type="text" id="recep-chat-input" class="form-control" placeholder="Escreva sua resposta aqui...">
-                        <button class="btn" id="btn-send-message" style="background: #d4ab04; color: white;"><i class="fa fa-paper-plane"></i></button>
-                    </div>
+            <!-- Painel do Chat -->
+            <div class="chat-panel" id="chatPanel">
+                <div class="chat-no-selection">
+                    <i class="fa fa-comment-o"></i>
+                    <p>Selecione uma conversa para comecar</p>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <!-- JS -->
-    <script src="../assets/js/jquery-3.2.1.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/notify.js"></script>
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/recepcionista-mensagens.js"></script>
+        </div>
+    </div>
+</main>
+
+<script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/popper.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/notify.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+var allConversas = [];
+var currentUserId = null;
+var currentUserName = '';
+var pollInterval = null;
+var myId = null;
+
+// Obter o ID do utilizador actual da sessao
+$(function() {
+    fetch('/tcc_project/api/auth/session.php')
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+            if (d.authenticated) {
+                myId = d.user.id;
+                loadConversas();
+                setInterval(loadConversas, 15000);
+            }
+        });
+});
+
+async function loadConversas() {
+    try {
+        var res = await fetch('/tcc_project/api/recepcionista/conversas.php');
+        allConversas = await res.json();
+        if (!Array.isArray(allConversas)) allConversas = [];
+        renderConversas(allConversas);
+    } catch(e) { console.error('Conversas error:', e); }
+}
+
+function filterConversas() {
+    var q = ($('#convSearch').val()||'').toLowerCase();
+    var filtered = q ? allConversas.filter(function(c){ return (c.nome||'').toLowerCase().includes(q); }) : allConversas;
+    renderConversas(filtered);
+}
+
+function renderConversas(list) {
+    if (!list.length) {
+        $('#convList').html('<div class="no-convs"><i class="fa fa-inbox"></i><p>Nenhuma conversa ainda.<br>Aguarde mensagens dos hospedes.</p></div>');
+        return;
+    }
+    var html = '';
+    list.forEach(function(c) {
+        var initial = (c.nome||'?').charAt(0).toUpperCase();
+        var preview = c.ultima_mensagem ? (c.ultima_mensagem.length > 35 ? c.ultima_mensagem.substring(0,35)+'...' : c.ultima_mensagem) : 'Sem mensagens';
+        var time = c.data_ultima ? formatTime(c.data_ultima) : '';
+        var unread = parseInt(c.nao_lidas||0);
+        var unreadHtml = unread > 0 ? '<div class="conv-unread">' + (unread > 9 ? '9+' : unread) + '</div>' : '';
+        var activeClass = currentUserId == c.id_usuario ? ' active' : '';
+        html += '<div class="conv-item' + activeClass + '" onclick="openChat(' + c.id_usuario + ', \'' + escapeStr(c.nome) + '\')">' +
+            '<div class="conv-avatar">' + initial + '</div>' +
+            '<div class="conv-info">' +
+            '<div class="conv-name">' + (c.nome||'--') + '</div>' +
+            '<div class="conv-preview">' + preview + '</div>' +
+            '</div>' +
+            '<div class="conv-meta"><span class="conv-time">' + time + '</span>' + unreadHtml + '</div>' +
+            '</div>';
+    });
+    $('#convList').html(html);
+}
+
+function openChat(userId, userName) {
+    currentUserId = userId;
+    currentUserName = userName;
+
+    // Highlight active conversation
+    $('.conv-item').removeClass('active');
+    $('.conv-item').each(function() {
+        if ($(this).attr('onclick').includes('openChat(' + userId + ',')) $(this).addClass('active');
+    });
+
+    // Build chat panel
+    var initial = userName.charAt(0).toUpperCase();
+    $('#chatPanel').html(
+        '<div class="chat-top-bar">' +
+        '<div class="chat-avatar">' + initial + '</div>' +
+        '<div class="chat-user-info"><strong>' + userName + '</strong><span>Online</span></div>' +
+        '</div>' +
+        '<div class="chat-messages" id="chatMessages"><div class="chat-empty"><i class="fa fa-spinner fa-spin"></i></div></div>' +
+        '<div class="chat-input-area">' +
+        '<textarea id="msgInput" placeholder="Escreva uma mensagem..." rows="1" onkeydown="handleKey(event)"></textarea>' +
+        '<button class="btn-send" onclick="sendMessage()" id="sendBtn" title="Enviar"><i class="fa fa-paper-plane"></i></button>' +
+        '</div>'
+    );
+
+    loadMessages();
+    if (pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(loadMessages, 3000);
+}
+
+async function loadMessages() {
+    if (!currentUserId) return;
+    try {
+        var res = await fetch('/tcc_project/api/mensagens/chat.php?destinatario_id=' + currentUserId);
+        var msgs = await res.json();
+        if (!Array.isArray(msgs)) return;
+
+        var container = $('#chatMessages');
+        var wasAtBottom = container[0].scrollTop + container[0].clientHeight >= container[0].scrollHeight - 30;
+
+        if (!msgs.length) {
+            container.html('<div class="chat-empty"><i class="fa fa-comment-o"></i><p>Sem mensagens ainda. Aguarde o hospede entrar em contacto.</p></div>');
+            return;
+        }
+
+        var html = '';
+        msgs.forEach(function(m) {
+            var isSent = m.remetente_id == myId;
+            var tipo = isSent ? 'sent' : 'received';
+            var time = m.data_envio ? formatTime(m.data_envio) : '';
+            html += '<div class="msg-row ' + tipo + '">' +
+                (!isSent ? '<div class="msg-sender">' + (m.remetente_nome||'Hospede') + '</div>' : '') +
+                '<div class="msg-bubble">' + escapeHtml(m.conteudo) + '</div>' +
+                '<div class="msg-time">' + time + '</div>' +
+                '</div>';
+        });
+        container.html(html);
+
+        if (wasAtBottom) container.scrollTop(container[0].scrollHeight);
+    } catch(e) { console.error('Msgs error:', e); }
+}
+
+function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage() {
+    var msg = ($('#msgInput').val()||'').trim();
+    if (!msg || !currentUserId) return;
+
+    $('#sendBtn').prop('disabled', true);
+    $('#msgInput').val('');
+
+    try {
+        var res = await fetch('/tcc_project/api/mensagens/chat.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ conteudo: msg, destinatario_id: currentUserId })
+        });
+        var d = await res.json();
+        if (res.ok || res.status === 201) {
+            await loadMessages();
+            loadConversas();
+        } else {
+            notify.error(d.message || 'Erro ao enviar.');
+        }
+    } catch(e) {
+        notify.error('Erro de ligacao.');
+    } finally {
+        $('#sendBtn').prop('disabled', false);
+    }
+}
+
+// Helpers
+function formatTime(dateStr) {
+    if (!dateStr) return '';
+    var d = new Date(dateStr);
+    var now = new Date();
+    var isToday = d.toDateString() === now.toDateString();
+    if (isToday) return d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' }) + ' ' + d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+}
+
+function escapeStr(s) { return (s||'').replace(/'/g, "\\'"); }
+
+function escapeHtml(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+</script>
 </body>
 </html>

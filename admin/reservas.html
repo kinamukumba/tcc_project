@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -10,9 +10,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <style>
-        .filter-bar { background:#fff; border-radius:12px; padding:16px 20px; margin-bottom:20px; box-shadow:0 2px 12px rgba(0,0,0,0.05); display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-        .filter-btn { padding:6px 16px; border-radius:20px; font-size:12px; font-weight:600; border:2px solid #dee2e6; background:transparent; color:#666; cursor:pointer; transition:0.2s; }
-        .filter-btn.active, .filter-btn:hover { border-color:#d4ab04; background:#d4ab04; color:#04091e; }
+        .filter-bar{background:#fff;border-radius:12px;padding:14px 20px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.05);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+        .fb{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;border:2px solid #dee2e6;background:transparent;color:#666;cursor:pointer;transition:.2s}
+        .fb.active,.fb:hover{border-color:#d4ab04;background:#d4ab04;color:#04091e}
+        .badge-status{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        .bs-pendente{background:#fff3cd;color:#856404}
+        .bs-aprovada{background:#d4edda;color:#155724}
+        .bs-rejeitada{background:#f8d7da;color:#721c24}
+        .bs-check-in{background:#e2d9f3;color:#4a235a}
+        .bs-check-out{background:#e2e3e5;color:#383d41}
+        .bs-cancelada{background:#f8d7da;color:#721c24}
+        .bs-concluida{background:#d6d8db;color:#1b1e21}
+        .readonly-notice{background:#fff8e1;border:1.5px solid #d4ab04;border-radius:10px;padding:12px 18px;font-size:13px;color:#856404;margin-bottom:20px;display:flex;align-items:center;gap:10px}
     </style>
 </head>
 <body>
@@ -22,16 +31,17 @@
         <ul>
             <li><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
             <li class="active"><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
-            <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utentes &amp; Recepcionistas</span></a></li>
+            <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utilizadores</span></a></li>
             <li><a href="servicos.html"><i class="fa fa-bed"></i><span>Servicos &amp; Quartos</span></a></li>
             <li><a href="relatorios.html"><i class="fa fa-bar-chart"></i><span>Relatorios</span></a></li>
         </ul>
     </div>
     <div class="sidebar-footer"><button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button></div>
 </aside>
+
 <main class="main-content">
     <header class="top-header">
-        <div class="page-title"><h4>Gestao de Reservas</h4></div>
+        <div class="page-title"><h4>Reservas - Visualizacao</h4></div>
         <div class="user-profile">
             <div class="user-info"><span class="name user-name-display">Admin</span><span class="role user-role-display">ADMIN</span></div>
             <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Admin"></div>
@@ -39,42 +49,46 @@
     </header>
     <div class="content-wrapper">
 
-        <!-- Filter Bar -->
-        <div class="filter-bar">
-            <span style="font-weight:600;font-size:13px;color:#444;">Filtrar:</span>
-            <button class="filter-btn active" onclick="applyFilter(this,'Todas')">Todas</button>
-            <button class="filter-btn" onclick="applyFilter(this,'pendente')">Pendentes</button>
-            <button class="filter-btn" onclick="applyFilter(this,'aprovada')">Aprovadas</button>
-            <button class="filter-btn" onclick="applyFilter(this,'confirmada')">Confirmadas</button>
-            <button class="filter-btn" onclick="applyFilter(this,'check-in')">Check-in</button>
-            <button class="filter-btn" onclick="applyFilter(this,'check-out')">Check-out</button>
-            <button class="filter-btn" onclick="applyFilter(this,'cancelada')">Canceladas</button>
-            <div class="ml-auto">
-                <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Pesquisar utente ou codigo..." style="max-width:220px;" oninput="filterSearch()">
+        <div class="readonly-notice">
+            <i class="fa fa-info-circle fa-lg"></i>
+            <div>
+                <strong>Modo de Leitura:</strong> A gestao de reservas (aprovar, rejeitar, check-in, check-out) e da responsabilidade da <strong>Recepcionista</strong>.
+                O administrador pode consultar mas nao alterar o estado das reservas.
             </div>
         </div>
 
-        <!-- Table -->
+        <div class="filter-bar">
+            <span style="font-weight:600;font-size:13px;color:#444">Filtrar:</span>
+            <button class="fb active" onclick="applyFilter(this,'')">Todas</button>
+            <button class="fb" onclick="applyFilter(this,'pendente')">Pendentes</button>
+            <button class="fb" onclick="applyFilter(this,'aprovada')">Aprovadas</button>
+            <button class="fb" onclick="applyFilter(this,'rejeitada')">Rejeitadas</button>
+            <button class="fb" onclick="applyFilter(this,'check-in')">Check-in</button>
+            <button class="fb" onclick="applyFilter(this,'check-out')">Check-out</button>
+            <button class="fb" onclick="applyFilter(this,'concluida')">Concluidas</button>
+            <div class="ml-auto">
+                <input type="text" id="searchInput" class="form-control form-control-sm"
+                       placeholder="Pesquisar hospede ou codigo..." style="max-width:230px"
+                       oninput="searchLocal()">
+            </div>
+        </div>
+
         <div class="card-table">
             <div class="table-header d-flex justify-content-between align-items-center">
-                <h5 class="m-0 font-weight-bold" style="color:#04091e;">Todas as Reservas</h5>
-                <span id="reservaCount" class="text-muted" style="font-size:12px;"></span>
+                <h5 class="m-0 font-weight-bold" style="color:#04091e">Todas as Reservas</h5>
+                <span id="countLabel" class="text-muted" style="font-size:12px"></span>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>CODIGO</th>
-                            <th>UTENTE</th>
-                            <th>SERVICO</th>
-                            <th>CHECK-IN</th>
-                            <th>CHECK-OUT</th>
-                            <th>STATUS</th>
-                            <th class="text-center">ACOES</th>
+                            <th>CODIGO</th><th>HOSPEDE</th><th>SERVICO</th>
+                            <th>CHECK-IN</th><th>CHECK-OUT</th>
+                            <th>PRECO/NOITE</th><th>STATUS</th><th class="text-center">DETALHE</th>
                         </tr>
                     </thead>
                     <tbody id="reservasBody">
-                        <tr><td colspan="7" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i> A carregar...</td></tr>
+                        <tr><td colspan="8" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -82,174 +96,116 @@
     </div>
 </main>
 
-<!-- Modal Detalhes / Alterar Status -->
-<div class="modal fade" id="reservaModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Modal Detalhes (read-only) -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content" style="border-radius:14px;border:none;">
+        <div class="modal-content" style="border-radius:14px;border:none">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title font-weight-bold" style="color:#04091e;">Detalhes da Reserva</h5>
+                <h5 class="modal-title font-weight-bold" style="color:#04091e">Detalhes da Reserva</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
-            <div class="modal-body" id="reservaModalBody">A carregar...</div>
-            <div class="modal-footer border-0" id="reservaModalActions"></div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer border-0">
+                <button class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/popper.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
 <script src="../assets/js/notify.js"></script>
 <script src="../assets/js/auth.js"></script>
 <script>
-var allReservas = [];
-var currentFilter = 'Todas';
-
-var STATUS_LABELS = {
-    'pendente':   '<span class="badge" style="background:#ffc107;color:#000;padding:4px 10px;border-radius:20px;font-size:11px;">Pendente</span>',
-    'aprovada':   '<span class="badge" style="background:#28a745;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;">Aprovada</span>',
-    'confirmada': '<span class="badge" style="background:#17a2b8;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;">Confirmada</span>',
-    'cancelada':  '<span class="badge" style="background:#dc3545;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;">Cancelada</span>',
-    'check-in':   '<span class="badge" style="background:#6f42c1;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;">Check-in</span>',
-    'check-out':  '<span class="badge" style="background:#6c757d;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;">Check-out</span>',
-    'concluida':  '<span class="badge" style="background:#04091e;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;">Concluida</span>'
+var SL = {
+    'pendente':  '<span class="badge-status bs-pendente">Pendente</span>',
+    'aprovada':  '<span class="badge-status bs-aprovada">Aprovada</span>',
+    'rejeitada': '<span class="badge-status bs-rejeitada">Rejeitada</span>',
+    'check-in':  '<span class="badge-status bs-check-in">Check-in</span>',
+    'check-out': '<span class="badge-status bs-check-out">Check-out</span>',
+    'cancelada': '<span class="badge-status bs-cancelada">Cancelada</span>',
+    'concluida': '<span class="badge-status bs-concluida">Concluida</span>'
 };
+var allData = [], currentStatus = '';
 
-$(function() { loadReservas(); });
+$(function(){ loadAll(); });
 
-async function loadReservas() {
+async function loadAll() {
+    var url = '/tcc_project/api/admin/reservas.php';
+    if (currentStatus) url += '?status=' + encodeURIComponent(currentStatus);
     try {
-        var res = await fetch('/tcc_project/api/admin/reservas.php');
-        allReservas = await res.json();
-        if (!Array.isArray(allReservas)) allReservas = allReservas.reservas || [];
-        renderTable(allReservas);
-    } catch(e) {
-        $('#reservasBody').html('<tr><td colspan="7" class="text-center text-danger">Erro ao carregar reservas.</td></tr>');
-    }
+        var res = await fetch(url);
+        allData = await res.json();
+        if (!Array.isArray(allData)) allData = [];
+        renderTable(allData);
+    } catch(e) { console.error(e); }
 }
 
 function applyFilter(btn, status) {
-    $('.filter-btn').removeClass('active');
-    $(btn).addClass('active');
-    currentFilter = status;
-    filterSearch();
+    $('.fb').removeClass('active'); $(btn).addClass('active');
+    currentStatus = status; loadAll();
 }
-
-function filterSearch() {
-    var q = ($('#searchInput').val() || '').toLowerCase();
-    var list = allReservas;
-    if (currentFilter !== 'Todas') list = list.filter(function(r){ return r.status === currentFilter; });
-    if (q) list = list.filter(function(r){
+function searchLocal() {
+    var q = ($('#searchInput').val()||'').toLowerCase();
+    var list = q ? allData.filter(function(r){
         return (r.cliente_nome||'').toLowerCase().includes(q) ||
-               (r.codigo_reserva||'').toLowerCase().includes(q) ||
-               (r.servico||'').toLowerCase().includes(q);
-    });
+               (r.codigo_reserva||'').toLowerCase().includes(q);
+    }) : allData;
     renderTable(list);
 }
 
 function renderTable(list) {
-    $('#reservaCount').text('(' + list.length + ' resultados)');
+    $('#countLabel').text('(' + list.length + ' resultado' + (list.length !== 1 ? 's' : '') + ')');
     if (!list.length) {
-        $('#reservasBody').html('<tr><td colspan="7" class="text-center py-4 text-muted">Nenhuma reserva encontrada.</td></tr>');
+        $('#reservasBody').html('<tr><td colspan="8" class="text-center py-4 text-muted">Nenhuma reserva encontrada.</td></tr>');
         return;
     }
     var html = '';
     list.forEach(function(r) {
-        var s  = STATUS_LABELS[r.status] || ('<span class="badge badge-secondary">' + r.status + '</span>');
-        var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
-        var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+        var sl  = SL[r.status] || ('<span class="badge badge-secondary">' + r.status + '</span>');
+        var ci  = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+        var co  = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+        var preco = r.preco_noite ? parseFloat(r.preco_noite).toLocaleString('pt-PT') + ' Kz' : '--';
         html += '<tr>' +
-            '<td><strong>' + (r.codigo_reserva || '#'+r.id_reserva) + '</strong></td>' +
-            '<td>' + (r.cliente_nome || '--') + '<br><small class="text-muted">' + (r.cliente_email||'') + '</small></td>' +
-            '<td>' + (r.servico || '--') + '</td>' +
-            '<td>' + ci + '</td>' +
-            '<td>' + co + '</td>' +
-            '<td>' + s + '</td>' +
-            '<td class="text-center">' +
-            '<button class="btn btn-sm btn-outline-info view-btn" data-id="' + r.id_reserva + '" title="Detalhes"><i class="fa fa-eye"></i></button>' +
-            buildActionBtns(r) +
-            '</td></tr>';
+            '<td><strong>' + (r.codigo_reserva||'#'+r.id_reserva) + '</strong></td>' +
+            '<td>' + (r.cliente_nome||'--') + '<br><small class="text-muted">' + (r.cliente_email||'') + '</small></td>' +
+            '<td>' + (r.servico||'--') + '</td>' +
+            '<td>' + ci + '</td><td>' + co + '</td>' +
+            '<td>' + preco + '</td>' +
+            '<td>' + sl + '</td>' +
+            '<td class="text-center"><button class="btn btn-sm btn-outline-info" onclick="viewDetail(' + r.id_reserva + ')"><i class="fa fa-eye"></i> Ver</button></td>' +
+            '</tr>';
     });
     $('#reservasBody').html(html);
-    bindTableActions();
 }
 
-function buildActionBtns(r) {
-    var btns = '';
-    if (r.status === 'pendente') {
-        btns += ' <button class="btn btn-sm btn-outline-success status-btn ml-1" data-id="' + r.id_reserva + '" data-status="aprovada" title="Aprovar"><i class="fa fa-check"></i></button>';
-        btns += ' <button class="btn btn-sm btn-outline-danger status-btn ml-1" data-id="' + r.id_reserva + '" data-status="cancelada" title="Cancelar"><i class="fa fa-times"></i></button>';
-    }
-    if (r.status === 'aprovada') {
-        btns += ' <button class="btn btn-sm btn-outline-primary status-btn ml-1" data-id="' + r.id_reserva + '" data-status="check-in" title="Fazer Check-in"><i class="fa fa-sign-in"></i></button>';
-        btns += ' <button class="btn btn-sm btn-outline-danger status-btn ml-1" data-id="' + r.id_reserva + '" data-status="cancelada" title="Cancelar"><i class="fa fa-times"></i></button>';
-    }
-    if (r.status === 'check-in') {
-        btns += ' <button class="btn btn-sm btn-outline-secondary status-btn ml-1" data-id="' + r.id_reserva + '" data-status="check-out" title="Fazer Check-out"><i class="fa fa-sign-out"></i></button>';
-    }
-    return btns;
-}
-
-function bindTableActions() {
-    $('.view-btn').on('click', function() {
-        var id = $(this).data('id');
-        var r  = allReservas.find(function(x){ return x.id_reserva == id; });
-        if (!r) return;
-        var s  = STATUS_LABELS[r.status] || r.status;
-        var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
-        var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
-        $('#reservaModalBody').html(
-            '<div class="row">' +
-            '<div class="col-md-6"><p><strong>Codigo:</strong> ' + (r.codigo_reserva||'#'+r.id_reserva) + '</p>' +
-            '<p><strong>Utente:</strong> ' + (r.cliente_nome||'--') + '</p>' +
-            '<p><strong>Email:</strong> ' + (r.cliente_email||'--') + '</p>' +
-            '<p><strong>Servico:</strong> ' + (r.servico||'--') + '</p>' +
-            '<p><strong>Pessoas:</strong> ' + (r.n_pessoa||'--') + '</p></div>' +
-            '<div class="col-md-6"><p><strong>Check-in:</strong> ' + ci + '</p>' +
-            '<p><strong>Check-out:</strong> ' + co + '</p>' +
-            '<p><strong>Valor Total:</strong> ' + (r.valor_total ? 'KZ ' + parseFloat(r.valor_total).toLocaleString('pt-PT') : '--') + '</p>' +
-            '<p><strong>Status:</strong> ' + s + '</p></div></div>' +
-            (r.observacoes ? '<p><strong>Observacoes:</strong> ' + r.observacoes + '</p>' : '')
-        );
-        var actionBtnsHtml = '';
-        if (r.status === 'pendente') {
-            actionBtnsHtml = '<button class="btn btn-success modal-status-btn" data-id="' + r.id_reserva + '" data-status="aprovada">Aprovar</button>' +
-                             ' <button class="btn btn-danger modal-status-btn" data-id="' + r.id_reserva + '" data-status="cancelada">Cancelar</button>';
-        } else if (r.status === 'aprovada') {
-            actionBtnsHtml = '<button class="btn btn-primary modal-status-btn" data-id="' + r.id_reserva + '" data-status="check-in">Fazer Check-in</button>' +
-                             ' <button class="btn btn-danger modal-status-btn" data-id="' + r.id_reserva + '" data-status="cancelada">Cancelar</button>';
-        } else if (r.status === 'check-in') {
-            actionBtnsHtml = '<button class="btn btn-secondary modal-status-btn" data-id="' + r.id_reserva + '" data-status="check-out">Fazer Check-out</button>';
-        }
-        $('#reservaModalActions').html(actionBtnsHtml);
-        $('#reservaModal').modal('show');
-        $('.modal-status-btn').on('click', async function() {
-            var sid = $(this).data('id');
-            var st  = $(this).data('status');
-            await updateStatus(sid, st);
-            $('#reservaModal').modal('hide');
-        });
-    });
-
-    $('.status-btn').on('click', async function() {
-        var id     = $(this).data('id');
-        var status = $(this).data('status');
-        var labels = { 'aprovada': 'aprovar', 'cancelada': 'cancelar', 'check-in': 'fazer check-in', 'check-out': 'fazer check-out' };
-        if (!confirm('Deseja ' + (labels[status]||status) + ' esta reserva?')) return;
-        await updateStatus(id, status);
-    });
-}
-
-async function updateStatus(id, status) {
-    try {
-        var res = await fetch('/tcc_project/api/admin/reservas.php', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_reserva: id, status: status })
-        });
-        var data = await res.json();
-        if (res.ok) { notify.success(data.message || 'Actualizado.'); loadReservas(); }
-        else { notify.error(data.message || 'Erro.'); }
-    } catch(e) { notify.error('Erro de ligacao.'); }
+function viewDetail(id) {
+    var r = allData.find(function(x){ return x.id_reserva == id; });
+    if (!r) return;
+    var sl = SL[r.status] || r.status;
+    var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
+    var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
+    var dr = r.data_reserva  ? new Date(r.data_reserva).toLocaleDateString('pt-PT')  : '--';
+    var preco = r.preco_noite ? parseFloat(r.preco_noite).toLocaleString('pt-PT') + ' Kz/noite' : '--';
+    $('#detailBody').html(
+        '<div class="row">' +
+        '<div class="col-md-6">' +
+        '<p><strong>Codigo:</strong> ' + (r.codigo_reserva||'#'+r.id_reserva) + '</p>' +
+        '<p><strong>Hospede:</strong> ' + (r.cliente_nome||'--') + '</p>' +
+        '<p><strong>Email:</strong> ' + (r.cliente_email||'--') + '</p>' +
+        '<p><strong>Telefone:</strong> ' + (r.cliente_telefone||'--') + '</p>' +
+        '</div><div class="col-md-6">' +
+        '<p><strong>Servico:</strong> ' + (r.servico||'--') + '</p>' +
+        '<p><strong>Data Reserva:</strong> ' + dr + '</p>' +
+        '<p><strong>Check-in:</strong> ' + ci + '</p>' +
+        '<p><strong>Check-out:</strong> ' + co + '</p>' +
+        '<p><strong>Pessoas:</strong> ' + (r.n_pessoa||'--') + '</p>' +
+        '<p><strong>Preco:</strong> ' + preco + '</p>' +
+        '<p><strong>Status:</strong> ' + sl + '</p>' +
+        '</div></div>'
+    );
+    $('#detailModal').modal('show');
 }
 </script>
 </body>

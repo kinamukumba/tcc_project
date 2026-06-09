@@ -175,7 +175,7 @@
                 const r = await fetch('/tcc_project/api/auth/session.php');
                 const d = await r.json();
                 if (d.authenticated) {
-                    if (d.user.role === 'recepcionista') window.location.href = '/tcc_project/recepcionista/dashboard.html';
+                    if (d.user.role === 'recepcionista') window.location.href = '/tcc_project/recepcionista/index.html';
                     else if (d.user.role === 'admin') window.location.href = '/tcc_project/admin/dashboard.html';
                 }
             } catch(e) {}
@@ -225,7 +225,7 @@
                         return;
                     }
                     showAlert('Bem-vindo(a)! A redirecionar...', 'success');
-                    setTimeout(function() { window.location.href = '/tcc_project/recepcionista/dashboard.html'; }, 800);
+                    setTimeout(function() { window.location.href = '/tcc_project/recepcionista/index.html'; }, 800);
                 } else {
                     showAlert(data.message || 'Credenciais invalidas.', 'error');
                     btn.disabled = false;

@@ -1,67 +1,72 @@
-// auth.js — Gestão de sessão e protecção de rotas
+// auth.js - Gestao de sessao e proteccao de rotas
 document.addEventListener("DOMContentLoaded", function () {
     checkSession();
 });
 
 async function checkSession() {
     try {
-        const response = await fetch('/tcc_project/api/auth/session.php');
-        const data = await response.json();
+        var response = await fetch('/tcc_project/api/auth/session.php');
+        var data = await response.json();
+        var path = window.location.pathname;
 
-        const path = window.location.pathname;
-
-        // Páginas de autenticação (não protegidas)
-        const isAdminLoginPage = path.includes('/admin/index.html');
-        const isPublicAuthPage = path.includes('/auth/login.html') || path.includes('/auth/register.html');
-        const isAuthPage = isAdminLoginPage || isPublicAuthPage;
+        // Paginas de login (publicas - nao protegidas)
+        var isAdminLogin  = path.includes('/admin/index.html');
+        var isGerenteLogin = path.includes('/gerente/index.html');
+        var isRecepLogin  = path.includes('/recepcionista/index.html');
+        var isPublicAuth  = path.includes('/auth/login.html') || path.includes('/auth/register.html');
+        var isLoginPage   = isAdminLogin || isGerenteLogin || isRecepLogin || isPublicAuth;
 
         if (response.ok && data.authenticated) {
-            const userRole = data.user.role;
+            var userRole = data.user.role;
 
-            // Se já logado e está numa página de login → redireciona para o dashboard
-            if (isAuthPage) {
+            // Ja autenticado numa pagina de login -> redireciona para dashboard
+            if (isLoginPage) {
                 redirectUser(userRole);
                 return;
             }
 
-            // Protecção de rotas por pasta
+            // Proteccao de rotas: verificar se o role do utilizador coincide com a pasta
             if (path.includes('/admin/') && userRole !== 'admin') {
                 window.location.href = '/tcc_project/admin/index.html';
                 return;
             }
             if (path.includes('/gerente/') && userRole !== 'gerente') {
-                window.location.href = '/tcc_project/auth/login.html';
+                window.location.href = '/tcc_project/gerente/index.html';
+                return;
+            }
+            if (path.includes('/recepcionista/') && userRole !== 'recepcionista') {
+                window.location.href = '/tcc_project/recepcionista/index.html';
                 return;
             }
             if (path.includes('/utente/') && userRole !== 'utente') {
                 window.location.href = '/tcc_project/auth/login.html';
                 return;
             }
-            if (path.includes('/recepcionista/') && userRole !== 'recepcionista') {
-                window.location.href = '/tcc_project/auth/login.html';
-                return;
-            }
 
-            // Popula os dados do utilizador na UI
-            document.querySelectorAll('.user-name-display').forEach(el => el.textContent = data.user.nome);
-            document.querySelectorAll('.user-role-display').forEach(el => el.textContent = data.user.role.toUpperCase());
+            // Popula dados do utilizador na UI
+            document.querySelectorAll('.user-name-display').forEach(function(el) {
+                el.textContent = data.user.nome;
+            });
+            document.querySelectorAll('.user-role-display').forEach(function(el) {
+                el.textContent = data.user.role.toUpperCase();
+            });
 
         } else {
-            // Não autenticado — redireciona para o login correcto
-            if (!isAuthPage) {
+            // Nao autenticado - redireciona para login correcto
+            if (!isLoginPage) {
                 if (path.includes('/admin/')) {
                     window.location.href = '/tcc_project/admin/index.html';
-                } else if (
-                    path.includes('/utente/') ||
-                    path.includes('/gerente/') ||
-                    path.includes('/recepcionista/')
-                ) {
+                } else if (path.includes('/gerente/')) {
+                    window.location.href = '/tcc_project/gerente/index.html';
+                } else if (path.includes('/recepcionista/')) {
+                    window.location.href = '/tcc_project/recepcionista/index.html';
+                } else if (path.includes('/utente/')) {
                     window.location.href = '/tcc_project/auth/login.html';
                 }
             }
         }
     } catch (error) {
-        console.error("Erro ao verificar sessão:", error);
+        console.error("Erro ao verificar sessao:", error);
     }
 }
 
@@ -71,10 +76,10 @@ function redirectUser(role) {
             window.location.href = '/tcc_project/admin/dashboard.html';
             break;
         case 'gerente':
-            window.location.href = '/tcc_project/gerente/index.html';
+            window.location.href = '/tcc_project/gerente/dashboard.html';
             break;
         case 'recepcionista':
-            window.location.href = '/tcc_project/recepcionista/index.html';
+            window.location.href = '/tcc_project/recepcionista/dashboard.html';
             break;
         case 'utente':
             window.location.href = '/tcc_project/utente/index.html';
@@ -86,14 +91,16 @@ function redirectUser(role) {
 
 async function logout() {
     try {
-        const path = window.location.pathname;
-        const response = await fetch('/tcc_project/api/auth/logout.php');
-        if (response.ok) {
-            if (path.includes('/admin/')) {
-                window.location.href = '/tcc_project/admin/index.html';
-            } else {
-                window.location.href = '/tcc_project/auth/login.html';
-            }
+        var path = window.location.pathname;
+        await fetch('/tcc_project/api/auth/logout.php');
+        if (path.includes('/admin/')) {
+            window.location.href = '/tcc_project/admin/index.html';
+        } else if (path.includes('/gerente/')) {
+            window.location.href = '/tcc_project/gerente/index.html';
+        } else if (path.includes('/recepcionista/')) {
+            window.location.href = '/tcc_project/recepcionista/index.html';
+        } else {
+            window.location.href = '/tcc_project/auth/login.html';
         }
     } catch (error) {
         console.error("Erro no logout:", error);

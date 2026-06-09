@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -10,13 +10,30 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     <style>
-        .report-card { background:#fff; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,0.06); padding:24px; margin-bottom:24px; }
-        .report-card h5 { color:#04091e; font-weight:700; margin-bottom:16px; }
-        .period-btn { padding:6px 18px; border-radius:20px; font-size:12px; font-weight:600; border:2px solid #d4ab04; color:#d4ab04; background:transparent; margin-right:6px; cursor:pointer; transition:0.2s; }
-        .period-btn.active, .period-btn:hover { background:#d4ab04; color:#04091e; }
-        .report-stat { text-align:center; padding:20px; background:#f8f9fc; border-radius:12px; }
-        .report-stat h2 { font-weight:700; color:#04091e; font-size:32px; margin-bottom:4px; }
-        .report-stat p { color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin:0; }
+        .period-btn{padding:7px 20px;border-radius:20px;font-size:12px;font-weight:600;border:2px solid #d4ab04;color:#d4ab04;background:transparent;margin-right:6px;cursor:pointer;transition:.2s;font-family:'Poppins',sans-serif}
+        .period-btn.active,.period-btn:hover{background:#d4ab04;color:#04091e}
+        .rpt-card{background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.06);padding:24px;margin-bottom:24px}
+        .rpt-card h5{color:#04091e;font-weight:700;margin-bottom:16px;font-size:15px}
+        .kpi-val{font-size:30px;font-weight:700;color:#04091e;line-height:1}
+        .kpi-label{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-top:6px}
+        .kpi-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+        .kpi-green{background:rgba(40,167,69,.1);color:#28a745}
+        .kpi-gold{background:rgba(212,171,4,.1);color:#d4ab04}
+        .kpi-red{background:rgba(220,53,69,.1);color:#dc3545}
+        .kpi-blue{background:rgba(23,162,184,.1);color:#17a2b8}
+        .kpi-purple{background:rgba(111,66,193,.1);color:#6f42c1}
+        .kpi-dark{background:rgba(4,9,30,.08);color:#04091e}
+        .top-bar{display:flex;align-items:center;gap:8px;margin-left:auto}
+        .bs{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+        .bs-pendente{background:#fff3cd;color:#856404}
+        .bs-aprovada{background:#d4edda;color:#155724}
+        .bs-rejeitada{background:#f8d7da;color:#721c24}
+        .bs-check-in{background:#e2d9f3;color:#4a235a}
+        .bs-check-out{background:#e2e3e5;color:#383d41}
+        .bs-cancelada{background:#f8d7da;color:#721c24}
+        .bs-concluida{background:#d6d8db;color:#1b1e21}
+        .chart-row{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;margin-bottom:24px}
+        @media(max-width:900px){.chart-row{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
@@ -26,79 +43,124 @@
         <ul>
             <li><a href="dashboard.html"><i class="fa fa-desktop"></i><span>Dashboard</span></a></li>
             <li><a href="reservas.html"><i class="fa fa-calendar-check-o"></i><span>Reservas</span></a></li>
-            <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utentes &amp; Recepcionistas</span></a></li>
+            <li><a href="utentes.html"><i class="fa fa-users"></i><span>Utilizadores</span></a></li>
             <li><a href="servicos.html"><i class="fa fa-bed"></i><span>Servicos &amp; Quartos</span></a></li>
             <li class="active"><a href="relatorios.html"><i class="fa fa-bar-chart"></i><span>Relatorios</span></a></li>
         </ul>
     </div>
     <div class="sidebar-footer"><button class="btn-logout" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</button></div>
 </aside>
+
 <main class="main-content">
     <header class="top-header">
-        <div class="page-title"><h4>Relatorios do Sistema</h4></div>
+        <div class="page-title"><h4>Relatorios e Estatisticas</h4></div>
         <div class="user-profile">
             <div class="user-info"><span class="name user-name-display">Admin</span><span class="role user-role-display">ADMIN</span></div>
             <div class="user-avatar"><img src="../assets/image/img/user.png" alt="Admin"></div>
         </div>
     </header>
+
     <div class="content-wrapper">
-
-        <!-- Period Selector -->
-        <div class="mb-4">
-            <button class="period-btn active" data-period="diario" onclick="selectPeriod(this,'diario')">Diario</button>
-            <button class="period-btn" data-period="semanal" onclick="selectPeriod(this,'semanal')">Semanal</button>
-            <button class="period-btn" data-period="anual" onclick="selectPeriod(this,'anual')">Anual</button>
-        </div>
-
-        <!-- KPI Cards -->
-        <div class="stats-grid mb-4">
-            <div class="stat-card">
-                <div class="stat-icon icon-bookings"><i class="fa fa-calendar"></i></div>
-                <div class="stat-details"><h3 id="rpt-total">—</h3><p>Total Reservas</p></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon icon-users" style="background:rgba(40,167,69,0.1);">
-                    <i class="fa fa-check-circle" style="color:#28a745;"></i>
-                </div>
-                <div class="stat-details"><h3 id="rpt-confirmed">—</h3><p>Confirmadas</p></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon icon-feedback" style="background:rgba(220,53,69,0.1);">
-                    <i class="fa fa-times-circle" style="color:#dc3545;"></i>
-                </div>
-                <div class="stat-details"><h3 id="rpt-cancelled">—</h3><p>Canceladas</p></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon icon-revenue"><i class="fa fa-percent"></i></div>
-                <div class="stat-details"><h3 id="rpt-occupancy">—</h3><p>Taxa Ocupacao</p></div>
-            </div>
-        </div>
-
-        <!-- Chart -->
-        <div class="report-card">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="m-0">Volume de Reservas</h5>
-            </div>
-            <canvas id="reportChart" style="max-height:300px;"></canvas>
-        </div>
-
-        <!-- Reservations Table -->
-        <div class="card-table">
-            <div class="table-header d-flex justify-content-between align-items-center">
-                <h5 class="m-0 font-weight-bold" style="color:#04091e;">Detalhe de Reservas do Periodo</h5>
-                <button class="btn btn-sm" style="background:#04091e;color:#d4ab04;font-weight:600;border-radius:8px;" onclick="exportCSV()">
+        <!-- Toolbar -->
+        <div class="d-flex align-items-center mb-4 flex-wrap" style="gap:8px">
+            <button class="period-btn active" onclick="loadReport(this)">Geral</button>
+            <div class="top-bar">
+                <button class="btn btn-sm" style="background:#04091e;color:#d4ab04;font-weight:600;border-radius:8px;border:none" onclick="exportCSV()">
                     <i class="fa fa-download"></i> Exportar CSV
                 </button>
+                <button class="btn btn-sm" style="background:#28a745;color:#fff;font-weight:600;border-radius:8px;border:none" onclick="loadReport(document.querySelector('.period-btn.active'))">
+                    <i class="fa fa-refresh"></i> Actualizar
+                </button>
             </div>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr><th>CODIGO</th><th>UTENTE</th><th>SERVICO</th><th>CHECK-IN</th><th>CHECK-OUT</th><th>STATUS</th></tr>
-                    </thead>
-                    <tbody id="reportTableBody">
-                        <tr><td colspan="6" class="text-center py-4"><i class="fa fa-spinner fa-spin"></i> A carregar...</td></tr>
-                    </tbody>
-                </table>
+        </div>
+
+        <!-- KPI Grid -->
+        <div class="row mb-4" id="kpiGrid">
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="rpt-card text-center h-100 mb-0">
+                    <div class="kpi-icon kpi-gold mx-auto"><i class="fa fa-calendar"></i></div>
+                    <div class="kpi-val" id="k-total">--</div>
+                    <div class="kpi-label">Total Reservas</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="rpt-card text-center h-100 mb-0">
+                    <div class="kpi-icon kpi-green mx-auto"><i class="fa fa-check-circle"></i></div>
+                    <div class="kpi-val" id="k-concluidas">--</div>
+                    <div class="kpi-label">Concluidas</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="rpt-card text-center h-100 mb-0">
+                    <div class="kpi-icon kpi-purple mx-auto"><i class="fa fa-sign-in"></i></div>
+                    <div class="kpi-val" id="k-checkins">--</div>
+                    <div class="kpi-label">Check-ins Activos</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="rpt-card text-center h-100 mb-0">
+                    <div class="kpi-icon kpi-red mx-auto"><i class="fa fa-times-circle"></i></div>
+                    <div class="kpi-val" id="k-rejeitadas">--</div>
+                    <div class="kpi-label">Rejeit./Canceladas</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="rpt-card text-center h-100 mb-0">
+                    <div class="kpi-icon kpi-blue mx-auto"><i class="fa fa-percent"></i></div>
+                    <div class="kpi-val" id="k-taxa">--%</div>
+                    <div class="kpi-label">Taxa Ocupacao</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-3">
+                <div class="rpt-card text-center h-100 mb-0">
+                    <div class="kpi-icon kpi-dark mx-auto"><i class="fa fa-users"></i></div>
+                    <div class="kpi-val" id="k-utentes">--</div>
+                    <div class="kpi-label">Total Utentes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receita destaque -->
+        <div class="rpt-card mb-4 d-flex align-items-center" style="background:linear-gradient(135deg,#04091e,#1a3060)">
+            <div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Receita Total Estimada (reservas concluidas)</div>
+                <div id="k-receita" style="font-size:36px;font-weight:700;color:#d4ab04">-- Kz</div>
+            </div>
+            <div class="ml-auto" style="font-size:60px;color:rgba(212,171,4,.1)"><i class="fa fa-money"></i></div>
+        </div>
+
+        <!-- Graficos -->
+        <div class="chart-row">
+            <div class="rpt-card">
+                <h5><i class="fa fa-bar-chart" style="color:#d4ab04;margin-right:8px"></i>Reservas por Mes (ultimos 6 meses)</h5>
+                <canvas id="chartMensal" style="max-height:260px"></canvas>
+            </div>
+            <div class="rpt-card">
+                <h5><i class="fa fa-pie-chart" style="color:#d4ab04;margin-right:8px"></i>Reservas por Status</h5>
+                <canvas id="chartStatus" style="max-height:260px"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Servicos + Recentes -->
+        <div class="row">
+            <div class="col-md-5 mb-4">
+                <div class="rpt-card h-100 mb-0">
+                    <h5><i class="fa fa-trophy" style="color:#d4ab04;margin-right:8px"></i>Top Servicos / Quartos</h5>
+                    <div id="topServicos">
+                        <div class="text-center py-3"><i class="fa fa-spinner fa-spin"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 mb-4">
+                <div class="rpt-card h-100 mb-0">
+                    <h5><i class="fa fa-history" style="color:#d4ab04;margin-right:8px"></i>Ultimas Reservas</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead><tr><th>CODIGO</th><th>HOSPEDE</th><th>SERVICO</th><th>CHECK-IN</th><th>STATUS</th></tr></thead>
+                            <tbody id="recentesBody"><tr><td colspan="5" class="text-center"><i class="fa fa-spinner fa-spin"></i></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -106,88 +168,78 @@
 </main>
 
 <script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/popper.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script src="../assets/js/notify.js"></script>
 <script src="../assets/js/auth.js"></script>
 <script>
-var currentPeriod = 'diario';
-var chartInstance = null;
-var allReservations = [];
+var chartMensalInst = null;
+var chartStatusInst = null;
+var allData = null;
 
-var STATUS_LABELS = {
-    'pendente':   '<span class="badge" style="background:#ffc107;color:#000;padding:3px 8px;border-radius:20px;font-size:11px;">Pendente</span>',
-    'aprovada':   '<span class="badge" style="background:#28a745;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Aprovada</span>',
-    'confirmada': '<span class="badge" style="background:#17a2b8;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Confirmada</span>',
-    'cancelada':  '<span class="badge" style="background:#dc3545;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Cancelada</span>',
-    'check-in':   '<span class="badge" style="background:#6f42c1;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Check-in</span>',
-    'check-out':  '<span class="badge" style="background:#6c757d;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;">Check-out</span>'
+var SL = {
+    'pendente':  '<span class="bs bs-pendente">Pendente</span>',
+    'aprovada':  '<span class="bs bs-aprovada">Aprovada</span>',
+    'rejeitada': '<span class="bs bs-rejeitada">Rejeitada</span>',
+    'check-in':  '<span class="bs bs-check-in">Check-in</span>',
+    'check-out': '<span class="bs bs-check-out">Check-out</span>',
+    'cancelada': '<span class="bs bs-cancelada">Cancelada</span>',
+    'concluida': '<span class="bs bs-concluida">Concluida</span>'
 };
 
-$(function() { loadReport('diario'); });
+$(function(){ loadReport(document.querySelector('.period-btn.active')); });
 
-function selectPeriod(btn, period) {
-    $('.period-btn').removeClass('active');
-    $(btn).addClass('active');
-    currentPeriod = period;
-    loadReport(period);
+async function loadReport(btn) {
+    try {
+        var res = await fetch('/tcc_project/api/admin/relatorios.php');
+        if (!res.ok) { var err = await res.json(); notify.error(err.message || 'Erro ao carregar.'); return; }
+        allData = await res.json();
+
+        // KPIs
+        $('#k-total').text(allData.total || 0);
+        $('#k-concluidas').text(allData.concluidas || 0);
+        $('#k-checkins').text(allData.checkins || 0);
+        $('#k-rejeitadas').text(allData.rejeitadas || 0);
+        $('#k-taxa').text((allData.taxa_ocupacao || 0) + '%');
+        $('#k-utentes').text(allData.utentes || 0);
+
+        var rec = parseFloat(allData.receita_total || 0);
+        $('#k-receita').text(rec.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' Kz');
+
+        // Grafico mensal
+        if (allData.monthly_chart) drawMensal(allData.monthly_chart.labels, allData.monthly_chart.data);
+
+        // Grafico status
+        if (allData.status_chart) drawStatus(allData.status_chart);
+
+        // Top servicos
+        renderTopServicos(allData.top_servicos || []);
+
+        // Recentes
+        renderRecentes(allData.recentes || []);
+
+    } catch(e) {
+        console.error(e);
+        notify.error('Erro ao carregar relatorio: ' + e.message);
+    }
 }
 
-async function loadReport(period) {
-    try {
-        var res = await fetch('/tcc_project/api/gerente/estatisticas.php?period=' + period);
-        if (res.ok) {
-            var data = await res.json();
-            $('#rpt-total').text(data.total_bookings || 0);
-            $('#rpt-confirmed').text(data.confirmed_bookings || 0);
-            $('#rpt-cancelled').text(data.cancelled_bookings || 0);
-            $('#rpt-occupancy').text((data.occupancy_rate || 0) + '%');
-            if (data.monthly_chart) drawChart(data.monthly_chart.labels, data.monthly_chart.data);
-        }
-    } catch(e) { console.error('Stats error:', e); }
-
-    try {
-        var res2 = await fetch('/tcc_project/api/admin/reservas.php');
-        var data2 = await res2.json();
-        allReservations = Array.isArray(data2) ? data2 : (data2.reservas || []);
-
-        var now = new Date();
-        var filtered = allReservations.filter(function(r) {
-            var d = new Date(r.data_checkin || r.created_at || r.data_reserva);
-            if (period === 'diario') {
-                return d.toDateString() === now.toDateString();
-            } else if (period === 'semanal') {
-                var weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
-                return d >= weekAgo;
-            } else {
-                var yearAgo = new Date(); yearAgo.setFullYear(yearAgo.getFullYear() - 1);
-                return d >= yearAgo;
-            }
-        });
-
-        if (filtered.length === 0) {
-            $('#reportTableBody').html('<tr><td colspan="6" class="text-center py-4 text-muted">Nenhuma reserva no periodo seleccionado.</td></tr>');
-            return;
-        }
-        var html = '';
-        filtered.forEach(function(r) {
-            var s = STATUS_LABELS[r.status] || ('<span class="badge badge-secondary">' + r.status + '</span>');
-            var ci = r.data_checkin  ? new Date(r.data_checkin).toLocaleDateString('pt-PT')  : '--';
-            var co = r.data_checkout ? new Date(r.data_checkout).toLocaleDateString('pt-PT') : '--';
-            html += '<tr><td><strong>' + (r.codigo_reserva || '#'+r.id_reserva) + '</strong></td><td>' + (r.cliente_nome||'--') + '</td><td>' + (r.servico||'--') + '</td><td>' + ci + '</td><td>' + co + '</td><td>' + s + '</td></tr>';
-        });
-        $('#reportTableBody').html(html);
-    } catch(e) { console.error('Reservas error:', e); }
-}
-
-function drawChart(labels, data) {
-    var ctx = document.getElementById('reportChart').getContext('2d');
-    if (chartInstance) chartInstance.destroy();
-    chartInstance = new Chart(ctx, {
+function drawMensal(labels, data) {
+    var ctx = document.getElementById('chartMensal').getContext('2d');
+    if (chartMensalInst) chartMensalInst.destroy();
+    chartMensalInst = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
-            datasets: [{ label: 'Reservas', data: data, backgroundColor: 'rgba(212,171,4,0.7)', borderColor: '#d4ab04', borderWidth: 2, borderRadius: 6 }]
+            datasets: [{
+                label: 'Reservas',
+                data: data,
+                backgroundColor: 'rgba(212,171,4,0.75)',
+                borderColor: '#d4ab04',
+                borderWidth: 2,
+                borderRadius: 6
+            }]
         },
         options: {
             responsive: true,
@@ -197,25 +249,95 @@ function drawChart(labels, data) {
     });
 }
 
+function drawStatus(sc) {
+    var ctx = document.getElementById('chartStatus').getContext('2d');
+    if (chartStatusInst) chartStatusInst.destroy();
+    chartStatusInst = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: sc.labels,
+            datasets: [{
+                data: sc.data,
+                backgroundColor: sc.colors,
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } }
+            },
+            cutout: '60%'
+        }
+    });
+}
+
+function renderTopServicos(list) {
+    if (!list.length) {
+        $('#topServicos').html('<p class="text-muted text-center mt-3">Sem dados.</p>');
+        return;
+    }
+    var max = list[0].total;
+    var html = '';
+    list.forEach(function(s, i) {
+        var pct = max > 0 ? Math.round((s.total / max) * 100) : 0;
+        html += '<div class="mb-3">' +
+            '<div class="d-flex justify-content-between mb-1">' +
+            '<span style="font-size:13px;font-weight:600">' + (i+1) + '. ' + (s.servico||'--') + '</span>' +
+            '<span style="font-size:12px;color:#999">' + s.total + ' reservas</span>' +
+            '</div>' +
+            '<div style="background:#f0f0f0;border-radius:6px;height:8px">' +
+            '<div style="width:' + pct + '%;background:#d4ab04;border-radius:6px;height:8px;transition:.5s"></div>' +
+            '</div></div>';
+    });
+    $('#topServicos').html(html);
+}
+
+function renderRecentes(list) {
+    if (!list.length) {
+        $('#recentesBody').html('<tr><td colspan="5" class="text-center text-muted">Sem dados.</td></tr>');
+        return;
+    }
+    var html = '';
+    list.forEach(function(r) {
+        var sl = SL[r.status] || ('<span class="badge badge-secondary">' + r.status + '</span>');
+        var ci = r.data_checkin ? new Date(r.data_checkin).toLocaleDateString('pt-PT') : '--';
+        html += '<tr>' +
+            '<td><strong>' + (r.codigo_reserva||'#'+r.id_reserva) + '</strong></td>' +
+            '<td>' + (r.cliente_nome||'--') + '</td>' +
+            '<td><small>' + (r.servico||'--') + '</small></td>' +
+            '<td>' + ci + '</td>' +
+            '<td>' + sl + '</td>' +
+            '</tr>';
+    });
+    $('#recentesBody').html(html);
+}
+
 function exportCSV() {
-    if (allReservations.length === 0) { notify.warning('Sem dados para exportar.'); return; }
-    var rows = [['Codigo','Utente','Servico','Check-in','Check-out','Status']];
-    allReservations.forEach(function(r) {
+    if (!allData || !allData.recentes || !allData.recentes.length) {
+        notify.warning('Sem dados para exportar. Aguarde o carregamento.');
+        return;
+    }
+    var rows = [['Codigo','Hospede','Servico','Check-in','Check-out','Pessoas','Status']];
+    allData.recentes.forEach(function(r) {
         rows.push([
             r.codigo_reserva || r.id_reserva,
             r.cliente_nome || '',
             r.servico || '',
             r.data_checkin || '',
             r.data_checkout || '',
+            r.n_pessoa || '',
             r.status || ''
         ]);
     });
-    var csv = rows.map(function(r){ return r.join(','); }).join('\n');
-    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var csv = rows.map(function(r){ return r.map(function(c){ return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
+    var blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
     var link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'relatorio_' + currentPeriod + '_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.download = 'relatorio_' + new Date().toISOString().slice(0,10) + '.csv';
     link.click();
+    notify.success('CSV exportado com sucesso!');
 }
 </script>
 </body>
